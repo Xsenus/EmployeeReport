@@ -7,11 +7,9 @@ using System.Windows.Forms;
 
 namespace Report
 {
-    public partial class Report : Form
+    public partial class FormReport : Form
     {
-        private readonly OleDbConnection dbConnection;
-
-        public Report()
+        public FormReport()
         {
             InitializeComponent();
 
@@ -19,21 +17,26 @@ namespace Report
             {
                 cmbMonth.Items.Add(item.GetDescription());
             }
-
-            cmbMonth.SelectedIndex = 0;
-
-            var foxProConnection = new FoxProConnection(txtPathP7.Text);
-
-            var reader = new ReadingDataBase(foxProConnection.DbConnection);
-
-            cmbPay.Items.AddRange(reader.Pays.ToArray());
-
-            dataGridView.DataSource = reader.Employees;
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            
+            var foxProConnection = new FoxProConnection(txtPathP7.Text);
+
+            var reader = new ReadingDataBase(foxProConnection.DbConnection);
+
+            dataGridView.DataSource = reader.Employees;
+        }
+
+        private void BtnMenuItemExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void BtnMenuItemSettings_Click(object sender, EventArgs e)
+        {
+            var form = new FormSettings();
+            form.ShowDialog();
         }
     }
 }
