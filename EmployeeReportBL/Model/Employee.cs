@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace EmployeeReportBL
+namespace EmployeeReportBL.Model
 {
     /// <summary>
     /// Сотрудники
@@ -65,13 +65,13 @@ namespace EmployeeReportBL
         /// Норма рабочего времени.
         /// </summary>
         [DisplayName("Норма рабочего времени")]
-        public double WorkingTime { get; set; }
+        public decimal WorkingTime { get; set; }
 
         /// <summary>
         /// Фактическое количество отработанного времени.
         /// </summary>
         [DisplayName("Отработанное время")]
-        public double ActualHoursWorked { get; set; }
+        public decimal ActualHoursWorked { get; set; }
 
         /// <summary>
         /// Должностной оклад.

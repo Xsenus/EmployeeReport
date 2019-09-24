@@ -32,6 +32,7 @@
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnMenuItemImportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMenuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,11 +55,10 @@
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView.Location = new System.Drawing.Point(0, 30);
-            this.dataGridView.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView.Location = new System.Drawing.Point(0, 143);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersWidth = 51;
-            this.dataGridView.Size = new System.Drawing.Size(582, 423);
+            this.dataGridView.Size = new System.Drawing.Size(436, 225);
             this.dataGridView.TabIndex = 0;
             // 
             // menuStrip1
@@ -70,22 +70,31 @@
             this.информацияToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(582, 30);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(436, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // файлToolStripMenuItem
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnMenuItemImportExcel,
             this.btnMenuItemExit});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 26);
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // btnMenuItemImportExcel
+            // 
+            this.btnMenuItemImportExcel.Name = "btnMenuItemImportExcel";
+            this.btnMenuItemImportExcel.Size = new System.Drawing.Size(157, 22);
+            this.btnMenuItemImportExcel.Text = "Импорт в Excel";
+            this.btnMenuItemImportExcel.Click += new System.EventHandler(this.BtnMenuItemImportExcel_Click);
             // 
             // btnMenuItemExit
             // 
             this.btnMenuItemExit.Name = "btnMenuItemExit";
-            this.btnMenuItemExit.Size = new System.Drawing.Size(136, 26);
+            this.btnMenuItemExit.Size = new System.Drawing.Size(157, 22);
             this.btnMenuItemExit.Text = "Выход";
             this.btnMenuItemExit.Click += new System.EventHandler(this.BtnMenuItemExit_Click);
             // 
@@ -94,13 +103,13 @@
             this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnMenuItemSettings});
             this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
-            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(98, 26);
+            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.настройкиToolStripMenuItem.Text = "Настройки";
             // 
             // btnMenuItemSettings
             // 
             this.btnMenuItemSettings.Name = "btnMenuItemSettings";
-            this.btnMenuItemSettings.Size = new System.Drawing.Size(173, 26);
+            this.btnMenuItemSettings.Size = new System.Drawing.Size(138, 22);
             this.btnMenuItemSettings.Text = "Параметры";
             this.btnMenuItemSettings.Click += new System.EventHandler(this.BtnMenuItemSettings_Click);
             // 
@@ -109,13 +118,13 @@
             this.информацияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.информацияОПрограммеToolStripMenuItem});
             this.информацияToolStripMenuItem.Name = "информацияToolStripMenuItem";
-            this.информацияToolStripMenuItem.Size = new System.Drawing.Size(81, 26);
+            this.информацияToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.информацияToolStripMenuItem.Text = "Справка";
             // 
             // информацияОПрограммеToolStripMenuItem
             // 
             this.информацияОПрограммеToolStripMenuItem.Name = "информацияОПрограммеToolStripMenuItem";
-            this.информацияОПрограммеToolStripMenuItem.Size = new System.Drawing.Size(282, 26);
+            this.информацияОПрограммеToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.информацияОПрограммеToolStripMenuItem.Text = "Информация о программе";
             // 
             // panel1
@@ -128,89 +137,87 @@
             this.panel1.Controls.Add(this.cmbYear);
             this.panel1.Controls.Add(this.cmbMonth);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 30);
+            this.panel1.Location = new System.Drawing.Point(0, 24);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(582, 147);
+            this.panel1.Size = new System.Drawing.Size(436, 119);
             this.panel1.TabIndex = 8;
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(75, 108);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(4);
+            this.btnStart.Location = new System.Drawing.Point(56, 88);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(90, 28);
+            this.btnStart.Size = new System.Drawing.Size(68, 23);
             this.btnStart.TabIndex = 7;
             this.btnStart.Text = "Начать";
             this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.BtnStart_Click);
             // 
             // txtPathP7
             // 
-            this.txtPathP7.Location = new System.Drawing.Point(210, 14);
-            this.txtPathP7.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPathP7.Location = new System.Drawing.Point(158, 11);
             this.txtPathP7.Name = "txtPathP7";
-            this.txtPathP7.Size = new System.Drawing.Size(359, 22);
+            this.txtPathP7.Size = new System.Drawing.Size(270, 20);
             this.txtPathP7.TabIndex = 6;
-            this.txtPathP7.Text = "C:\\Users\\User16\\Desktop\\Сохранение от 2019-09-23";
+            this.txtPathP7.DoubleClick += new System.EventHandler(this.TxtPathP7_DoubleClick);
             // 
             // lblPathP7
             // 
             this.lblPathP7.AutoSize = true;
-            this.lblPathP7.Location = new System.Drawing.Point(13, 17);
-            this.lblPathP7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPathP7.Location = new System.Drawing.Point(10, 14);
             this.lblPathP7.Name = "lblPathP7";
-            this.lblPathP7.Size = new System.Drawing.Size(189, 17);
+            this.lblPathP7.Size = new System.Drawing.Size(148, 13);
             this.lblPathP7.TabIndex = 5;
             this.lblPathP7.Text = "Путь к БД Парус Бюджет 7:";
             // 
             // lblYear
             // 
             this.lblYear.AutoSize = true;
-            this.lblYear.Location = new System.Drawing.Point(31, 79);
-            this.lblYear.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblYear.Location = new System.Drawing.Point(23, 64);
             this.lblYear.Name = "lblYear";
-            this.lblYear.Size = new System.Drawing.Size(36, 17);
+            this.lblYear.Size = new System.Drawing.Size(28, 13);
             this.lblYear.TabIndex = 11;
             this.lblYear.Text = "Год:";
             // 
             // lblMonth
             // 
             this.lblMonth.AutoSize = true;
-            this.lblMonth.Location = new System.Drawing.Point(13, 47);
-            this.lblMonth.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblMonth.Location = new System.Drawing.Point(10, 38);
             this.lblMonth.Name = "lblMonth";
-            this.lblMonth.Size = new System.Drawing.Size(54, 17);
+            this.lblMonth.Size = new System.Drawing.Size(43, 13);
             this.lblMonth.TabIndex = 9;
             this.lblMonth.Text = "Месяц:";
             // 
             // cmbYear
             // 
+            this.cmbYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbYear.FormattingEnabled = true;
-            this.cmbYear.Location = new System.Drawing.Point(75, 76);
-            this.cmbYear.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbYear.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.cmbYear.Location = new System.Drawing.Point(56, 62);
             this.cmbYear.Name = "cmbYear";
-            this.cmbYear.Size = new System.Drawing.Size(90, 24);
+            this.cmbYear.Size = new System.Drawing.Size(80, 21);
             this.cmbYear.TabIndex = 10;
             // 
             // cmbMonth
             // 
+            this.cmbMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMonth.FormattingEnabled = true;
-            this.cmbMonth.Location = new System.Drawing.Point(75, 44);
-            this.cmbMonth.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbMonth.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.cmbMonth.Location = new System.Drawing.Point(56, 36);
             this.cmbMonth.Name = "cmbMonth";
-            this.cmbMonth.Size = new System.Drawing.Size(90, 24);
+            this.cmbMonth.Size = new System.Drawing.Size(80, 21);
             this.cmbMonth.TabIndex = 8;
             // 
             // FormReport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 453);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(436, 368);
             this.Controls.Add(this.dataGridView);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormReport";
             this.Text = "Отчет по сотдуникам";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
@@ -241,6 +248,7 @@
         private System.Windows.Forms.ComboBox cmbYear;
         private System.Windows.Forms.ComboBox cmbMonth;
         private System.Windows.Forms.ToolStripMenuItem информацияОПрограммеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem btnMenuItemImportExcel;
     }
 }
 

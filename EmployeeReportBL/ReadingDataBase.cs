@@ -1,39 +1,48 @@
-﻿using System;
+﻿using EmployeeReportBL.Enumeration;
+using EmployeeReportBL.Model;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Linq;
 
 namespace EmployeeReportBL
 {
     public class ReadingDataBase
     {
-        private readonly OleDbConnection dbConnection;
+        public readonly OleDbConnection dbConnection;
         public List<Pay> Pays { get; set; } = new List<Pay>();
         public List<Employee> Employees { get; set; } = new List<Employee>();
+        public List<Position> Positions { get; set; } = new List<Position>();
         public List<Accrual> Accruals { get; set; } = new List<Accrual>();
+        public List<int> Years { get; set; } = new List<int>();
 
-        public ReadingDataBase(OleDbConnection dbConnection)
+        public ReadingDataBase(string path)
         {
-            if (dbConnection.State != ConnectionState.Open)
+            if (string.IsNullOrEmpty(path))
             {
                 return;
             }
 
-            this.dbConnection = dbConnection;
+            var foxProConnection = new FoxProConnection(path);
 
-            Pays = GetPay();
-            Employees = GetEmployees();
-            //Accruals = GetAccruals();
+            if (foxProConnection.DbConnection.State == ConnectionState.Open)
+            {
+                dbConnection = foxProConnection.DbConnection;
+
+                Pays = GetPay();
+                Positions = GetPosition();
+                Years = GetYear();
+                Accruals = GetAccrual();
+                Employees = GetEmployees();
+            }
         }
 
-        private List<Accrual> GetAccruals()
+        private List<Accrual> GetAccrual()
         {
-            var sql = $"SELECT * FROM Zhis as His JOIN Zsnu As Snu ON His.Snu_rn = Snu.Snu_rn JOIN Zfcac As Fcac ON Fcac.Fcac_rn = His.Fcac_rn";
-
-            using (OleDbCommand cmd = new OleDbCommand() { CommandText = @"", Connection = dbConnection })
-            {
-                int allRecords = Convert.ToInt32(cmd.ExecuteScalar());
-            }
+            var sql = $"SELECT Snu.Code, His.Sum, His.Year, His.Month, His.Storno, His.Fcac_rn " +
+                        $"FROM Zhis AS His " +
+                        $"JOIN Zsnu AS Snu ON His.Snu_rn = Snu.Snu_rn";
 
             using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = dbConnection })
             {
@@ -41,7 +50,28 @@ namespace EmployeeReportBL
                 {
                     while (reader.Read())
                     {
+                        var mnemo = reader[0].ToString().Trim();
+                        var storno = Convert.ToBoolean(reader[4].ToString().Trim());
+                        var value = Convert.ToDecimal(reader[1].ToString().Trim());
 
+                        if (storno)
+                        {
+                            value = value * -1;
+                        }
+
+                        var year = Convert.ToInt32(reader[2].ToString().Trim());
+                        var month = (Month)Convert.ToInt32(reader[3].ToString().Trim());                        
+                        var fcacRn = reader[5].ToString().Trim();
+
+                        Accruals.Add(new Accrual()
+                        {
+                            FcacRn = fcacRn,
+                            Mnemo = mnemo,
+                            Value = value,
+                            Year = year,
+                            Month = month,
+                            Storno = storno
+                        });
                     }
                 }
             }
@@ -82,7 +112,7 @@ namespace EmployeeReportBL
 
         private List<Employee> GetEmployees()
         {
-            var sql =   $"SELECT P.Surname, P.Firstname, P.Secondname, Subdiv.Name, Ank.Pf_id, Dol.Name, Vid.Name, Sost.Name, Fcac.Fcac_rn " +
+            var sql = $"SELECT P.Surname, P.Firstname, P.Secondname, Subdiv.Name, Ank.Pf_id, Dol.Name, Vid.Name, Sost.Name, Fcac.Fcac_rn " +
                         $"FROM Zfcac AS Fcac " +
                         $"JOIN Zank AS Ank ON Fcac.Ank_rn = Ank.Ank_rn " +
                         $"JOIN Zsubdiv AS Subdiv ON Fcac.Subdiv_rn = Subdiv.Subdiv_rn " +
@@ -107,9 +137,9 @@ namespace EmployeeReportBL
                         var position = reader[5].ToString().Trim();
                         var typePersonalAccount = reader[6].ToString().Trim();
                         var sourceOfFinancing = reader[7].ToString().Trim();
-                        var rn = reader[8].ToString().Trim();
+                        var rn = reader[8].ToString().Trim();                        
 
-                        Employees.Add(new Employee()
+                        var employee = new Employee()
                         {
                             rn = rn,
                             Name = name,
@@ -119,13 +149,106 @@ namespace EmployeeReportBL
                             Snails = snails,
                             Position = position,
                             TypePersonalAccount = typePersonalAccount,
-                            SourceOfFinancing = sourceOfFinancing
-                        });
+                            SourceOfFinancing = sourceOfFinancing,
+                        };
+
+                        employee.Accruals = new List<Accrual>();
+                        employee.Accruals.AddRange(Accruals.Where(w => w.FcacRn == rn));
+                        Employees.Add(employee);
                     }
                 }
             }
 
             return Employees;
+        }
+
+        private void GetAnnualsEmployee()
+        {
+            if (Employees != null)
+            {
+                foreach (var item in Employees)
+                {
+                    if (item.Accruals == null)
+                    {
+                        item.Accruals = new List<Accrual>();
+                    }
+
+                    var sql = $"SELECT Snu.Code, His.Sum, His.Year, His.Month, His.Storno FROM Zhis AS His JOIN Zsnu AS Snu ON His.Snu_rn = Snu.Snu_rn WHERE Fcac_rn = '{item.rn}'";
+
+                    using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = dbConnection })
+                    {
+                        using (OleDbDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var mnemo = reader[0].ToString().Trim();
+                                var value = Convert.ToDecimal(reader[1].ToString().Trim());
+                                var year = Convert.ToInt32(reader[2].ToString().Trim());
+                                var month = (Month)Convert.ToInt32(reader[3].ToString().Trim());
+                                var storno = Convert.ToBoolean(reader[4].ToString().Trim());
+
+                                item.Accruals.Add(new Accrual()
+                                {
+                                    Mnemo = mnemo,
+                                    Value = value,
+                                    Year = year,
+                                    Month = month,
+                                    Storno = storno
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<Position> GetPosition()
+        {
+            var sql = $"SELECT Tipdol_rn, Num, Code, Name FROM Ztipdol";
+
+            using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = dbConnection })
+            {
+                using (OleDbDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var rn = reader[0].ToString().Trim();
+                        var number = Convert.ToInt32(reader[1].ToString().Trim());
+                        var mnemo = reader[2].ToString().Trim();
+                        var name = reader[3].ToString().Trim();
+
+                        Positions.Add(new Position()
+                        {
+                            Rn = rn,
+                            Number = number,
+                            Mnemo = mnemo,
+                            Name = name
+                        });
+                    }
+                }
+            }
+
+            return Positions;
+        }
+
+        private List<int> GetYear()
+        {
+            var sql = $"SELECT Year FROM Zhis Group BY Year";
+
+            using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = dbConnection })
+            {
+                using (OleDbDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var year = Convert.ToInt32(reader[0].ToString().Trim());
+
+                        Years.Add(year);
+                    }
+                }
+            }
+
+            return Years;
         }
     }
 }

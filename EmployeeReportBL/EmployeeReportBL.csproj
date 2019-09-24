@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,16 +45,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accrual.cs" />
-    <Compile Include="Employee.cs" />
+    <Compile Include="Model\Accrual.cs" />
+    <Compile Include="Model\Employee.cs" />
     <Compile Include="Enumeration\Month.cs" />
     <Compile Include="Extension\EnumExtensionMethods.cs" />
     <Compile Include="FoxProConnection.cs" />
-    <Compile Include="Pay.cs" />
+    <Compile Include="Model\Pay.cs" />
+    <Compile Include="PayConverter.cs" />
+    <Compile Include="Model\Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertySorter.cs" />
     <Compile Include="ReadingDataBase.cs" />
-    <Compile Include="Report.cs" />
+    <Compile Include="Model\PersonalAccountReport.cs" />
+    <Compile Include="ReportSettings.cs" />
+    <Compile Include="Serialization.cs" />
+    <Compile Include="Model\Settings.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

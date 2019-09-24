@@ -1,6 +1,4 @@
 ﻿using System.Data.OleDb;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace EmployeeReportBL
 {

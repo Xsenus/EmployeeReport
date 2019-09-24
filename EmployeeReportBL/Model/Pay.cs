@@ -1,5 +1,5 @@
 ﻿
-namespace EmployeeReportBL
+namespace EmployeeReportBL.Model
 {
     /// <summary>
     /// Выплаты и удержания.
@@ -33,7 +33,7 @@ namespace EmployeeReportBL
 
         public override string ToString()
         {
-            return Mnemo; 
+            return Mnemo;
         }
     }
 }

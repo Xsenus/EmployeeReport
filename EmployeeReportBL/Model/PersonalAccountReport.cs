@@ -1,9 +1,28 @@
 ﻿using EmployeeReportBL.Enumeration;
+using EmployeeReportBL.Extension;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace EmployeeReportBL
+namespace EmployeeReportBL.Model
 {
-    public class Report
+    /// <summary>
+    /// Отчет по лицевым счетам.
+    /// </summary>
+    public class PersonalAccountReport
     {
+        private Month month;
+        private List<Employee> employees;
+        private int year;
+
+        public PersonalAccountReport() { }
+
+        public PersonalAccountReport(List<Employee> employees, Month month, int year)
+        {
+            this.employees = employees;
+            this.month = month;
+            this.year = year;
+        }
+
         /// <summary>
         /// Регион.
         /// </summary>
@@ -12,7 +31,7 @@ namespace EmployeeReportBL
         /// <summary>
         /// Полное наименование МО.
         /// </summary>
-        public string Name { get; set; }
+        public string Organization { get; set; }
 
         /// <summary>
         /// Подразделение.
@@ -22,7 +41,7 @@ namespace EmployeeReportBL
         /// <summary>
         /// Месяц.
         /// </summary>
-        public Month Month { get; set; }
+        public string Month { get; set; }
 
         /// <summary>
         /// СНИЛС.
@@ -47,7 +66,7 @@ namespace EmployeeReportBL
         /// <summary>
         /// Норма рабочего времени.
         /// </summary>
-        public double WorkingTime { get; set; }
+        public decimal WorkingTime { get; set; }
 
         /// <summary>
         /// Фактическое количество отработанного времени.
@@ -143,7 +162,7 @@ namespace EmployeeReportBL
         /// Премия за высокие результаты работы.
         /// </summary>
         public decimal? PerformanceAward { get; set; }
-        
+
         /// <summary>
         /// Премия за выполнение особо важных и ответственных работ.
         /// </summary>
@@ -216,6 +235,38 @@ namespace EmployeeReportBL
         /// Оплата за неотработанное время, единовременные поощрительные и другие выплаты, оплата питания и проживания, имеющая систематический характер 
         /// в соответствии с пунктами 84.2.,84.3,84.4 приказа федеральной службы государственной статистики от 22.11.2017 №772.
         /// </summary>
-        public decimal? PaymentUnworkedimeAndOtherPayments { get; set; }
+        public decimal? PaymentUnWorkedTimeAndOtherPayments { get; set; }
+
+        public List<PersonalAccountReport> GetReport()
+        {
+            var result = new List<PersonalAccountReport>();
+
+            foreach (var item in employees)
+            {
+                if (item.Accruals.Where(w => w.Year == year && w.Month == month).FirstOrDefault() == null)
+                {
+                    continue;
+                }
+
+                result.Add(new PersonalAccountReport()
+                {
+                    Region = ReportSettings.settings.region,
+                    Organization = ReportSettings.settings.organization,
+                    Subdivision = item.Subdivision,
+                    Month = month.GetDescription(),
+                    Snails = item.Snails,
+                    Position = item.Position,
+                    TypePersonalAccount = item.TypePersonalAccount,
+                    SourceOfFinancing = item.SourceOfFinancing,
+                    WorkingTime = item.WorkingTime,
+                    ActualHoursWorked = item.ActualHoursWorked,
+                    OfficialSalary = item.OfficialSalary,
+                    SeverePayments = item.Accruals.Where(w => w.Mnemo == ReportSettings.settings.SeverePayments)?.Sum(s => s.Value),
+                    DistrictCoefficient = item.Accruals.Where(w => w.Mnemo == ReportSettings.settings.DistrictCoefficient && w.Year == year && w.Month == month)?.Sum(s => s.Value),
+                });
+            }            
+
+            return result;
+        }
     }
 }
