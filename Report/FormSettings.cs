@@ -13,7 +13,6 @@ namespace Report
 
             propertyGridSettings.SelectedObject = ReportSettings.settings;
 
-
             if (ReportSettings.readingDataBase != null)
             {
                 checkedListPositions.Items.AddRange(ReportSettings.readingDataBase.Positions.ToArray());

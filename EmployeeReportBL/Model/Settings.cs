@@ -33,12 +33,12 @@ namespace EmployeeReportBL.Model
         /// <summary>
         /// Список выбранных должностей.
         /// </summary>
-        public List<string> Positions;
+        public List<string> Positions = new List<string>();
 
         /// <summary>
         /// Список видов расчетов, которые выносятся отдельно
         /// </summary>
-        public List<string> TypeOfCalculations;
+        public List<string> TypeOfCalculations = new List<string>();
 
         /// <summary>
         /// Должностной оклад.

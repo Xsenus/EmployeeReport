@@ -16,7 +16,6 @@ namespace EmployeeReportBL
         public List<string> Payrolls { get; set; } = new List<string>();
         public List<string> TypeOfCalculations { get; set; } = new List<string>();
 
-
         public ReadingDataBase(string path)
         {
             if (string.IsNullOrEmpty(path))

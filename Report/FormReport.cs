@@ -7,7 +7,9 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -94,10 +96,22 @@ namespace Report
 
         private void BtnMenuItemImportExcel_Click(object sender, EventArgs e)
         {
-            Export();
+            dataGridView.SelectAll();
+            DataObject dataObj = dataGridView.GetClipboardContent();
+            if (dataObj != null)
+            {
+                Clipboard.SetDataObject(dataObj);
+            }
+
+            StartExport();
         }
 
-        private void Export()
+        private async void StartExport()
+        {
+            await Task.Run(() => Export());
+        }
+
+        private void Export( )
         {
             if (dataGridView.DataSource == null)
             {
@@ -108,13 +122,6 @@ namespace Report
             var reportDirectory = $"{Path.GetTempPath()}{Guid.NewGuid().ToString().Substring(0, 6).ToUpper()}.xlsx";
 
             File.Copy(templateDirectory, reportDirectory);
-
-            dataGridView.SelectAll();
-            DataObject dataObj = dataGridView.GetClipboardContent();
-            if (dataObj != null)
-            {
-                Clipboard.SetDataObject(dataObj);
-            }
 
             Excel.Application xlexcel;
             Workbook xlWorkBook;
@@ -133,14 +140,22 @@ namespace Report
             xlWorkSheet2.Activate();
             xlWorkSheet2.Cells[2, 1].Value = ReportSettings.settings.organization;
             xlWorkSheet2.Cells[2, 2].Value = ReportSettings.settings.inn;
-            xlWorkSheet2.Cells[2, 3].Value = ReportSettings.settings.region;
+            xlWorkSheet2.Cells[2, 3].Value = ReportSettings.settings.region;           
 
-            var xlWorkSheet4 = (Worksheet)xlWorkBook.Worksheets[4];
-            xlWorkSheet4.Activate();
-            for (int i = 0; i < ReportSettings.readingDataBase.Positions.Count; i++)
+            var positions = (ReportSettings.settings == null || ReportSettings.settings.Positions == null || ReportSettings.settings.Positions.Count == 0) ? 
+                ReportSettings.readingDataBase?.Positions ?? null : 
+                ReportSettings.readingDataBase?.Positions?.Where(w => ReportSettings.settings.Positions.Contains(w.Mnemo)).ToList();
+
+            if (positions != null)
             {
-                xlWorkSheet4.Cells[i + 2, 1].Value = ReportSettings.readingDataBase.Positions[i].Mnemo;
-                xlWorkSheet4.Cells[i + 2, 2].Value = ReportSettings.readingDataBase.Positions[i].Name;
+                var xlWorkSheet4 = (Worksheet)xlWorkBook.Worksheets[4];
+                xlWorkSheet4.Activate();
+
+                for (int i = 0; i < positions.Count; i++)
+                {
+                    xlWorkSheet4.Cells[i + 2, 1].Value = positions[i].Mnemo;
+                    xlWorkSheet4.Cells[i + 2, 2].Value = positions[i].Name;
+                }
             }
 
             xlWorkSheet1.Activate();
