@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace EmployeeReportBL
+namespace EmployeeReportBL.PropertyGrid
 {
     class PayConverter : StringConverter
     {
@@ -16,7 +16,12 @@ namespace EmployeeReportBL
 
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            return new StandardValuesCollection(ReportSettings.ReadingDataBase.Pays);
+            if (ReportSettings.readingDataBase == null)
+            {
+                return null;
+            }
+
+            return new StandardValuesCollection(ReportSettings.readingDataBase.Pays);
         }
     }
 }

@@ -65,23 +65,28 @@ namespace EmployeeReportBL.Model
         /// Норма рабочего времени.
         /// </summary>
         [DisplayName("Норма рабочего времени")]
-        public decimal WorkingTime { get; set; }
+        public decimal? WorkingTime { get; set; }
 
         /// <summary>
         /// Фактическое количество отработанного времени.
         /// </summary>
         [DisplayName("Отработанное время")]
-        public decimal ActualHoursWorked { get; set; }
+        public decimal? ActualHoursWorked { get; set; }
 
         /// <summary>
         /// Должностной оклад.
         /// </summary>
-        [DisplayName("Должностной оклад")]
-        public decimal OfficialSalary { get; set; }
+        //[DisplayName("Должностной оклад")]
+        //public decimal OfficialSalary { get; set; }
 
         /// <summary>
         /// Начисления и удержания.
         /// </summary>
         public List<Accrual> Accruals { get; set; }
+
+        /// <summary>
+        /// ФОТ.
+        /// </summary>
+        public List<Payroll> Payroll { get; set; }
     }
 }

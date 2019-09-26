@@ -1,7 +1,8 @@
-﻿using System;
+﻿using EmployeeReportBL.PropertyGrid;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using static EmployeeReportBL.PropertySorter;
+using System.Drawing.Design;
 
 namespace EmployeeReportBL.Model
 {
@@ -35,11 +36,25 @@ namespace EmployeeReportBL.Model
         public List<string> Positions;
 
         /// <summary>
+        /// Список видов расчетов, которые выносятся отдельно
+        /// </summary>
+        public List<string> TypeOfCalculations;
+
+        /// <summary>
+        /// Должностной оклад.
+        /// </summary>
+        [DisplayName("Должностной оклад")]
+        [Description("Должностной оклад.")]
+        [PropertySorter.PropertyOrder(1)]
+        [TypeConverter(typeof(PayConverter))]
+        public string OfficialSalary { get; set; }
+
+        /// <summary>
         /// Выплаты работникам, занятым на тяжелых работах, работах с вредными и (или) опасными и иными особыми условиями труда.
         /// </summary>
         [DisplayName("Тяжелые и вредные условия")]
         [Description("Выплаты работникам, занятым на тяжелых работах, работах с вредными и (или) опасными и иными особыми условиями труда.")]
-        [PropertyOrder(10)]
+        [PropertySorter.PropertyOrder(10)]
         [TypeConverter(typeof(PayConverter))]
         public string SeverePayments { get; set; }
 
@@ -48,7 +63,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Районный коэффициент")]
         [Description("Районный коэффициент.")]
-        [PropertyOrder(20)]
+        [PropertySorter.PropertyOrder(20)]
         [Category("Выплаты за работу в местностях с особыми климатическими условиями")]
         [TypeConverter(typeof(PayConverter))]
         public string DistrictCoefficient { get; set; }
@@ -58,7 +73,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Пустыни и безводная местность")]
         [Description("Коэффициент за работу в пустынных и безводных местностях.")]
-        [PropertyOrder(30)]
+        [PropertySorter.PropertyOrder(30)]
         [Category("Выплаты за работу в местностях с особыми климатическими условиями")]
         [TypeConverter(typeof(PayConverter))]
         public string CoefficientWorkDesertAndWaterlessAreas { get; set; }
@@ -68,7 +83,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Высокогорье")]
         [Description("Коэффициент за работу в высокогорных районах.")]
-        [PropertyOrder(40)]
+        [PropertySorter.PropertyOrder(40)]
         [Category("Выплаты за работу в местностях с особыми климатическими условиями")]
         [TypeConverter(typeof(PayConverter))]
         public string CoefficientWorkHighMountainRegions { get; set; }
@@ -78,7 +93,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Крайний север")]
         [Description("Надбавка за стаж работы в районах Крайнего Севера и приравненных к ним местностях.")]
-        [PropertyOrder(50)]
+        [PropertySorter.PropertyOrder(50)]
         [Category("Выплаты за работу в местностях с особыми климатическими условиями")]
         [TypeConverter(typeof(PayConverter))]
         public string AllowanceWorkExperienceNorthEquivalentAreas { get; set; }
@@ -88,7 +103,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Совмещение")]
         [Description("Доплата за совмещение профессий (должностей).")]
-        [PropertyOrder(60)]
+        [PropertySorter.PropertyOrder(60)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
         [TypeConverter(typeof(PayConverter))]
         public string SupplementCombiningProfessions { get; set; }
@@ -98,7 +113,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Сельская местность")]
         [Description("Доплата за работу в сельской местности.")]
-        [PropertyOrder(70)]
+        [PropertySorter.PropertyOrder(70)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
         [TypeConverter(typeof(PayConverter))]
         public string SurchargeWorkRuralAreas { get; set; }
@@ -108,7 +123,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Расширение зон обслуживания")]
         [Description("Доплата за расширение зон обслуживания.")]
-        [PropertyOrder(80)]
+        [PropertySorter.PropertyOrder(80)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
         [TypeConverter(typeof(PayConverter))]
         public string SurchargeExpansionServiceAreas { get; set; }
@@ -118,7 +133,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Объем работ")]
         [Description("Доплата за увеличение объема работы.")]
-        [PropertyOrder(90)]
+        [PropertySorter.PropertyOrder(90)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
         [TypeConverter(typeof(PayConverter))]
         public string SurchargeIncreasingAmountWork { get; set; }
@@ -128,7 +143,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("За отсутствующего работника")]
         [Description("Доплата за исполнение обязанностей временно отсутствующего работника без освобождения от работы.")]
-        [PropertyOrder(100)]
+        [PropertySorter.PropertyOrder(100)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
         [TypeConverter(typeof(PayConverter))]
         public string SupplementPerformanceDutiesTemporarilyAbsentEmployee { get; set; }
@@ -138,7 +153,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Различная квалификация")]
         [Description("Доплата за выполнение работ различной квалификации.")]
-        [PropertyOrder(110)]
+        [PropertySorter.PropertyOrder(110)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
         [TypeConverter(typeof(PayConverter))]
         public string SurchargePerformanceWorkVariousQualifications { get; set; }
@@ -148,7 +163,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Выходные и праздничные")]
         [Description("Доплата за работу в выходные и праздничные дни.")]
-        [PropertyOrder(120)]
+        [PropertySorter.PropertyOrder(120)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
         [TypeConverter(typeof(PayConverter))]
         public string WeekendAndHolidaysWorkSupplement { get; set; }
@@ -158,7 +173,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Ночное время")]
         [Description("Доплата за работу в ночное время.")]
-        [PropertyOrder(130)]
+        [PropertySorter.PropertyOrder(130)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
         [TypeConverter(typeof(PayConverter))]
         public string SurchargeNightWork { get; set; }
@@ -168,7 +183,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Государственная тайна")]
         [Description("Надбавка за работу со сведениями, составляющими государственную тайну, их засекречиванием и рассекречиванием, а также за работу с шифрами.")]
-        [PropertyOrder(140)]
+        [PropertySorter.PropertyOrder(140)]
         [TypeConverter(typeof(PayConverter))]
         public string AllowanceWorkInformationConstituting { get; set; }
 
@@ -177,7 +192,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Компенсации")]
         [Description("Иные выплаты компенсационного характера.")]
-        [PropertyOrder(150)]
+        [PropertySorter.PropertyOrder(150)]
         [TypeConverter(typeof(PayConverter))]
         public string OtherCompensatoryPayments { get; set; }
 
@@ -186,7 +201,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Интенсивность труда")]
         [Description("Надбавка за интенсивность труда.")]
-        [PropertyOrder(160)]
+        [PropertySorter.PropertyOrder(160)]
         [Category("Интенсивность и высокие результаты работы")]
         [TypeConverter(typeof(PayConverter))]
         public string LaborAllowance { get; set; }
@@ -196,7 +211,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Высокие результаты")]
         [Description("Премия за высокие результаты работы.")]
-        [PropertyOrder(170)]
+        [PropertySorter.PropertyOrder(170)]
         [Category("Интенсивность и высокие результаты работы")]
         [TypeConverter(typeof(PayConverter))]
         public string PerformanceAward { get; set; }
@@ -206,7 +221,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Особо важная работа")]
         [Description("Премия за выполнение особо важных и ответственных работ.")]
-        [PropertyOrder(180)]
+        [PropertySorter.PropertyOrder(180)]
         [Category("Интенсивность и высокие результаты работы")]
         [TypeConverter(typeof(PayConverter))]
         public string AwardPerformanceParticularlyImportantResponsibleWork { get; set; }
@@ -216,7 +231,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Квалификационная категория")]
         [Description("Надбавка за наличие квалификационной категории.")]
-        [PropertyOrder(190)]
+        [PropertySorter.PropertyOrder(190)]
         [Category("Качество выполняемых работ")]
         [TypeConverter(typeof(PayConverter))]
         public string QualificationAllowance { get; set; }
@@ -226,7 +241,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Муниципальное задание")]
         [Description("Премия за образцовое выполнение государственного (муниципального) задания.")]
-        [PropertyOrder(200)]
+        [PropertySorter.PropertyOrder(200)]
         [Category("Качество выполняемых работ")]
         [TypeConverter(typeof(PayConverter))]
         public string PremiumExemplaryPerformanceStateAssignment { get; set; }
@@ -236,7 +251,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Выслуга лет")]
         [Description("Надбавка за выслугу лет в организации.")]
-        [PropertyOrder(210)]
+        [PropertySorter.PropertyOrder(210)]
         [Category("Выплаты за стаж работы, выслугу лет")]
         [TypeConverter(typeof(PayConverter))]
         public string OrganizationServiceBonus { get; set; }
@@ -246,7 +261,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Стаж непрерывной работы")]
         [Description("Надбавка за стаж непрерывной работы (медицинский стаж).")]
-        [PropertyOrder(220)]
+        [PropertySorter.PropertyOrder(220)]
         [Category("Выплаты за стаж работы, выслугу лет")]
         [TypeConverter(typeof(PayConverter))]
         public string AllowanceContinuousWorkExperience { get; set; }
@@ -256,7 +271,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Премия за месяц")]
         [Description("Премия по итогам работы за месяц.")]
-        [PropertyOrder(230)]
+        [PropertySorter.PropertyOrder(230)]
         [Category("Премиальные выплаты по итогам работы")]
         [TypeConverter(typeof(PayConverter))]
         public string MonthlyPerformanceBonus { get; set; }
@@ -266,7 +281,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Премия за квартал")]
         [Description("Премия по итогам работы за квартал.")]
-        [PropertyOrder(240)]
+        [PropertySorter.PropertyOrder(240)]
         [Category("Премиальные выплаты по итогам работы")]
         [TypeConverter(typeof(PayConverter))]
         public string QuarterlyPerformanceBonus { get; set; }
@@ -276,7 +291,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Премия за год")]
         [Description("Премия по итогам работы за год.")]
-        [PropertyOrder(250)]
+        [PropertySorter.PropertyOrder(250)]
         [Category("Премиальные выплаты по итогам работы")]
         [TypeConverter(typeof(PayConverter))]
         public string AnnualPerformanceBonus { get; set; }
@@ -286,7 +301,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Молодой специалист")]
         [Description("Надбавка молодому специалисту.")]
-        [PropertyOrder(260)]
+        [PropertySorter.PropertyOrder(260)]
         [TypeConverter(typeof(PayConverter))]
         public string PremiumYoungSpecialist { get; set; }
 
@@ -295,7 +310,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Почетное звание")]
         [Description("Надбавка за почётное звание.")]
-        [PropertyOrder(270)]
+        [PropertySorter.PropertyOrder(270)]
         [TypeConverter(typeof(PayConverter))]
         public string HonoraryBonus { get; set; }
 
@@ -304,7 +319,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Ученая степень")]
         [Description("Надбавка за наличие учёной степени.")]
-        [PropertyOrder(280)]
+        [PropertySorter.PropertyOrder(280)]
         [TypeConverter(typeof(PayConverter))]
         public string GraduateBonus { get; set; }
 
@@ -316,7 +331,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Надбавка за [Участковость]")]
         [Description("Надбавка за [Участковость].")]
-        [PropertyOrder(290)]
+        [PropertySorter.PropertyOrder(290)]
         [TypeConverter(typeof(PayConverter))]
         public string AllowanceForPrecinct { get; set; }
 
@@ -325,9 +340,9 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Стимулирующие выплаты")]
         [Description("Иные выплаты стимулирующего характера.")]
-        [PropertyOrder(300)]
-        [TypeConverter(typeof(PayConverter))]
-        public string OtherIncentivePayments { get; set; }
+        [PropertySorter.PropertyOrder(300)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public List<string> OtherIncentivePayments { get; set; } = new List<string>();
 
         /// <summary>
         /// Оплата за не отработанное время, единовременные поощрительные и другие выплаты, оплата питания и проживания, имеющая систематический характер 
@@ -335,7 +350,7 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Не отработанное время")]
         [Description("Оплата за не отработанное время, единовременные поощрительные и другие выплаты, оплата питания и проживания, имеющая систематический характер в соответствии с пунктами 84.2.,84.3,84.4 приказа федеральной службы государственной статистики от 22.11.2017 №772.")]
-        [PropertyOrder(310)]
+        [PropertySorter.PropertyOrder(310)]
         [TypeConverter(typeof(PayConverter))]
         public string PaymentUnWorkedTimeAndOtherPayments { get; set; }
     }

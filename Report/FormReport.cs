@@ -2,7 +2,11 @@
 using EmployeeReportBL.Enumeration;
 using EmployeeReportBL.Extension;
 using EmployeeReportBL.Model;
+using Microsoft.Office.Interop.Excel;
 using System;
+using System.Data;
+using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -21,16 +25,23 @@ namespace Report
                 cmbMonth.Items.Add(item.GetDescription());
             }
 
-            foreach (var item in ReportSettings.ReadingDataBase.Years)
-            {
-                cmbYear.Items.Add(item);
-            }
+            var currentDate = DateTime.Now;
 
+            cmbMonth.SelectedIndex = currentDate.Month - 1;
+            cmbYear.Text = currentDate.Year.ToString();
+            
             txtPathP7.Text = ReportSettings.settings.path;
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
+            if (ReportSettings.readingDataBase == null || ReportSettings.readingDataBase.dbConnection.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Установите соединение c базой данных.", "Установите соединение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                btnConnectParus.Focus();
+                return;
+            }
+
             if (cmbMonth.SelectedIndex == -1 || cmbYear.SelectedIndex == -1)
             {
                 MessageBox.Show("Задайте месяц и год для отчета.", "Задайте временной интервал", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -38,16 +49,30 @@ namespace Report
                 return;
             }
 
-            dataGridView.DataSource = null;
+            var employees = ReportSettings.readingDataBase.GetEmployees(Convert.ToInt32(cmbYear.Text), (Month)cmbMonth.SelectedIndex + 1);
+
+            if (employees != null)
+            {
+                var personalAccountReport = new PersonalAccountReport(employees);      
+                var report = personalAccountReport.GetPersonalAccountReport((Month)cmbMonth.SelectedIndex + 1);
+                dataGridView.DataSource = report;
+            }
         }
 
         private void BtnMenuItemExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            System.Windows.Forms.Application.Exit();
         }
 
         private void BtnMenuItemSettings_Click(object sender, EventArgs e)
         {
+            if (ReportSettings.readingDataBase == null || ReportSettings.readingDataBase.dbConnection.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Для настройки установите соединение c базой данных.", "Установите соединение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                btnConnectParus.Focus();
+                return;
+            }
+
             var form = new FormSettings();
             form.ShowDialog();
         }
@@ -59,11 +84,6 @@ namespace Report
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
                     var path = fileDialog.FileName;
-
-                    if (ReportSettings.ReadingDataBase.dbConnection == null || ReportSettings.settings.path != path)
-                    {
-                        ReportSettings.ReadingDataBase = new ReadingDataBase(path);
-                    }
 
                     txtPathP7.Text = path;
                     ReportSettings.settings.path = path;
@@ -79,6 +99,16 @@ namespace Report
 
         private void Export()
         {
+            if (dataGridView.DataSource == null)
+            {
+                return;
+            }
+
+            var templateDirectory = $"{Environment.CurrentDirectory}\\template\\Report.xlsx";
+            var reportDirectory = $"{Path.GetTempPath()}{Guid.NewGuid().ToString().Substring(0, 6).ToUpper()}.xlsx";
+
+            File.Copy(templateDirectory, reportDirectory);
+
             dataGridView.SelectAll();
             DataObject dataObj = dataGridView.GetClipboardContent();
             if (dataObj != null)
@@ -87,17 +117,57 @@ namespace Report
             }
 
             Excel.Application xlexcel;
-            Excel.Workbook xlWorkBook;
-            Excel.Worksheet xlWorkSheet;
-            object misValue = Missing.Value;
+            Workbook xlWorkBook;
+
             xlexcel = new Excel.Application();
             xlexcel.Visible = true;
-            xlWorkBook = xlexcel.Workbooks.Add(misValue);
-            xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-            Excel.Range CR = (Excel.Range)xlWorkSheet.Cells[1, 1];
+            xlWorkBook = xlexcel.Workbooks.Open(reportDirectory);
+            var xlWorkSheet1 = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
+            xlWorkSheet1.Activate();
+            Range CR = (Range)xlWorkSheet1.Cells[4, 1];
             CR.Select();
-            xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
+            xlWorkSheet1.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
+            xlWorkSheet1.UsedRange.Cells.Borders.LineStyle = XlLineStyle.xlContinuous;
 
+            var xlWorkSheet2 = (Worksheet)xlWorkBook.Worksheets[2];
+            xlWorkSheet2.Activate();
+            xlWorkSheet2.Cells[2, 1].Value = ReportSettings.settings.organization;
+            xlWorkSheet2.Cells[2, 2].Value = ReportSettings.settings.inn;
+            xlWorkSheet2.Cells[2, 3].Value = ReportSettings.settings.region;
+
+            var xlWorkSheet4 = (Worksheet)xlWorkBook.Worksheets[4];
+            xlWorkSheet4.Activate();
+            for (int i = 0; i < ReportSettings.readingDataBase.Positions.Count; i++)
+            {
+                xlWorkSheet4.Cells[i + 2, 1].Value = ReportSettings.readingDataBase.Positions[i].Mnemo;
+                xlWorkSheet4.Cells[i + 2, 2].Value = ReportSettings.readingDataBase.Positions[i].Name;
+            }
+
+            xlWorkSheet1.Activate();
+        }
+
+        private void btnConnectParus_Click(object sender, EventArgs e)
+        {
+            var path = ReportSettings.settings.path;
+
+            if (string.IsNullOrEmpty(path))
+            {
+                MessageBox.Show("Для соединения укажите путь до базы данных.", "Укажите путь", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            ReportSettings.readingDataBase = new ReadingDataBase(path);
+
+            if (ReportSettings.readingDataBase.dbConnection.State == ConnectionState.Open)
+            {
+                toolStripStatusLabelBool.Text = "активно";
+                toolStripStatusLabelBool.ForeColor = Color.Green;
+            }
+            else
+            {
+                toolStripStatusLabelBool.Text = "неактивно";
+                toolStripStatusLabelBool.ForeColor = Color.DarkRed;
+            }
         }
     }
 }

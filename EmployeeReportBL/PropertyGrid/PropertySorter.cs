@@ -2,7 +2,7 @@
 using System.Collections;
 using System.ComponentModel;
 
-namespace EmployeeReportBL
+namespace EmployeeReportBL.PropertyGrid
 {
     public class PropertySorter : ExpandableObjectConverter
     {

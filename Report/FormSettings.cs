@@ -13,13 +13,33 @@ namespace Report
 
             propertyGridSettings.SelectedObject = ReportSettings.settings;
 
-            checkedList.Items.AddRange(ReportSettings.ReadingDataBase.Positions.ToArray());
 
-            for (int i = 0; i < checkedList.Items.Count; i++)
+            if (ReportSettings.readingDataBase != null)
             {
-                if (ReportSettings.settings.Positions.Contains(checkedList.Items[i].ToString()))
+                checkedListPositions.Items.AddRange(ReportSettings.readingDataBase.Positions.ToArray());
+
+                if (ReportSettings.settings.Positions != null)
                 {
-                    checkedList.SetItemChecked(i, true);
+                    for (int i = 0; i < checkedListPositions.Items.Count; i++)
+                    {
+                        if (ReportSettings.settings.Positions.Contains(checkedListPositions.Items[i].ToString()))
+                        {
+                            checkedListPositions.SetItemChecked(i, true);
+                        }
+                    }
+                }
+
+                checkedListTypeOfCalculations.Items.AddRange(ReportSettings.readingDataBase.TypeOfCalculations.ToArray());
+
+                if (ReportSettings.settings.TypeOfCalculations != null)
+                {
+                    for (int i = 0; i < checkedListTypeOfCalculations.Items.Count; i++)
+                    {
+                        if (ReportSettings.settings.TypeOfCalculations.Contains(checkedListTypeOfCalculations.Items[i].ToString()))
+                        {
+                            checkedListTypeOfCalculations.SetItemChecked(i, true);
+                        }
+                    }
                 }
             }
 
@@ -39,6 +59,7 @@ namespace Report
                 ReportSettings.settings.inn = txtINN.Text;
 
                 Serialization.Serialize(ReportSettings.settings);
+
                 Close();
             }
         }
@@ -49,24 +70,34 @@ namespace Report
             Close();
         }
 
-        private void PropertyGridSettings_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            propertyGridSettings.Refresh();
-        }
-
-        private void CheckedList_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void CheckedListPositions_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (firstLoading == false)
             {
                 if (e.NewValue == CheckState.Checked)
                 {
-                    ReportSettings.settings.Positions.Add(checkedList.Items[e.Index].ToString());
+                    ReportSettings.settings.Positions.Add(checkedListPositions.Items[e.Index].ToString());
                 }
                 else
                 {
-                    ReportSettings.settings.Positions.Remove(checkedList.Items[e.Index].ToString());
+                    ReportSettings.settings.Positions.Remove(checkedListPositions.Items[e.Index].ToString());
                 }
             }            
+        }
+
+        private void CheckedListTypeOfCalculations_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (firstLoading == false)
+            {
+                if (e.NewValue == CheckState.Checked)
+                {
+                    ReportSettings.settings.TypeOfCalculations.Add(checkedListTypeOfCalculations.Items[e.Index].ToString());
+                }
+                else
+                {
+                    ReportSettings.settings.TypeOfCalculations.Remove(checkedListTypeOfCalculations.Items[e.Index].ToString());
+                }
+            }
         }
     }
 }

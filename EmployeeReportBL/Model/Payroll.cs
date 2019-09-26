@@ -1,11 +1,11 @@
-﻿using EmployeeReportBL.Enumeration;
+﻿using System;
 
 namespace EmployeeReportBL.Model
 {
-    public class Accrual
+    public class Payroll
     {
         /// <summary>
-        /// Уникальный идентификатор лицевого счета в FoxPro.
+        /// Уникальный идентификатор лицевого счета.
         /// </summary>
         public string FcacRn { get; set; }
 
@@ -20,18 +20,13 @@ namespace EmployeeReportBL.Model
         public decimal Value { get; set; }
 
         /// <summary>
-        /// Год.
+        /// Дата с..
         /// </summary>
-        public int Year { get; set; }
+        public DateTime DateSince { get; set; }
 
         /// <summary>
-        /// Месяц.
+        /// Дата по..
         /// </summary>
-        public Month Month { get; set; }
-
-        /// <summary>
-        /// Вид расчета.
-        /// </summary>
-        public string TypeOfCalculation { get; set; }
+        public DateTime DateTo { get; set; }
     }
 }

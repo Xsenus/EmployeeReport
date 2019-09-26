@@ -43,12 +43,18 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.checkedList = new System.Windows.Forms.CheckedListBox();
+            this.checkedListPositions = new System.Windows.Forms.CheckedListBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.checkedListTypeOfCalculations = new System.Windows.Forms.CheckedListBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lblTypeOfCalculations = new System.Windows.Forms.Label();
             this.panelTop.SuspendLayout();
             this.panelBot.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSave
@@ -73,7 +79,6 @@
             this.propertyGridSettings.Size = new System.Drawing.Size(470, 363);
             this.propertyGridSettings.TabIndex = 68;
             this.propertyGridSettings.ToolbarVisible = false;
-            this.propertyGridSettings.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropertyGridSettings_PropertyValueChanged);
             // 
             // panelTop
             // 
@@ -169,6 +174,7 @@
             // 
             this.tabControl.Controls.Add(this.tabPage1);
             this.tabControl.Controls.Add(this.tabPage2);
+            this.tabControl.Controls.Add(this.tabPage3);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 121);
             this.tabControl.Name = "tabControl";
@@ -189,7 +195,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.checkedList);
+            this.tabPage2.Controls.Add(this.checkedListPositions);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -198,16 +204,58 @@
             this.tabPage2.Text = "Должности";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // checkedList
+            // checkedListPositions
             // 
-            this.checkedList.CheckOnClick = true;
-            this.checkedList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedList.FormattingEnabled = true;
-            this.checkedList.Location = new System.Drawing.Point(3, 3);
-            this.checkedList.Name = "checkedList";
-            this.checkedList.Size = new System.Drawing.Size(470, 363);
-            this.checkedList.TabIndex = 0;
-            this.checkedList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CheckedList_ItemCheck);
+            this.checkedListPositions.CheckOnClick = true;
+            this.checkedListPositions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListPositions.FormattingEnabled = true;
+            this.checkedListPositions.Location = new System.Drawing.Point(3, 3);
+            this.checkedListPositions.Name = "checkedListPositions";
+            this.checkedListPositions.Size = new System.Drawing.Size(470, 363);
+            this.checkedListPositions.Sorted = true;
+            this.checkedListPositions.TabIndex = 0;
+            this.checkedListPositions.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CheckedListPositions_ItemCheck);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.checkedListTypeOfCalculations);
+            this.tabPage3.Controls.Add(this.panel1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(476, 369);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Виды расчета";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // checkedListTypeOfCalculations
+            // 
+            this.checkedListTypeOfCalculations.CheckOnClick = true;
+            this.checkedListTypeOfCalculations.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListTypeOfCalculations.FormattingEnabled = true;
+            this.checkedListTypeOfCalculations.Location = new System.Drawing.Point(3, 37);
+            this.checkedListTypeOfCalculations.Name = "checkedListTypeOfCalculations";
+            this.checkedListTypeOfCalculations.Size = new System.Drawing.Size(470, 329);
+            this.checkedListTypeOfCalculations.TabIndex = 0;
+            this.checkedListTypeOfCalculations.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CheckedListTypeOfCalculations_ItemCheck);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lblTypeOfCalculations);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(470, 34);
+            this.panel1.TabIndex = 1;
+            // 
+            // lblTypeOfCalculations
+            // 
+            this.lblTypeOfCalculations.AutoSize = true;
+            this.lblTypeOfCalculations.Location = new System.Drawing.Point(5, 10);
+            this.lblTypeOfCalculations.Name = "lblTypeOfCalculations";
+            this.lblTypeOfCalculations.Size = new System.Drawing.Size(384, 13);
+            this.lblTypeOfCalculations.TabIndex = 0;
+            this.lblTypeOfCalculations.Text = "Указанные виды расчета будут установлены в отчете отдельной строкой.\r\n";
             // 
             // FormSettings
             // 
@@ -229,6 +277,9 @@
             this.tabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -249,6 +300,10 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.CheckedListBox checkedList;
+        private System.Windows.Forms.CheckedListBox checkedListPositions;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.CheckedListBox checkedListTypeOfCalculations;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lblTypeOfCalculations;
     }
 }
