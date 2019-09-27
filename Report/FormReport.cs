@@ -41,7 +41,7 @@ namespace Report
         {
             try
             {
-                if (ReportSettings.readingDataBase == null || ReportSettings.readingDataBase.dbConnectionAsync.State != ConnectionState.Open)
+                if (ReportSettings.readingDataBase == null || ReportSettings.readingDataBase.dbConnectionAsync?.State != ConnectionState.Open)
                 {
                     MessageBox.Show("Установите соединение c базой данных.", "Установите соединение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     btnConnectParus.Focus();
@@ -222,6 +222,9 @@ namespace Report
             }
 
             ReportSettings.readingDataBase = new ReadingDataBase(path);
+            ReportSettings.readingDataBase.ReaderEvent += ReadingDataBase_ReaderEvent;
+            ReportSettings.readingDataBase.LoadData += ReadingDataBase_LoadData;
+            ReportSettings.readingDataBase.GetInformation();
 
             if (ReportSettings.readingDataBase?.dbConnectionAsync?.State == ConnectionState.Open)
             {
@@ -233,6 +236,22 @@ namespace Report
                 toolStripStatusLabelBool.Text = "неактивно";
                 toolStripStatusLabelBool.ForeColor = Color.DarkRed;
             }
+        }
+
+        private void ReadingDataBase_LoadData(object sender, Tuple<string, int, bool> e)
+        {
+            this?.Invoke((System.Action)delegate {
+                toolStripStatusLabel1.Text = e.Item1;
+                toolStripProgressBar.Maximum = e.Item2;
+                toolStripProgressBar.Visible = e.Item3;
+            });            
+        }
+
+        private void ReadingDataBase_ReaderEvent(object sender, int e)
+        {
+            this?.Invoke((System.Action)delegate {
+                toolStripProgressBar.Value = e;
+            });
         }
 
         private void btnMenuItemInfo_Click(object sender, EventArgs e)

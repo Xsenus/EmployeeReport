@@ -327,6 +327,11 @@ namespace EmployeeReportBL.Model
 
                 var accrual = (string.IsNullOrEmpty(typeOfCalculations) ? item.Accruals : item.Accruals.Where(w => string.Compare(w.TypeOfCalculation, typeOfCalculations, StringComparison.Ordinal) == 0).ToList());
 
+                if (accrual.Count == 0)
+                {
+                    continue;
+                }
+
                 var officialSalary = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.OfficialSalary, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
                 var severePayments = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.SeverePayments, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
                 var districtCoefficient = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.DistrictCoefficient, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
@@ -362,6 +367,8 @@ namespace EmployeeReportBL.Model
                 var paymentUnWorkedTimeAndOtherPayments = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.PaymentUnWorkedTimeAndOtherPayments, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
                 var name = $"{item.Name} {item.Surname} {item.Patronymic}";
 
+                var sourceOfFinancing = (typeOfCalculations == null) ? item.SourceOfFinancing : typeOfCalculations;
+
                 result.Add(new PersonalAccountReport()
                 {
                     Region = ReportSettings.settings.region,
@@ -371,7 +378,7 @@ namespace EmployeeReportBL.Model
                     Snails = item.Snails,
                     Position = item.Position,
                     TypePersonalAccount = item.TypePersonalAccount,
-                    SourceOfFinancing = item.SourceOfFinancing,
+                    SourceOfFinancing = sourceOfFinancing,
                     WorkingTime = item.WorkingTime,
                     ActualHoursWorked = item.ActualHoursWorked,
                     OfficialSalary = officialSalary == 0 ? null : officialSalary,

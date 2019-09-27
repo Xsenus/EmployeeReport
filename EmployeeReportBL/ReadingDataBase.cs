@@ -37,6 +37,13 @@ namespace EmployeeReportBL
         /// </summary>
         public List<string> TypeOfCalculations { get; set; }
 
+        public event EventHandler<Tuple<string, int, bool>> LoadData;
+        public event EventHandler<int> ReaderEvent;
+
+        private int AddCount { get; set; } = 0;
+
+        public ReadingDataBase() { }
+
         public ReadingDataBase(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -46,11 +53,16 @@ namespace EmployeeReportBL
 
             var tokenSource = new CancellationTokenSource();
             CancellationToken ct = tokenSource.Token;
+            dbConnectionAsync = GetOleDbConnectionAsync(path, ct).Result;            
+        }
 
-            dbConnectionAsync = GetOleDbConnectionAsync(path, ct).Result;
-
+        public void GetInformation()
+        {
             if (dbConnectionAsync.State == ConnectionState.Open)
             {
+                var tokenSource = new CancellationTokenSource();
+                CancellationToken ct = tokenSource.Token;
+
                 TypeOfCalculations = GetTypeOfCalculationsAsync(dbConnectionAsync, ct).Result;
                 Payrolls = GetPayrollsAsync(dbConnectionAsync, ct).Result;
                 Pays = GetPayAsync(dbConnectionAsync, ct).Result;
@@ -86,6 +98,13 @@ namespace EmployeeReportBL
             var sql = $"SELECT Code FROM Zrvdict";
             var result = new List<string>();
 
+            using (OleDbCommand cmd = new OleDbCommand() { CommandText = "SELECT COUNT(*) FROM Zrvdict", Connection = oleDbConnection })
+            {
+                AddCount = 0;
+                int allRecords = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                LoadData?.Invoke(this, new Tuple<string, int, bool>("Виды расчета:", allRecords, true));
+            }
+
             using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = oleDbConnection })
             {
                 using (var reader = await cmd.ExecuteReaderAsync(token).ConfigureAwait(false))
@@ -94,9 +113,14 @@ namespace EmployeeReportBL
                     {
                         var mnemo = reader[0].ToString().Trim();
                         result.Add(mnemo);
+
+                        AddCount++;
+                        ReaderEvent?.Invoke(this, AddCount);
                     }
                 }
             }
+
+            LoadData?.Invoke(this, new Tuple<string, int, bool>(string.Empty, 0, false));
             return result;
         }
 
@@ -111,6 +135,14 @@ namespace EmployeeReportBL
 
             var result = new List<string>();
 
+
+            using (OleDbCommand cmd = new OleDbCommand() { CommandText = "SELECT COUNT(*) FROM Zkatfzp", Connection = oleDbConnection })
+            {
+                AddCount = 0;
+                int allRecords = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                LoadData?.Invoke(this, new Tuple<string, int, bool>("Категорий ФОТ:", allRecords, true));
+            }
+
             using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = oleDbConnection })
             {
                 using (var reader = await cmd.ExecuteReaderAsync(token).ConfigureAwait(false))
@@ -119,10 +151,14 @@ namespace EmployeeReportBL
                     {
                         var mnemo = reader[0].ToString().Trim();
                         result.Add(mnemo);
+
+                        AddCount++;
+                        ReaderEvent?.Invoke(this, AddCount);
                     }
                 }
             }
 
+            LoadData?.Invoke(this, new Tuple<string, int, bool>(string.Empty, 0, false));
             return result;
         }
 
@@ -136,6 +172,13 @@ namespace EmployeeReportBL
             var sql = $"SELECT Snu_rn, Num, Code, Nick, Name FROM Zsnu";
 
             var result = new List<Pay>();
+
+            using (OleDbCommand cmd = new OleDbCommand() { CommandText = "SELECT COUNT(*) FROM Zsnu", Connection = oleDbConnection })
+            {
+                AddCount = 0;
+                int allRecords = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                LoadData?.Invoke(this, new Tuple<string, int, bool>("Выплаты и удержания:", allRecords, true));
+            }
 
             using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = oleDbConnection })
             {
@@ -157,10 +200,14 @@ namespace EmployeeReportBL
                             AbbreviatedName = abbreviatedName,
                             Name = name
                         });
+
+                        AddCount++;
+                        ReaderEvent?.Invoke(this, AddCount);
                     }
                 }
             }
 
+            LoadData?.Invoke(this, new Tuple<string, int, bool>(string.Empty, 0, false));
             return result;
         }
 
@@ -174,6 +221,13 @@ namespace EmployeeReportBL
             var sql = $"SELECT Tipdol_rn, Num, Code, Name FROM Ztipdol";
 
             var result = new List<Position>();
+
+            using (OleDbCommand cmd = new OleDbCommand() { CommandText = "SELECT COUNT(*) FROM Ztipdol", Connection = oleDbConnection })
+            {
+                AddCount = 0;
+                int allRecords = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                LoadData?.Invoke(this, new Tuple<string, int, bool>("Должности:", allRecords, true));
+            }
 
             using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = oleDbConnection })
             {
@@ -193,10 +247,14 @@ namespace EmployeeReportBL
                             Memo = mnemo,
                             Name = name
                         });
+
+                        AddCount++;
+                        ReaderEvent?.Invoke(this, AddCount);
                     }
                 }
             }
 
+            LoadData?.Invoke(this, new Tuple<string, int, bool>(string.Empty, 0, false));
             return result;
         }
 
@@ -213,6 +271,18 @@ namespace EmployeeReportBL
 
             var accrual = GetAccrualAsync(year, month, token).Result;
 
+            var sqlCount = $"SELECT COUNT(*) " +
+                        $"FROM Zfcac AS Fcac " +
+                        $"JOIN Zank AS Ank ON Fcac.Ank_rn = Ank.Ank_rn " +
+                        $"JOIN Zsubdiv AS Subdiv ON Fcac.Subdiv_rn = Subdiv.Subdiv_rn " +
+                        $"JOIN Zvidisp AS Vid ON Fcac.Vidisp_rn = Vid.Vidisp_rn " +
+                        $"JOIN Ztipdol AS Dol ON Fcac.Tipdol_rn = Dol.Tipdol_rn " +
+                        $"JOIN Orgbase AS Org ON Org.Rn = Ank.Orgbase_rn " +
+                        $"JOIN Person AS P ON P.Orbase_rn = Org.Rn " +
+                        $"JOIN Zfcacch AS Zfc ON Fcac.Fcac_rn = Zfc.Fcacbs_rn " +
+                        $"JOIN Zsostzat AS Sost ON Sost.Sostzat_rn = Zfc.Sostzat_rn " +
+                        $"WHERE Fcac.Startdate <= DATE({dateTo.Year}, {dateTo.Month}, {dateTo.Day}) AND Fcac.Enddate >= DATE({dateSince.Year}, {dateSince.Month}, {dateSince.Day})";
+
             var sql = $"SELECT P.Surname, P.Firstname, P.Secondname, Subdiv.Name, Ank.Pf_id, Dol.Code, Vid.Name, Sost.Name, Fcac.Fcac_rn, Fcac.Startdate, Fcac.Enddate " +
                         $"FROM Zfcac AS Fcac " +
                         $"JOIN Zank AS Ank ON Fcac.Ank_rn = Ank.Ank_rn " +
@@ -224,6 +294,13 @@ namespace EmployeeReportBL
                         $"JOIN Zfcacch AS Zfc ON Fcac.Fcac_rn = Zfc.Fcacbs_rn " +
                         $"JOIN Zsostzat AS Sost ON Sost.Sostzat_rn = Zfc.Sostzat_rn " +
                         $"WHERE Fcac.Startdate <= DATE({dateTo.Year}, {dateTo.Month}, {dateTo.Day}) AND Fcac.Enddate >= DATE({dateSince.Year}, {dateSince.Month}, {dateSince.Day})";
+
+            using (OleDbCommand cmd = new OleDbCommand() { CommandText = sqlCount, Connection = dbConnectionAsync })
+            {
+                AddCount = 0;
+                int allRecords = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                LoadData?.Invoke(this, new Tuple<string, int, bool>("Лицевые счета:", allRecords, true));
+            }
 
             using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = dbConnectionAsync })
             {
@@ -264,11 +341,15 @@ namespace EmployeeReportBL
                             employee.Accruals = new List<Accrual>();
                             employee.Accruals.AddRange(accrual.Where(w => string.Compare(w.EmployeeId, rn, StringComparison.Ordinal) == 0));
                             result.Add(employee);
+
+                            AddCount++;
+                            ReaderEvent?.Invoke(this, AddCount);
                         }
                     }
                 }
             }
 
+            LoadData?.Invoke(this, new Tuple<string, int, bool>(string.Empty, 0, false));
             return result;
         }
 

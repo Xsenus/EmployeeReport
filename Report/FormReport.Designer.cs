@@ -44,6 +44,7 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelBool = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMenuItemImportExcel = new System.Windows.Forms.ToolStripMenuItem();
@@ -199,6 +200,7 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel,
             this.toolStripStatusLabelBool,
+            this.toolStripStatusLabel1,
             this.toolStripProgressBar});
             this.statusStrip.Location = new System.Drawing.Point(0, 489);
             this.statusStrip.Name = "statusStrip";
@@ -219,11 +221,19 @@
             this.toolStripStatusLabelBool.Size = new System.Drawing.Size(64, 17);
             this.toolStripStatusLabelBool.Text = "неактивно";
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(295, 17);
+            this.toolStripStatusLabel1.Spring = true;
+            this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // toolStripProgressBar
             // 
             this.toolStripProgressBar.MergeAction = System.Windows.Forms.MergeAction.Remove;
             this.toolStripProgressBar.Name = "toolStripProgressBar";
             this.toolStripProgressBar.Size = new System.Drawing.Size(100, 16);
+            this.toolStripProgressBar.Step = 1;
             this.toolStripProgressBar.Visible = false;
             // 
             // файлToolStripMenuItem
@@ -260,7 +270,7 @@
             // btnMenuItemSettings
             // 
             this.btnMenuItemSettings.Name = "btnMenuItemSettings";
-            this.btnMenuItemSettings.Size = new System.Drawing.Size(180, 22);
+            this.btnMenuItemSettings.Size = new System.Drawing.Size(138, 22);
             this.btnMenuItemSettings.Text = "Параметры";
             this.btnMenuItemSettings.Click += new System.EventHandler(this.BtnMenuItemSettings_Click);
             // 
@@ -348,6 +358,7 @@
         private System.Windows.Forms.ToolStripMenuItem информацияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem btnMenuItemInfo;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 
