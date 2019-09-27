@@ -4,11 +4,12 @@ using EmployeeReportBL.Extension;
 using EmployeeReportBL.Model;
 using Microsoft.Office.Interop.Excel;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -17,6 +18,7 @@ namespace Report
 {
     public partial class FormReport : Form
     {
+        private List<PersonalAccountReport> PersonalAccountReports { get; set; }
 
         public FormReport()
         {
@@ -35,30 +37,56 @@ namespace Report
             txtPathP7.Text = ReportSettings.settings.path;
         }
 
-        private void BtnStart_Click(object sender, EventArgs e)
+        private async void BtnStart_Click(object sender, EventArgs e)
         {
-            if (ReportSettings.readingDataBase == null || ReportSettings.readingDataBase.dbConnection.State != ConnectionState.Open)
+            try
             {
-                MessageBox.Show("Установите соединение c базой данных.", "Установите соединение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                btnConnectParus.Focus();
-                return;
-            }
+                if (ReportSettings.readingDataBase == null || ReportSettings.readingDataBase.dbConnectionAsync.State != ConnectionState.Open)
+                {
+                    MessageBox.Show("Установите соединение c базой данных.", "Установите соединение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    btnConnectParus.Focus();
+                    return;
+                }
 
-            if (cmbMonth.SelectedIndex == -1 || cmbYear.SelectedIndex == -1)
+                if (cmbMonth.SelectedIndex == -1 || cmbYear.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Задайте месяц и год для отчета.", "Задайте временной интервал", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    cmbMonth.Focus();
+                    return;
+                }
+
+                var tokenSource = new CancellationTokenSource();
+                CancellationToken ct = tokenSource.Token;
+
+                var year = Convert.ToInt32(cmbYear.Text);
+                var month = (Month)cmbMonth.SelectedIndex + 1;
+
+                dataGridView.DataSource = await GetReportAsync(year, month, ct);
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("Задайте месяц и год для отчета.", "Задайте временной интервал", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                cmbMonth.Focus();
-                return;
+                MessageBox.Show(ex.Message);
             }
+            
+        }
 
-            var employees = ReportSettings.readingDataBase.GetEmployees(Convert.ToInt32(cmbYear.Text), (Month)cmbMonth.SelectedIndex + 1);
+        private async Task<List<PersonalAccountReport>> GetReportAsync(int year, Month month, CancellationToken token)
+        {
+            return await Task.Run(() => GetReport(year, month, token)).ConfigureAwait(false);
+        }
+
+        private List<PersonalAccountReport> GetReport(int year, Month month, CancellationToken token)
+        {
+            var employees = ReportSettings.readingDataBase.GetEmployeesAsync(year, month, token).Result;
 
             if (employees != null)
             {
-                var personalAccountReport = new PersonalAccountReport(employees);      
-                var report = personalAccountReport.GetPersonalAccountReport((Month)cmbMonth.SelectedIndex + 1);
-                dataGridView.DataSource = report;
+                var personalAccountReport = new PersonalAccountReport(employees);
+                PersonalAccountReports = personalAccountReport.GetPersonalAccountReport(month);
+                return PersonalAccountReports;
             }
+
+            return null;
         }
 
         private void BtnMenuItemExit_Click(object sender, EventArgs e)
@@ -68,7 +96,7 @@ namespace Report
 
         private void BtnMenuItemSettings_Click(object sender, EventArgs e)
         {
-            if (ReportSettings.readingDataBase == null || ReportSettings.readingDataBase.dbConnection.State != ConnectionState.Open)
+            if (ReportSettings.readingDataBase == null || ReportSettings.readingDataBase?.dbConnectionAsync?.State != ConnectionState.Open)
             {
                 MessageBox.Show("Для настройки установите соединение c базой данных.", "Установите соединение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 btnConnectParus.Focus();
@@ -94,25 +122,31 @@ namespace Report
             }
         }
 
-        private void BtnMenuItemImportExcel_Click(object sender, EventArgs e)
+        private async void BtnMenuItemImportExcel_Click(object sender, EventArgs e)
         {
-            dataGridView.SelectAll();
-            DataObject dataObj = dataGridView.GetClipboardContent();
-            if (dataObj != null)
+            try
             {
-                Clipboard.SetDataObject(dataObj);
+                var tokenSource = new CancellationTokenSource();
+                CancellationToken ct = tokenSource.Token;
+
+                dataGridView.SelectAll();
+                DataObject dataObj = dataGridView.GetClipboardContent();
+                if (dataObj != null)
+                {
+                    Clipboard.SetDataObject(dataObj);
+                }
+
+                await Task.Run(() => Export(ct)).ConfigureAwait(false);
             }
-
-            StartExport();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        private async void StartExport()
+        private void Export(CancellationToken token)
         {
-            await Task.Run(() => Export());
-        }
-
-        private void Export( )
-        {
+            token.ThrowIfCancellationRequested();
             if (dataGridView.DataSource == null)
             {
                 return;
@@ -140,11 +174,27 @@ namespace Report
             xlWorkSheet2.Activate();
             xlWorkSheet2.Cells[2, 1].Value = ReportSettings.settings.organization;
             xlWorkSheet2.Cells[2, 2].Value = ReportSettings.settings.inn;
-            xlWorkSheet2.Cells[2, 3].Value = ReportSettings.settings.region;           
+            xlWorkSheet2.Cells[2, 3].Value = ReportSettings.settings.region;
 
+            if (PersonalAccountReports != null && PersonalAccountReports.Count > 0)
+            {
+                var xlWorkSheet3 = (Worksheet)xlWorkBook.Worksheets[3];
+                xlWorkSheet3.Activate();
+
+                var personSubdivision = PersonalAccountReports.Select(a => a.Subdivision).GroupBy(g => g).ToList();
+
+                for (int i = 0; i < personSubdivision.Count; i++)
+                {
+                    xlWorkSheet3.Cells[i + 2, 1].Value = personSubdivision[i].Key;
+                    xlWorkSheet3.Cells[i + 2, 2].Value = ReportSettings.settings.organization;
+                    xlWorkSheet3.Cells[i + 2, 3].Value = ReportSettings.settings.inn;
+                    xlWorkSheet3.Cells[i + 2, 4].Value = ReportSettings.settings.region;
+                }
+            }            
+            
             var positions = (ReportSettings.settings == null || ReportSettings.settings.Positions == null || ReportSettings.settings.Positions.Count == 0) ? 
                 ReportSettings.readingDataBase?.Positions ?? null : 
-                ReportSettings.readingDataBase?.Positions?.Where(w => ReportSettings.settings.Positions.Contains(w.Mnemo)).ToList();
+                ReportSettings.readingDataBase?.Positions?.Where(w => ReportSettings.settings.Positions.Contains(w.Memo)).ToList();
 
             if (positions != null)
             {
@@ -153,7 +203,7 @@ namespace Report
 
                 for (int i = 0; i < positions.Count; i++)
                 {
-                    xlWorkSheet4.Cells[i + 2, 1].Value = positions[i].Mnemo;
+                    xlWorkSheet4.Cells[i + 2, 1].Value = positions[i].Memo;
                     xlWorkSheet4.Cells[i + 2, 2].Value = positions[i].Name;
                 }
             }
@@ -173,7 +223,7 @@ namespace Report
 
             ReportSettings.readingDataBase = new ReadingDataBase(path);
 
-            if (ReportSettings.readingDataBase.dbConnection.State == ConnectionState.Open)
+            if (ReportSettings.readingDataBase?.dbConnectionAsync?.State == ConnectionState.Open)
             {
                 toolStripStatusLabelBool.Text = "активно";
                 toolStripStatusLabelBool.ForeColor = Color.Green;
@@ -183,6 +233,12 @@ namespace Report
                 toolStripStatusLabelBool.Text = "неактивно";
                 toolStripStatusLabelBool.ForeColor = Color.DarkRed;
             }
+        }
+
+        private void btnMenuItemInfo_Click(object sender, EventArgs e)
+        {
+            var form = new FormInfo();
+            form.ShowDialog();
         }
     }
 }

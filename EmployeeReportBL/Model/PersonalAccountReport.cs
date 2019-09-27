@@ -280,6 +280,9 @@ namespace EmployeeReportBL.Model
         [DisplayName("Не отработанное время")]
         public decimal? PaymentUnWorkedTimeAndOtherPayments { get; set; }
 
+        [DisplayName("ФИО")]
+        public string Name { get; set; }
+
         public List<PersonalAccountReport> GetPersonalAccountReport(Month month)
         {
             var result = new List<PersonalAccountReport>();
@@ -303,8 +306,8 @@ namespace EmployeeReportBL.Model
             {
                 for (int i = 0; i < ReportSettings.settings.TypeOfCalculations.Count; i++)
                 {
-                    var employeeTypeOfCalculations = employee.Where(w => w.Accruals.Where(type => ReportSettings.settings.TypeOfCalculations[i] == type.TypeOfCalculation) != null).ToList();                    
-                    AddPersonalAccountReport(month, result, employeeTypeOfCalculations, ReportSettings.settings.TypeOfCalculations[i]);                    
+                    var employeeTypeOfCalculations = employee.Where(w => w.Accruals.Where(type => string.Compare(ReportSettings.settings.TypeOfCalculations[i], type.TypeOfCalculation, StringComparison.Ordinal) == 0) != null).ToList();
+                    AddPersonalAccountReport(month, result, employeeTypeOfCalculations, ReportSettings.settings.TypeOfCalculations[i]);
                 }
 
                 AddPersonalAccountReport(month, result, employee);
@@ -322,41 +325,42 @@ namespace EmployeeReportBL.Model
                     continue;
                 }
 
-                var accrual = (string.IsNullOrEmpty(typeOfCalculations) ? item.Accruals : item.Accruals.Where(w => w.TypeOfCalculation == typeOfCalculations).ToList());
+                var accrual = (string.IsNullOrEmpty(typeOfCalculations) ? item.Accruals : item.Accruals.Where(w => string.Compare(w.TypeOfCalculation, typeOfCalculations, StringComparison.Ordinal) == 0).ToList());
 
-                var officialSalary = accrual?.Where(w => w.Mnemo == ReportSettings.settings.OfficialSalary)?.Sum(s => s.Value);
-                var severePayments = accrual?.Where(w => w.Mnemo == ReportSettings.settings.SeverePayments)?.Sum(s => s.Value);
-                var districtCoefficient = accrual?.Where(w => w.Mnemo == ReportSettings.settings.DistrictCoefficient)?.Sum(s => s.Value);
-                var coefficientWorkDesertAndWaterlessAreas = accrual?.Where(w => w.Mnemo == ReportSettings.settings.CoefficientWorkDesertAndWaterlessAreas)?.Sum(s => s.Value);
-                var coefficientWorkHighMountainRegions = accrual?.Where(w => w.Mnemo == ReportSettings.settings.CoefficientWorkHighMountainRegions)?.Sum(s => s.Value);
-                var allowanceWorkExperienceNorthEquivalentAreas = accrual?.Where(w => w.Mnemo == ReportSettings.settings.AllowanceWorkExperienceNorthEquivalentAreas)?.Sum(s => s.Value);
-                var supplementCombiningProfessions = accrual?.Where(w => w.Mnemo == ReportSettings.settings.SupplementCombiningProfessions)?.Sum(s => s.Value);
-                var surchargeWorkRuralAreas = accrual?.Where(w => w.Mnemo == ReportSettings.settings.SurchargeWorkRuralAreas)?.Sum(s => s.Value);
-                var surchargeExpansionServiceAreas = accrual?.Where(w => w.Mnemo == ReportSettings.settings.SurchargeExpansionServiceAreas)?.Sum(s => s.Value);
-                var surchargeIncreasingAmountWork = accrual?.Where(w => w.Mnemo == ReportSettings.settings.SurchargeIncreasingAmountWork)?.Sum(s => s.Value);
-                var supplementPerformanceDutiesTemporarilyAbsentEmployee = accrual?.Where(w => w.Mnemo == ReportSettings.settings.SupplementPerformanceDutiesTemporarilyAbsentEmployee)?.Sum(s => s.Value);
-                var surchargePerformanceWorkVariousQualifications = accrual?.Where(w => w.Mnemo == ReportSettings.settings.SurchargePerformanceWorkVariousQualifications)?.Sum(s => s.Value);
-                var weekendAndHolidaysWorkSupplement = accrual?.Where(w => w.Mnemo == ReportSettings.settings.WeekendAndHolidaysWorkSupplement)?.Sum(s => s.Value);
-                var surchargeNightWork = accrual?.Where(w => w.Mnemo == ReportSettings.settings.SurchargeNightWork)?.Sum(s => s.Value);
-                var allowanceWorkInformationConstituting = accrual?.Where(w => w.Mnemo == ReportSettings.settings.AllowanceWorkInformationConstituting)?.Sum(s => s.Value);
-                var otherCompensatoryPayments = accrual?.Where(w => w.Mnemo == ReportSettings.settings.OtherCompensatoryPayments)?.Sum(s => s.Value);
-                var laborAllowance = accrual?.Where(w => w.Mnemo == ReportSettings.settings.LaborAllowance)?.Sum(s => s.Value);
-                var performanceAward = accrual?.Where(w => w.Mnemo == ReportSettings.settings.PerformanceAward)?.Sum(s => s.Value);
-                var awardPerformanceParticularlyImportantResponsibleWork = accrual?.Where(w => w.Mnemo == ReportSettings.settings.AwardPerformanceParticularlyImportantResponsibleWork)?.Sum(s => s.Value);
-                var qualificationAllowance = accrual?.Where(w => w.Mnemo == ReportSettings.settings.QualificationAllowance)?.Sum(s => s.Value);
-                var premiumExemplaryPerformanceStateAssignment = accrual?.Where(w => w.Mnemo == ReportSettings.settings.PremiumExemplaryPerformanceStateAssignment)?.Sum(s => s.Value);
-                var organizationServiceBonus = accrual?.Where(w => w.Mnemo == ReportSettings.settings.OrganizationServiceBonus)?.Sum(s => s.Value);
-                var allowanceContinuousWorkExperience = accrual?.Where(w => w.Mnemo == ReportSettings.settings.AllowanceContinuousWorkExperience)?.Sum(s => s.Value);
-                var monthlyPerformanceBonus = accrual?.Where(w => w.Mnemo == ReportSettings.settings.MonthlyPerformanceBonus)?.Sum(s => s.Value);
-                var quarterlyPerformanceBonus = accrual?.Where(w => w.Mnemo == ReportSettings.settings.QuarterlyPerformanceBonus)?.Sum(s => s.Value);
-                var annualPerformanceBonus = accrual?.Where(w => w.Mnemo == ReportSettings.settings.AnnualPerformanceBonus)?.Sum(s => s.Value);
-                var premiumYoungSpecialist = accrual?.Where(w => w.Mnemo == ReportSettings.settings.PremiumYoungSpecialist)?.Sum(s => s.Value);
-                var honoraryBonus = accrual?.Where(w => w.Mnemo == ReportSettings.settings.HonoraryBonus)?.Sum(s => s.Value);
-                var graduateBonus = accrual?.Where(w => w.Mnemo == ReportSettings.settings.GraduateBonus)?.Sum(s => s.Value);
-                var surchargeWorkRuralAreas2 = accrual?.Where(w => w.Mnemo == ReportSettings.settings.SurchargeWorkRuralAreas)?.Sum(s => s.Value);
-                var allowanceForPrecinct = accrual?.Where(w => w.Mnemo == ReportSettings.settings.AllowanceForPrecinct)?.Sum(s => s.Value);
-                var otherIncentivePayments = accrual?.Where(w => ReportSettings.settings.OtherIncentivePayments.Contains(w.Mnemo))?.Sum(s => s.Value);
-                var paymentUnWorkedTimeAndOtherPayments = accrual?.Where(w => w.Mnemo == ReportSettings.settings.PaymentUnWorkedTimeAndOtherPayments)?.Sum(s => s.Value);
+                var officialSalary = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.OfficialSalary, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var severePayments = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.SeverePayments, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var districtCoefficient = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.DistrictCoefficient, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var coefficientWorkDesertAndWaterlessAreas = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.CoefficientWorkDesertAndWaterlessAreas, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var coefficientWorkHighMountainRegions = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.CoefficientWorkHighMountainRegions, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var allowanceWorkExperienceNorthEquivalentAreas = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.AllowanceWorkExperienceNorthEquivalentAreas, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var supplementCombiningProfessions = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.SupplementCombiningProfessions, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var surchargeWorkRuralAreas = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.SurchargeWorkRuralAreas, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var surchargeExpansionServiceAreas = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.SurchargeExpansionServiceAreas, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var surchargeIncreasingAmountWork = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.SurchargeIncreasingAmountWork, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var supplementPerformanceDutiesTemporarilyAbsentEmployee = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.SupplementPerformanceDutiesTemporarilyAbsentEmployee, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var surchargePerformanceWorkVariousQualifications = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.SurchargePerformanceWorkVariousQualifications, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var weekendAndHolidaysWorkSupplement = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.WeekendAndHolidaysWorkSupplement, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var surchargeNightWork = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.SurchargeNightWork, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var allowanceWorkInformationConstituting = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.AllowanceWorkInformationConstituting, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var otherCompensatoryPayments = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.OtherCompensatoryPayments, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var laborAllowance = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.LaborAllowance, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var performanceAward = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.PerformanceAward, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var awardPerformanceParticularlyImportantResponsibleWork = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.AwardPerformanceParticularlyImportantResponsibleWork, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var qualificationAllowance = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.QualificationAllowance, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var premiumExemplaryPerformanceStateAssignment = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.PremiumExemplaryPerformanceStateAssignment, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var organizationServiceBonus = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.OrganizationServiceBonus, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var allowanceContinuousWorkExperience = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.AllowanceContinuousWorkExperience, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var monthlyPerformanceBonus = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.MonthlyPerformanceBonus, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var quarterlyPerformanceBonus = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.QuarterlyPerformanceBonus, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var annualPerformanceBonus = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.AnnualPerformanceBonus, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var premiumYoungSpecialist = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.PremiumYoungSpecialist, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var honoraryBonus = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.HonoraryBonus, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var graduateBonus = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.GraduateBonus, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var surchargeWorkRuralAreas2 = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.SurchargeWorkRuralAreas, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var allowanceForPrecinct = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.AllowanceForPrecinct, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var otherIncentivePayments = accrual?.Where(w => ReportSettings.settings.OtherIncentivePayments.Contains(w.Memo))?.Sum(s => s.Value);
+                var paymentUnWorkedTimeAndOtherPayments = accrual?.Where(w => string.Compare(w.Memo, ReportSettings.settings.PaymentUnWorkedTimeAndOtherPayments, StringComparison.Ordinal) == 0)?.Sum(s => s.Value);
+                var name = $"{item.Name} {item.Surname} {item.Patronymic}";
 
                 result.Add(new PersonalAccountReport()
                 {
@@ -402,12 +406,13 @@ namespace EmployeeReportBL.Model
                     SurchargeWorkRuralAreas2 = surchargeWorkRuralAreas2 == 0 ? null : surchargeWorkRuralAreas2,
                     AllowanceForPrecinct = allowanceForPrecinct == 0 ? null : allowanceForPrecinct,
                     OtherIncentivePayments = otherIncentivePayments == 0 ? null : otherIncentivePayments,
-                    PaymentUnWorkedTimeAndOtherPayments = paymentUnWorkedTimeAndOtherPayments == 0 ? null : paymentUnWorkedTimeAndOtherPayments
+                    PaymentUnWorkedTimeAndOtherPayments = paymentUnWorkedTimeAndOtherPayments == 0 ? null : paymentUnWorkedTimeAndOtherPayments,
+                    Name = name
                 });
 
                 if (!string.IsNullOrEmpty(typeOfCalculations))
                 {
-                    item.Accruals.RemoveAll(r => r.TypeOfCalculation == typeOfCalculations);
+                    item.Accruals.RemoveAll(r => string.Compare(r.TypeOfCalculation, typeOfCalculations, StringComparison.Ordinal) == 0);
                 }
             }
         }

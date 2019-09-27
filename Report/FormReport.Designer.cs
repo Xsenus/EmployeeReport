@@ -51,7 +51,7 @@
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMenuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.информацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.информацияОПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnMenuItemInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.panelConnect.SuspendLayout();
@@ -260,23 +260,24 @@
             // btnMenuItemSettings
             // 
             this.btnMenuItemSettings.Name = "btnMenuItemSettings";
-            this.btnMenuItemSettings.Size = new System.Drawing.Size(138, 22);
+            this.btnMenuItemSettings.Size = new System.Drawing.Size(180, 22);
             this.btnMenuItemSettings.Text = "Параметры";
             this.btnMenuItemSettings.Click += new System.EventHandler(this.BtnMenuItemSettings_Click);
             // 
             // информацияToolStripMenuItem
             // 
             this.информацияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.информацияОПрограммеToolStripMenuItem});
+            this.btnMenuItemInfo});
             this.информацияToolStripMenuItem.Name = "информацияToolStripMenuItem";
             this.информацияToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.информацияToolStripMenuItem.Text = "Справка";
             // 
-            // информацияОПрограммеToolStripMenuItem
+            // btnMenuItemInfo
             // 
-            this.информацияОПрограммеToolStripMenuItem.Name = "информацияОПрограммеToolStripMenuItem";
-            this.информацияОПрограммеToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.информацияОПрограммеToolStripMenuItem.Text = "Информация о программе";
+            this.btnMenuItemInfo.Name = "btnMenuItemInfo";
+            this.btnMenuItemInfo.Size = new System.Drawing.Size(224, 22);
+            this.btnMenuItemInfo.Text = "Информация о программе";
+            this.btnMenuItemInfo.Click += new System.EventHandler(this.btnMenuItemInfo_Click);
             // 
             // menuStrip1
             // 
@@ -305,7 +306,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormReport";
-            this.Text = "Отчет по сотдуникам";
+            this.Text = "Мониторинг оплаты труда медработников";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.panelConnect.ResumeLayout(false);
             this.panelConnect.PerformLayout();
@@ -345,7 +346,7 @@
         private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem btnMenuItemSettings;
         private System.Windows.Forms.ToolStripMenuItem информацияToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem информацияОПрограммеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem btnMenuItemInfo;
         private System.Windows.Forms.MenuStrip menuStrip1;
     }
 }

@@ -22,7 +22,7 @@ namespace EmployeeReportBL.Model
         /// Мнемокод должности.
         /// </summary>
         [DisplayName("Мнемокод")]
-        public string Mnemo { get; set; }
+        public string Memo { get; set; }
 
         /// <summary>
         /// Наименование должности.
@@ -32,7 +32,7 @@ namespace EmployeeReportBL.Model
 
         public override string ToString()
         {
-            return Mnemo;
+            return Memo;
         }
     }
 }

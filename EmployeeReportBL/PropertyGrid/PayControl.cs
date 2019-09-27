@@ -5,7 +5,7 @@ using System.Windows.Forms.Design;
 namespace EmployeeReportBL.PropertyGrid
 {
     public partial class PayControl : UserControl
-   {
+    {
         private bool firstLoading = true;
 
         public PayControl()
@@ -50,5 +50,5 @@ namespace EmployeeReportBL.PropertyGrid
         {
             ((IWindowsFormsEditorService)Tag).CloseDropDown();
         }
-   }
+    }
 }

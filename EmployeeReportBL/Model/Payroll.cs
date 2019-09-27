@@ -7,12 +7,12 @@ namespace EmployeeReportBL.Model
         /// <summary>
         /// Уникальный идентификатор лицевого счета.
         /// </summary>
-        public string FcacRn { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Мнемокод.
         /// </summary>
-        public string Mnemo { get; set; }
+        public string Memo { get; set; }
 
         /// <summary>
         /// Значение.

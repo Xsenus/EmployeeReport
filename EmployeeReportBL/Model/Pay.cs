@@ -19,7 +19,7 @@ namespace EmployeeReportBL.Model
         /// <summary>
         /// Мнемокод.
         /// </summary>
-        public string Mnemo { get; set; }
+        public string Memo { get; set; }
 
         /// <summary>
         /// Наименование.
@@ -33,7 +33,7 @@ namespace EmployeeReportBL.Model
 
         public override string ToString()
         {
-            return Mnemo;
+            return Memo;
         }
     }
 }
