@@ -334,8 +334,7 @@ namespace EmployeeReportBL
                                 Snails = snails,
                                 Position = position,
                                 TypePersonalAccount = typePersonalAccount,
-                                SourceOfFinancing = sourceOfFinancing,
-                                Payroll = GetPayrollAsync(rn, dateSince, ReportSettings.settings.OfficialSalary, token).Result
+                                SourceOfFinancing = sourceOfFinancing
                             };
 
                             employee.Accruals = new List<Accrual>();
@@ -350,6 +349,7 @@ namespace EmployeeReportBL
             }
 
             LoadData?.Invoke(this, new Tuple<string, int, bool>(string.Empty, 0, false));
+
             return result;
         }
 

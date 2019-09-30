@@ -45,16 +45,15 @@ namespace EmployeeReportBL.PropertyGrid
             this.checkedListPay.Location = new System.Drawing.Point(0, 0);
             this.checkedListPay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkedListPay.Name = "checkedListPay";
-            this.checkedListPay.Size = new System.Drawing.Size(150, 170);
+            this.checkedListPay.Size = new System.Drawing.Size(250, 170);
             this.checkedListPay.Sorted = true;
             this.checkedListPay.TabIndex = 0;
-            this.checkedListPay.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListPay_ItemCheck);
             // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnOK.Location = new System.Drawing.Point(91, 172);
+            this.btnOK.Location = new System.Drawing.Point(191, 172);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(54, 23);
             this.btnOK.TabIndex = 1;
@@ -72,7 +71,7 @@ namespace EmployeeReportBL.PropertyGrid
             this.Font = new System.Drawing.Font("Tahoma", 8.830189F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PayControl";
-            this.Size = new System.Drawing.Size(150, 200);
+            this.Size = new System.Drawing.Size(250, 200);
             this.ResumeLayout(false);
 
       }

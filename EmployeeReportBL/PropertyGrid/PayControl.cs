@@ -6,45 +6,67 @@ namespace EmployeeReportBL.PropertyGrid
 {
     public partial class PayControl : UserControl
     {
-        private bool firstLoading = true;
+        public PayList List { get; set; }
 
-        public PayControl()
+        public PayControl(PayList list)
         {
             InitializeComponent();
+
+            List = list ?? new PayList();
 
             if (ReportSettings.readingDataBase != null)
             {
                 checkedListPay.Items.AddRange(ReportSettings.readingDataBase.Pays.ToArray());
-
-                if (ReportSettings.settings.OtherIncentivePayments != null)
-                {
-                    for (int i = 0; i < checkedListPay.Items.Count; i++)
-                    {
-                        if (ReportSettings.settings.OtherIncentivePayments.Contains(checkedListPay.Items[i].ToString()))
-                        {
-                            checkedListPay.SetItemChecked(i, true);
-                        }
-                    }
-                }
             }
 
-            firstLoading = false;
-        }
-
-        private void checkedListPay_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (firstLoading == false)
+            foreach (var pay in List.PayLists)
             {
-                if (e.NewValue == CheckState.Checked)
-                {
-                    ReportSettings.settings.OtherIncentivePayments.Add(checkedListPay.Items[e.Index].ToString());
-                }
-                else
-                {
-                    ReportSettings.settings.OtherIncentivePayments.Remove(checkedListPay.Items[e.Index].ToString());
-                }
+                CheckPay(pay);
             }
         }
+
+        public PayList PayList
+        {
+            get
+            {
+                List.PayLists.Clear();
+                foreach (object it in checkedListPay.CheckedItems)
+                {
+                    List.PayLists.Add(it.ToString());
+                }
+                return List;
+            }
+            set { List = value; }
+        }
+
+        private void CheckPay(string pay)
+        {
+            int i = 0;
+            foreach (object it in checkedListPay.Items)
+            {
+                if (pay == it.ToString())
+                {
+                    checkedListPay.SetItemChecked(i, true);
+                    return;
+                }
+                i++;
+            }
+        }
+
+        //private void checkedListPay_ItemCheck(object sender, ItemCheckEventArgs e)
+        //{
+        //    if (firstLoading == false)
+        //    {
+        //        if (e.NewValue == CheckState.Checked)
+        //        {
+        //            ReportSettings.settings.OtherIncentivePayments.Add(checkedListPay.Items[e.Index].ToString());
+        //        }
+        //        else
+        //        {
+        //            ReportSettings.settings.OtherIncentivePayments.Remove(checkedListPay.Items[e.Index].ToString());
+        //        }
+        //    }
+        //}
 
         private void btnOK_Click(object sender, EventArgs e)
         {

@@ -53,6 +53,7 @@
     <Compile Include="PropertyGrid\PayControl.designer.cs">
       <DependentUpon>PayControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="PropertyGrid\PayList.cs" />
     <Compile Include="PropertyGrid\PaysDropDownEditor.cs" />
     <Compile Include="PropertyGrid\PayConverter.cs" />
     <Compile Include="Model\Position.cs" />

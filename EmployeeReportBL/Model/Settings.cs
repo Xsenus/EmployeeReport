@@ -46,8 +46,8 @@ namespace EmployeeReportBL.Model
         [DisplayName("Должностной оклад")]
         [Description("Должностной оклад.")]
         [PropertySorter.PropertyOrder(1)]
-        [TypeConverter(typeof(PayConverter))]
-        public string OfficialSalary { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList OfficialSalary { get; set; } = new PayList();
 
         /// <summary>
         /// Выплаты работникам, занятым на тяжелых работах, работах с вредными и (или) опасными и иными особыми условиями труда.
@@ -55,8 +55,8 @@ namespace EmployeeReportBL.Model
         [DisplayName("Тяжелые и вредные условия")]
         [Description("Выплаты работникам, занятым на тяжелых работах, работах с вредными и (или) опасными и иными особыми условиями труда.")]
         [PropertySorter.PropertyOrder(10)]
-        [TypeConverter(typeof(PayConverter))]
-        public string SeverePayments { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList SeverePayments { get; set; } = new PayList();
 
         /// <summary>
         /// Районный коэффициент.
@@ -65,8 +65,8 @@ namespace EmployeeReportBL.Model
         [Description("Районный коэффициент.")]
         [PropertySorter.PropertyOrder(20)]
         [Category("Выплаты за работу в местностях с особыми климатическими условиями")]
-        [TypeConverter(typeof(PayConverter))]
-        public string DistrictCoefficient { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList DistrictCoefficient { get; set; } = new PayList();
 
         /// <summary>
         /// Коэффициент за работу в пустынных и безводных местностях.
@@ -75,8 +75,8 @@ namespace EmployeeReportBL.Model
         [Description("Коэффициент за работу в пустынных и безводных местностях.")]
         [PropertySorter.PropertyOrder(30)]
         [Category("Выплаты за работу в местностях с особыми климатическими условиями")]
-        [TypeConverter(typeof(PayConverter))]
-        public string CoefficientWorkDesertAndWaterlessAreas { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList CoefficientWorkDesertAndWaterlessAreas { get; set; } = new PayList();
 
         /// <summary>
         /// Коэффициент за работу в высокогорных районах.
@@ -85,8 +85,8 @@ namespace EmployeeReportBL.Model
         [Description("Коэффициент за работу в высокогорных районах.")]
         [PropertySorter.PropertyOrder(40)]
         [Category("Выплаты за работу в местностях с особыми климатическими условиями")]
-        [TypeConverter(typeof(PayConverter))]
-        public string CoefficientWorkHighMountainRegions { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList CoefficientWorkHighMountainRegions { get; set; } = new PayList();
 
         /// <summary>
         /// Надбавка за стаж работы в районах Крайнего Севера и приравненных к ним местностях.
@@ -95,8 +95,8 @@ namespace EmployeeReportBL.Model
         [Description("Надбавка за стаж работы в районах Крайнего Севера и приравненных к ним местностях.")]
         [PropertySorter.PropertyOrder(50)]
         [Category("Выплаты за работу в местностях с особыми климатическими условиями")]
-        [TypeConverter(typeof(PayConverter))]
-        public string AllowanceWorkExperienceNorthEquivalentAreas { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList AllowanceWorkExperienceNorthEquivalentAreas { get; set; } = new PayList();
 
         /// <summary>
         /// Доплата за совмещение профессий (должностей).
@@ -105,8 +105,8 @@ namespace EmployeeReportBL.Model
         [Description("Доплата за совмещение профессий (должностей).")]
         [PropertySorter.PropertyOrder(60)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
-        [TypeConverter(typeof(PayConverter))]
-        public string SupplementCombiningProfessions { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList SupplementCombiningProfessions { get; set; } = new PayList();
 
         /// <summary>
         /// Доплата за работу в сельской местности.
@@ -115,8 +115,8 @@ namespace EmployeeReportBL.Model
         [Description("Доплата за работу в сельской местности.")]
         [PropertySorter.PropertyOrder(70)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
-        [TypeConverter(typeof(PayConverter))]
-        public string SurchargeWorkRuralAreas { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList SurchargeWorkRuralAreas { get; set; } = new PayList();
 
         /// <summary>
         /// Доплата за расширение зон обслуживания.
@@ -125,8 +125,8 @@ namespace EmployeeReportBL.Model
         [Description("Доплата за расширение зон обслуживания.")]
         [PropertySorter.PropertyOrder(80)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
-        [TypeConverter(typeof(PayConverter))]
-        public string SurchargeExpansionServiceAreas { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList SurchargeExpansionServiceAreas { get; set; } = new PayList();
 
         /// <summary>
         /// Доплата за увеличение объема работы.
@@ -135,8 +135,8 @@ namespace EmployeeReportBL.Model
         [Description("Доплата за увеличение объема работы.")]
         [PropertySorter.PropertyOrder(90)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
-        [TypeConverter(typeof(PayConverter))]
-        public string SurchargeIncreasingAmountWork { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList SurchargeIncreasingAmountWork { get; set; } = new PayList();
 
         /// <summary>
         /// Доплата за исполнение обязанностей временно отсутствующего работника без освобождения от работы.
@@ -145,8 +145,8 @@ namespace EmployeeReportBL.Model
         [Description("Доплата за исполнение обязанностей временно отсутствующего работника без освобождения от работы.")]
         [PropertySorter.PropertyOrder(100)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
-        [TypeConverter(typeof(PayConverter))]
-        public string SupplementPerformanceDutiesTemporarilyAbsentEmployee { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList SupplementPerformanceDutiesTemporarilyAbsentEmployee { get; set; } = new PayList();
 
         /// <summary>
         /// Доплата за выполнение работ различной квалификации.
@@ -155,8 +155,8 @@ namespace EmployeeReportBL.Model
         [Description("Доплата за выполнение работ различной квалификации.")]
         [PropertySorter.PropertyOrder(110)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
-        [TypeConverter(typeof(PayConverter))]
-        public string SurchargePerformanceWorkVariousQualifications { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList SurchargePerformanceWorkVariousQualifications { get; set; } = new PayList();
 
         /// <summary>
         /// Доплата за работу в выходные и праздничные дни.
@@ -165,8 +165,8 @@ namespace EmployeeReportBL.Model
         [Description("Доплата за работу в выходные и праздничные дни.")]
         [PropertySorter.PropertyOrder(120)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
-        [TypeConverter(typeof(PayConverter))]
-        public string WeekendAndHolidaysWorkSupplement { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList WeekendAndHolidaysWorkSupplement { get; set; } = new PayList();
 
         /// <summary>
         /// Доплата за работу в ночное время.
@@ -175,8 +175,8 @@ namespace EmployeeReportBL.Model
         [Description("Доплата за работу в ночное время.")]
         [PropertySorter.PropertyOrder(130)]
         [Category("Выплаты за работу в условиях, отклоняющихся от нормальных")]
-        [TypeConverter(typeof(PayConverter))]
-        public string SurchargeNightWork { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList SurchargeNightWork { get; set; } = new PayList();
 
         /// <summary>
         /// Надбавка за работу со сведениями, составляющими государственную тайну, их засекречиванием и рассекречиванием, а также за работу с шифрами.
@@ -184,8 +184,8 @@ namespace EmployeeReportBL.Model
         [DisplayName("Государственная тайна")]
         [Description("Надбавка за работу со сведениями, составляющими государственную тайну, их засекречиванием и рассекречиванием, а также за работу с шифрами.")]
         [PropertySorter.PropertyOrder(140)]
-        [TypeConverter(typeof(PayConverter))]
-        public string AllowanceWorkInformationConstituting { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList AllowanceWorkInformationConstituting { get; set; } = new PayList();
 
         /// <summary>
         /// Иные выплаты компенсационного характера.
@@ -193,8 +193,8 @@ namespace EmployeeReportBL.Model
         [DisplayName("Компенсации")]
         [Description("Иные выплаты компенсационного характера.")]
         [PropertySorter.PropertyOrder(150)]
-        [TypeConverter(typeof(PayConverter))]
-        public string OtherCompensatoryPayments { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList OtherCompensatoryPayments { get; set; } = new PayList();
 
         /// <summary>
         /// Надбавка за интенсивность труда.
@@ -203,8 +203,8 @@ namespace EmployeeReportBL.Model
         [Description("Надбавка за интенсивность труда.")]
         [PropertySorter.PropertyOrder(160)]
         [Category("Интенсивность и высокие результаты работы")]
-        [TypeConverter(typeof(PayConverter))]
-        public string LaborAllowance { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList LaborAllowance { get; set; } = new PayList();
 
         /// <summary>
         /// Премия за высокие результаты работы.
@@ -213,8 +213,8 @@ namespace EmployeeReportBL.Model
         [Description("Премия за высокие результаты работы.")]
         [PropertySorter.PropertyOrder(170)]
         [Category("Интенсивность и высокие результаты работы")]
-        [TypeConverter(typeof(PayConverter))]
-        public string PerformanceAward { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList PerformanceAward { get; set; } = new PayList();
 
         /// <summary>
         /// Премия за выполнение особо важных и ответственных работ.
@@ -223,8 +223,8 @@ namespace EmployeeReportBL.Model
         [Description("Премия за выполнение особо важных и ответственных работ.")]
         [PropertySorter.PropertyOrder(180)]
         [Category("Интенсивность и высокие результаты работы")]
-        [TypeConverter(typeof(PayConverter))]
-        public string AwardPerformanceParticularlyImportantResponsibleWork { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList AwardPerformanceParticularlyImportantResponsibleWork { get; set; } = new PayList();
 
         /// <summary>
         /// Надбавка за наличие квалификационной категории.
@@ -233,8 +233,8 @@ namespace EmployeeReportBL.Model
         [Description("Надбавка за наличие квалификационной категории.")]
         [PropertySorter.PropertyOrder(190)]
         [Category("Качество выполняемых работ")]
-        [TypeConverter(typeof(PayConverter))]
-        public string QualificationAllowance { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList QualificationAllowance { get; set; } = new PayList();
 
         /// <summary>
         /// Премия за образцовое выполнение государственного (муниципального) задания.
@@ -243,8 +243,8 @@ namespace EmployeeReportBL.Model
         [Description("Премия за образцовое выполнение государственного (муниципального) задания.")]
         [PropertySorter.PropertyOrder(200)]
         [Category("Качество выполняемых работ")]
-        [TypeConverter(typeof(PayConverter))]
-        public string PremiumExemplaryPerformanceStateAssignment { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList PremiumExemplaryPerformanceStateAssignment { get; set; } = new PayList();
 
         /// <summary>
         /// Надбавка за выслугу лет в организации.
@@ -253,8 +253,8 @@ namespace EmployeeReportBL.Model
         [Description("Надбавка за выслугу лет в организации.")]
         [PropertySorter.PropertyOrder(210)]
         [Category("Выплаты за стаж работы, выслугу лет")]
-        [TypeConverter(typeof(PayConverter))]
-        public string OrganizationServiceBonus { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList OrganizationServiceBonus { get; set; } = new PayList();
 
         /// <summary>
         /// Надбавка за стаж непрерывной работы (медицинский стаж).
@@ -263,8 +263,8 @@ namespace EmployeeReportBL.Model
         [Description("Надбавка за стаж непрерывной работы (медицинский стаж).")]
         [PropertySorter.PropertyOrder(220)]
         [Category("Выплаты за стаж работы, выслугу лет")]
-        [TypeConverter(typeof(PayConverter))]
-        public string AllowanceContinuousWorkExperience { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList AllowanceContinuousWorkExperience { get; set; } = new PayList();
 
         /// <summary>
         /// Премия по итогам работы за месяц.
@@ -273,8 +273,8 @@ namespace EmployeeReportBL.Model
         [Description("Премия по итогам работы за месяц.")]
         [PropertySorter.PropertyOrder(230)]
         [Category("Премиальные выплаты по итогам работы")]
-        [TypeConverter(typeof(PayConverter))]
-        public string MonthlyPerformanceBonus { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList MonthlyPerformanceBonus { get; set; } = new PayList();
 
         /// <summary>
         /// Премия по итогам работы за квартал.
@@ -283,8 +283,8 @@ namespace EmployeeReportBL.Model
         [Description("Премия по итогам работы за квартал.")]
         [PropertySorter.PropertyOrder(240)]
         [Category("Премиальные выплаты по итогам работы")]
-        [TypeConverter(typeof(PayConverter))]
-        public string QuarterlyPerformanceBonus { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList QuarterlyPerformanceBonus { get; set; } = new PayList();
 
         /// <summary>
         /// Премия по итогам работы за год.
@@ -293,8 +293,8 @@ namespace EmployeeReportBL.Model
         [Description("Премия по итогам работы за год.")]
         [PropertySorter.PropertyOrder(250)]
         [Category("Премиальные выплаты по итогам работы")]
-        [TypeConverter(typeof(PayConverter))]
-        public string AnnualPerformanceBonus { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList AnnualPerformanceBonus { get; set; } = new PayList();
 
         /// <summary>
         /// Надбавка молодому специалисту.
@@ -302,8 +302,8 @@ namespace EmployeeReportBL.Model
         [DisplayName("Молодой специалист")]
         [Description("Надбавка молодому специалисту.")]
         [PropertySorter.PropertyOrder(260)]
-        [TypeConverter(typeof(PayConverter))]
-        public string PremiumYoungSpecialist { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList PremiumYoungSpecialist { get; set; } = new PayList();
 
         /// <summary>
         /// Надбавка за почётное звание.
@@ -311,8 +311,8 @@ namespace EmployeeReportBL.Model
         [DisplayName("Почетное звание")]
         [Description("Надбавка за почётное звание.")]
         [PropertySorter.PropertyOrder(270)]
-        [TypeConverter(typeof(PayConverter))]
-        public string HonoraryBonus { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList HonoraryBonus { get; set; } = new PayList();
 
         /// <summary>
         /// Надбавка за наличие учёной степени.
@@ -320,8 +320,8 @@ namespace EmployeeReportBL.Model
         [DisplayName("Ученая степень")]
         [Description("Надбавка за наличие учёной степени.")]
         [PropertySorter.PropertyOrder(280)]
-        [TypeConverter(typeof(PayConverter))]
-        public string GraduateBonus { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList GraduateBonus { get; set; } = new PayList();
 
         // TODO: Такая выплата есть выше. Чем различаются?
         //public string SurchargeWorkRuralAreas { get; set; }
@@ -332,8 +332,8 @@ namespace EmployeeReportBL.Model
         [DisplayName("Надбавка за [Участковость]")]
         [Description("Надбавка за [Участковость].")]
         [PropertySorter.PropertyOrder(290)]
-        [TypeConverter(typeof(PayConverter))]
-        public string AllowanceForPrecinct { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList AllowanceForPrecinct { get; set; } = new PayList();
 
         /// <summary>
         /// Иные выплаты стимулирующего характера.
@@ -342,7 +342,7 @@ namespace EmployeeReportBL.Model
         [Description("Иные выплаты стимулирующего характера.")]
         [PropertySorter.PropertyOrder(300)]
         [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
-        public List<string> OtherIncentivePayments { get; set; } = new List<string>();
+        public PayList OtherIncentivePayments { get; set; } = new PayList();
 
         /// <summary>
         /// Оплата за не отработанное время, единовременные поощрительные и другие выплаты, оплата питания и проживания, имеющая систематический характер 
@@ -351,7 +351,7 @@ namespace EmployeeReportBL.Model
         [DisplayName("Не отработанное время")]
         [Description("Оплата за не отработанное время, единовременные поощрительные и другие выплаты, оплата питания и проживания, имеющая систематический характер в соответствии с пунктами 84.2.,84.3,84.4 приказа федеральной службы государственной статистики от 22.11.2017 №772.")]
         [PropertySorter.PropertyOrder(310)]
-        [TypeConverter(typeof(PayConverter))]
-        public string PaymentUnWorkedTimeAndOtherPayments { get; set; }
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList PaymentUnWorkedTimeAndOtherPayments { get; set; } = new PayList();
     }
 }

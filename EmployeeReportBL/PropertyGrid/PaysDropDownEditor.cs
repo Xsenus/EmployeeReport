@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
@@ -19,13 +20,17 @@ namespace EmployeeReportBL.PropertyGrid
 
                 if (svc != null)
                 {
-                    var payControl = new PayControl();
-                    //ipTextBox.Text = value.ToString();
-                    payControl.Tag = svc;
+                    //var payControl = new PayControl<List<string>>();
+                    //payControl.Tag = svc;
+                    //svc.DropDownControl(payControl);
 
-                    svc.DropDownControl(payControl);
+                    //value = ReportSettings.settings.OtherIncentivePayments;
 
-                    value = ReportSettings.settings.OtherIncentivePayments;
+                    var payList = new PayControl((PayList)value);
+                    payList.Tag = svc;
+                    svc.DropDownControl(payList);
+
+                    value = payList.PayList;
                 }
             }
 
