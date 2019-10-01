@@ -37,6 +37,11 @@ namespace EmployeeReportBL
         /// </summary>
         public List<string> TypeOfCalculations { get; set; }
 
+        /// <summary>
+        /// Список типов рабочего дня.
+        /// </summary>
+        public List<TypeOfDay> TypeOfDays { get; set; }
+
         public event EventHandler<Tuple<string, int, bool>> LoadData;
         public event EventHandler<int> ReaderEvent;
 
@@ -67,6 +72,7 @@ namespace EmployeeReportBL
                 Payrolls = GetPayrollsAsync(dbConnectionAsync, ct).Result;
                 Pays = GetPayAsync(dbConnectionAsync, ct).Result;
                 Positions = GetPositionAsync(dbConnectionAsync, ct).Result;
+                TypeOfDays = GetTypesOfDaysAsync(dbConnectionAsync, ct).Result;
             }
         }
 
@@ -334,7 +340,9 @@ namespace EmployeeReportBL
                                 Snails = snails,
                                 Position = position,
                                 TypePersonalAccount = typePersonalAccount,
-                                SourceOfFinancing = sourceOfFinancing
+                                SourceOfFinancing = sourceOfFinancing,
+                                WorkingTime = GetWorkingTime(rn, year, month, token).Result,
+                                ActualHoursWorked = GetActualHoursWorked(rn, year, month, token).Result
                             };
 
                             employee.Accruals = new List<Accrual>();
@@ -351,6 +359,80 @@ namespace EmployeeReportBL
             LoadData?.Invoke(this, new Tuple<string, int, bool>(string.Empty, 0, false));
 
             return result;
+        }
+
+        /// <summary>
+        /// Получение фактически отработанного рабочего времени.
+        /// </summary>
+        private async Task<decimal?> GetActualHoursWorked(string fcacRn, int year, Month month, CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+
+            var dateSince = new DateTime(year, (int)month, 1);
+            var dateTo = dateSince.AddMonths(1).AddDays(-1);
+
+            var starDate = $"DATE({dateSince.Year}, {dateSince.Month}, {dateSince.Day})";
+            var endDate = $"DATE({dateTo.Year}, {dateTo.Month}, {dateTo.Day})";
+
+            var result = 0.00;
+
+            foreach (var item in ReportSettings.settings.TypeOfDays)
+            {
+                var sql = $"SELECT SUM(hourqnt) AS ssum FROM zfcacwth " +
+                    $"WHERE fcac_rn = '{fcacRn}' AND hrtype_rn = '{item.Substring(0, 4)}' AND date >= {starDate} AND date <= {endDate} " +
+                    $"AND date NOT IN (SELECT date FROM zfcacwtd WHERE fcac_rn = '{fcacRn}' AND date >= {starDate} AND date <= {endDate}) AND NOT DELETED()";
+
+                using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = dbConnectionAsync })
+                {
+                    var execute = await cmd.ExecuteScalarAsync();
+
+                    if (execute == DBNull.Value)
+                    {
+                        continue;
+                    }
+
+                    result = result + Convert.ToDouble(execute);
+                }
+            }
+
+            if (result == 0)
+            {
+                return default;
+            }
+
+            return Convert.ToDecimal(result);
+        }
+
+        /// <summary>
+        /// Получение нормы рабочего времени.
+        /// </summary>
+        private async Task<decimal?> GetWorkingTime(string fcacRn, int year, Month month, CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+
+            var sql = $"SELECT z1.hourall AS hn FROM zgrmonth z1, zfcacch z2 " +
+                    $"WHERE z2.fcacbs_rn = '{fcacRn}' AND z2.grrbdc_rn = z1.grrbdc_rn AND z1.year = {year} AND z1.month = {(int)month}";
+
+            var result = 0.00;
+
+            using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = dbConnectionAsync })
+            {
+                var execute = await cmd.ExecuteScalarAsync();
+
+                if (execute == DBNull.Value)
+                {
+                    return null;
+                }
+
+                result = result + Convert.ToDouble(execute);
+
+                if (result == 0)
+                {
+                    return default;
+                }
+
+                return Convert.ToDecimal(result);
+            }
         }
 
         /// <summary>
@@ -450,6 +532,42 @@ namespace EmployeeReportBL
                             Value = value,
                             DateSince = dateSincePayroll,
                             DateTo = dateToPayroll
+                        });
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Получение списка типов рабочих дней.
+        /// </summary>
+        private async Task<List<TypeOfDay>> GetTypesOfDaysAsync(OleDbConnection oleDbConnection, CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+
+            var result = new List<TypeOfDay>();
+
+            var sql = $"SELECT Hrtype_rn, Num, Code, Name FROM Zhrtype";
+
+            using (OleDbCommand cmd = new OleDbCommand() { CommandText = sql, Connection = dbConnectionAsync })
+            {
+                using (var reader = await cmd.ExecuteReaderAsync(token).ConfigureAwait(false))
+                {
+                    while (await reader.ReadAsync(token).ConfigureAwait(false))
+                    {
+                        var rn = reader[0].ToString().Trim();
+                        var number = Convert.ToInt32(reader[1].ToString().Trim());
+                        var mnemo = reader[2].ToString().Trim();
+                        var name = reader[3].ToString().Trim();
+
+                        result.Add(new TypeOfDay()
+                        {
+                            TypeDayRn = rn,
+                            Number = number,
+                            Memo = mnemo,
+                            Name = name
                         });
                     }
                 }

@@ -47,6 +47,7 @@
     <Compile Include="Extension\EnumExtensionMethods.cs" />
     <Compile Include="Model\Pay.cs" />
     <Compile Include="Model\Payroll.cs" />
+    <Compile Include="Model\TypeOfDay.cs" />
     <Compile Include="PropertyGrid\PayControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

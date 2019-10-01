@@ -40,6 +40,19 @@ namespace Report
                         }
                     }
                 }
+
+                checkedListTypeOfDay.Items.AddRange(ReportSettings.readingDataBase.TypeOfDays.ToArray());
+
+                if (ReportSettings.settings.TypeOfDays != null)
+                {
+                    for (int i = 0; i < checkedListTypeOfDay.Items.Count; i++)
+                    {
+                        if (ReportSettings.settings.TypeOfDays.Contains(checkedListTypeOfDay.Items[i].ToString()))
+                        {
+                            checkedListTypeOfDay.SetItemChecked(i, true);
+                        }
+                    }
+                }
             }
 
             txtRegion.Text = ReportSettings.settings.region;
@@ -95,6 +108,21 @@ namespace Report
                 else
                 {
                     ReportSettings.settings.TypeOfCalculations.Remove(checkedListTypeOfCalculations.Items[e.Index].ToString());
+                }
+            }
+        }
+
+        private void checkedListTypeOfDay_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (firstLoading == false)
+            {
+                if (e.NewValue == CheckState.Checked)
+                {
+                    ReportSettings.settings.TypeOfDays.Add(checkedListTypeOfDay.Items[e.Index].ToString());
+                }
+                else
+                {
+                    ReportSettings.settings.TypeOfDays.Remove(checkedListTypeOfDay.Items[e.Index].ToString());
                 }
             }
         }

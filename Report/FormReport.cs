@@ -20,6 +20,8 @@ namespace Report
     {
         private List<PersonalAccountReport> PersonalAccountReports { get; set; }
 
+        private SpinningCircles SpinningCircles { get; set; }
+
         public FormReport()
         {
             InitializeComponent();
@@ -55,19 +57,31 @@ namespace Report
                     return;
                 }
 
+                btnStart.Enabled = false;
+                dataGridView.Enabled = false;
+
                 var tokenSource = new CancellationTokenSource();
                 CancellationToken ct = tokenSource.Token;
 
                 var year = Convert.ToInt32(cmbYear.Text);
                 var month = (Month)cmbMonth.SelectedIndex + 1;
 
+                SpinningCircles = new SpinningCircles();
+                dataGridView.Controls.Add(SpinningCircles);
+                SpinningCircles.Top = dataGridView.Height / 2 - SpinningCircles.Height;
+                SpinningCircles.Left = dataGridView.Width / 2 - SpinningCircles.Width / 2;
+                SpinningCircles.Refresh();
+
                 dataGridView.DataSource = await GetReportAsync(year, month, ct);
+
+                SpinningCircles.Dispose();
+                btnStart.Enabled = true;
+                dataGridView.Enabled = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
         }
 
         private async Task<List<PersonalAccountReport>> GetReportAsync(int year, Month month, CancellationToken token)
@@ -230,6 +244,7 @@ namespace Report
             {
                 toolStripStatusLabelBool.Text = "активно";
                 toolStripStatusLabelBool.ForeColor = Color.Green;
+                btnConnectParus.Enabled = false;
             }
             else
             {
@@ -258,6 +273,16 @@ namespace Report
         {
             var form = new FormInfo();
             form.ShowDialog();
+        }
+
+        private void FormReport_Resize(object sender, EventArgs e)
+        {
+            if (SpinningCircles != null)
+            {
+                SpinningCircles.Top = dataGridView.Height / 2 - SpinningCircles.Height;
+                SpinningCircles.Left = dataGridView.Width / 2 - SpinningCircles.Width / 2;
+                SpinningCircles.Refresh();
+            }
         }
     }
 }

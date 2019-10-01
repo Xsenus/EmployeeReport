@@ -197,6 +197,7 @@
             // 
             // statusStrip
             // 
+            this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel,
             this.toolStripStatusLabelBool,
@@ -224,7 +225,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(295, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(428, 17);
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -317,6 +318,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormReport";
             this.Text = "Мониторинг оплаты труда медработников";
+            this.Resize += new System.EventHandler(this.FormReport_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.panelConnect.ResumeLayout(false);
             this.panelConnect.PerformLayout();

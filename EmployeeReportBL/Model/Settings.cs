@@ -41,6 +41,11 @@ namespace EmployeeReportBL.Model
         public List<string> TypeOfCalculations = new List<string>();
 
         /// <summary>
+        /// Типы рабочего дня.
+        /// </summary>
+        public List<string> TypeOfDays = new List<string>();
+
+        /// <summary>
         /// Должностной оклад.
         /// </summary>
         [DisplayName("Должностной оклад")]

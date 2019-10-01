@@ -48,6 +48,8 @@
             this.checkedListTypeOfCalculations = new System.Windows.Forms.CheckedListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblTypeOfCalculations = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.checkedListTypeOfDay = new System.Windows.Forms.CheckedListBox();
             this.panelTop.SuspendLayout();
             this.panelBot.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -55,6 +57,7 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSave
@@ -175,6 +178,7 @@
             this.tabControl.Controls.Add(this.tabPage1);
             this.tabControl.Controls.Add(this.tabPage2);
             this.tabControl.Controls.Add(this.tabPage3);
+            this.tabControl.Controls.Add(this.tabPage4);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 121);
             this.tabControl.Name = "tabControl";
@@ -257,6 +261,28 @@
             this.lblTypeOfCalculations.TabIndex = 0;
             this.lblTypeOfCalculations.Text = "Указанные виды расчета будут установлены в отчете отдельной строкой.\r\n";
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.checkedListTypeOfDay);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(476, 369);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Тип рабочего дня";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // checkedListTypeOfDay
+            // 
+            this.checkedListTypeOfDay.CheckOnClick = true;
+            this.checkedListTypeOfDay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListTypeOfDay.FormattingEnabled = true;
+            this.checkedListTypeOfDay.Location = new System.Drawing.Point(3, 3);
+            this.checkedListTypeOfDay.Name = "checkedListTypeOfDay";
+            this.checkedListTypeOfDay.Size = new System.Drawing.Size(470, 363);
+            this.checkedListTypeOfDay.TabIndex = 1;
+            this.checkedListTypeOfDay.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListTypeOfDay_ItemCheck);
+            // 
             // FormSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -280,6 +306,7 @@
             this.tabPage3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -305,5 +332,7 @@
         private System.Windows.Forms.CheckedListBox checkedListTypeOfCalculations;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblTypeOfCalculations;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.CheckedListBox checkedListTypeOfDay;
     }
 }
