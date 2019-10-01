@@ -12,13 +12,15 @@ namespace EmployeeReportBL.Model
     /// </summary>
     public class PersonalAccountReport
     {
+        private bool flagZeroCharges;
         private List<Employee> Employees { get; set; }
 
         public PersonalAccountReport() { }
 
-        public PersonalAccountReport(List<Employee> employees)
+        public PersonalAccountReport(List<Employee> employees, bool flagZeroCharges)
         {
             Employees = employees;
+            this.flagZeroCharges = flagZeroCharges;
         }
 
         /// <summary>
@@ -300,23 +302,23 @@ namespace EmployeeReportBL.Model
 
             if (ReportSettings.settings.TypeOfCalculations == null || ReportSettings.settings.TypeOfCalculations.Count == 0)
             {
-                AddPersonalAccountReport(month, result, employee);
+                AddPersonalAccountReport(month, result, employee, flagZeroCharges);
             }
             else
             {
                 for (int i = 0; i < ReportSettings.settings.TypeOfCalculations.Count; i++)
                 {
                     var employeeTypeOfCalculations = employee.Where(w => w.Accruals.Where(type => string.Compare(ReportSettings.settings.TypeOfCalculations[i], type.TypeOfCalculation, StringComparison.Ordinal) == 0) != null).ToList();
-                    AddPersonalAccountReport(month, result, employeeTypeOfCalculations, ReportSettings.settings.TypeOfCalculations[i]);
+                    AddPersonalAccountReport(month, result, employeeTypeOfCalculations, flagZeroCharges, ReportSettings.settings.TypeOfCalculations[i]);
                 }
 
-                AddPersonalAccountReport(month, result, employee);
+                AddPersonalAccountReport(month, result, employee, flagZeroCharges);
             }
 
             return result.OrderBy(u => u.Name).ToList();
         }
 
-        private static void AddPersonalAccountReport(Month month, List<PersonalAccountReport> result, List<Employee> employee, string typeOfCalculations = null)
+        private static void AddPersonalAccountReport(Month month, List<PersonalAccountReport> result, List<Employee> employee, bool flagZeroCharges, string typeOfCalculations = null)
         {
             foreach (var item in employee)
             {
@@ -368,6 +370,48 @@ namespace EmployeeReportBL.Model
                 var name = $"{item.Name} {item.Surname} {item.Patronymic}";
 
                 var sourceOfFinancing = (typeOfCalculations == null) ? item.SourceOfFinancing : typeOfCalculations;
+
+                if (flagZeroCharges)
+                {
+                    if (
+                        (officialSalary == null || officialSalary == 0) &&
+                        (severePayments == null || severePayments == 0) &&
+                        (districtCoefficient == null || districtCoefficient == 0) &&
+                        (coefficientWorkDesertAndWaterlessAreas == null || coefficientWorkDesertAndWaterlessAreas == 0) &&
+                        (coefficientWorkHighMountainRegions == null || coefficientWorkHighMountainRegions == 0) &&
+                        (allowanceWorkExperienceNorthEquivalentAreas == null || allowanceWorkExperienceNorthEquivalentAreas == 0) &&
+                        (supplementCombiningProfessions == null || supplementCombiningProfessions == 0) &&
+                        (surchargeWorkRuralAreas == null || surchargeWorkRuralAreas == 0) &&
+                        (surchargeExpansionServiceAreas == null || surchargeExpansionServiceAreas == 0) &&
+                        (surchargeIncreasingAmountWork == null || surchargeIncreasingAmountWork == 0) &&
+                        (supplementPerformanceDutiesTemporarilyAbsentEmployee == null || supplementPerformanceDutiesTemporarilyAbsentEmployee == 0) &&
+                        (surchargePerformanceWorkVariousQualifications == null || surchargePerformanceWorkVariousQualifications == 0) &&
+                        (weekendAndHolidaysWorkSupplement == null || weekendAndHolidaysWorkSupplement == 0) &&
+                        (surchargeNightWork == null || surchargeNightWork == 0) &&
+                        (allowanceWorkInformationConstituting == null || allowanceWorkInformationConstituting == 0) &&
+                        (otherCompensatoryPayments == null || otherCompensatoryPayments == 0) &&
+                        (laborAllowance == null || laborAllowance == 0) &&
+                        (performanceAward == null || performanceAward == 0) &&
+                        (awardPerformanceParticularlyImportantResponsibleWork == null || awardPerformanceParticularlyImportantResponsibleWork == 0) &&
+                        (qualificationAllowance == null || qualificationAllowance == 0) &&
+                        (premiumExemplaryPerformanceStateAssignment == null || premiumExemplaryPerformanceStateAssignment == 0) &&
+                        (organizationServiceBonus == null || organizationServiceBonus == 0) &&
+                        (allowanceContinuousWorkExperience == null || allowanceContinuousWorkExperience == 0) &&
+                        (monthlyPerformanceBonus == null || monthlyPerformanceBonus == 0) &&
+                        (quarterlyPerformanceBonus == null || quarterlyPerformanceBonus == 0) &&
+                        (annualPerformanceBonus == null || annualPerformanceBonus == 0) &&
+                        (premiumYoungSpecialist == null || premiumYoungSpecialist == 0) &&
+                        (honoraryBonus == null || honoraryBonus == 0) &&
+                        (graduateBonus == null || graduateBonus == 0) &&
+                        (surchargeWorkRuralAreas2 == null || surchargeWorkRuralAreas2 == 0) &&
+                        (allowanceForPrecinct == null || allowanceForPrecinct == 0) &&
+                        (otherIncentivePayments == null || otherIncentivePayments == 0) &&
+                        (paymentUnWorkedTimeAndOtherPayments == null || paymentUnWorkedTimeAndOtherPayments == 0)
+                        )
+                    {
+                        continue;
+                    }
+                }
 
                 result.Add(new PersonalAccountReport()
                 {

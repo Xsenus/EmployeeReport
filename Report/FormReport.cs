@@ -72,7 +72,9 @@ namespace Report
                 SpinningCircles.Left = dataGridView.Width / 2 - SpinningCircles.Width / 2;
                 SpinningCircles.Refresh();
 
-                dataGridView.DataSource = await GetReportAsync(year, month, ct);
+                var flagZeroCharges = checkBoxZeroCharges.Checked;
+
+                dataGridView.DataSource = await GetReportAsync(year, month, flagZeroCharges, ct);
 
                 SpinningCircles.Dispose();
                 btnStart.Enabled = true;
@@ -84,18 +86,18 @@ namespace Report
             }
         }
 
-        private async Task<List<PersonalAccountReport>> GetReportAsync(int year, Month month, CancellationToken token)
+        private async Task<List<PersonalAccountReport>> GetReportAsync(int year, Month month, bool flagZeroCharges, CancellationToken token)
         {
-            return await Task.Run(() => GetReport(year, month, token)).ConfigureAwait(false);
+            return await Task.Run(() => GetReport(year, month, flagZeroCharges, token)).ConfigureAwait(false);
         }
 
-        private List<PersonalAccountReport> GetReport(int year, Month month, CancellationToken token)
+        private List<PersonalAccountReport> GetReport(int year, Month month, bool flagZeroCharges, CancellationToken token)
         {
             var employees = ReportSettings.readingDataBase.GetEmployeesAsync(year, month, token).Result;
 
             if (employees != null)
             {
-                var personalAccountReport = new PersonalAccountReport(employees);
+                var personalAccountReport = new PersonalAccountReport(employees, flagZeroCharges);
                 PersonalAccountReports = personalAccountReport.GetPersonalAccountReport(month);
                 return PersonalAccountReports;
             }

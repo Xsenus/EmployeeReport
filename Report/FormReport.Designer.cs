@@ -54,6 +54,7 @@
             this.информацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMenuItemInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.checkBoxZeroCharges = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.panelConnect.SuspendLayout();
             this.panelReportPrint.SuspendLayout();
@@ -72,7 +73,7 @@
             this.dataGridView.Location = new System.Drawing.Point(0, 118);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersWidth = 51;
-            this.dataGridView.Size = new System.Drawing.Size(584, 371);
+            this.dataGridView.Size = new System.Drawing.Size(634, 371);
             this.dataGridView.TabIndex = 0;
             // 
             // panelConnect
@@ -84,13 +85,13 @@
             this.panelConnect.Location = new System.Drawing.Point(0, 24);
             this.panelConnect.Margin = new System.Windows.Forms.Padding(2);
             this.panelConnect.Name = "panelConnect";
-            this.panelConnect.Size = new System.Drawing.Size(584, 26);
+            this.panelConnect.Size = new System.Drawing.Size(634, 26);
             this.panelConnect.TabIndex = 8;
             // 
             // btnConnectParus
             // 
             this.btnConnectParus.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnConnectParus.Location = new System.Drawing.Point(491, 1);
+            this.btnConnectParus.Location = new System.Drawing.Point(541, 1);
             this.btnConnectParus.Name = "btnConnectParus";
             this.btnConnectParus.Size = new System.Drawing.Size(81, 23);
             this.btnConnectParus.TabIndex = 12;
@@ -103,7 +104,7 @@
             this.txtPathP7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPathP7.Location = new System.Drawing.Point(111, 3);
             this.txtPathP7.Name = "txtPathP7";
-            this.txtPathP7.Size = new System.Drawing.Size(374, 20);
+            this.txtPathP7.Size = new System.Drawing.Size(424, 20);
             this.txtPathP7.TabIndex = 6;
             this.txtPathP7.DoubleClick += new System.EventHandler(this.TxtPathP7_DoubleClick);
             // 
@@ -173,13 +174,14 @@
             // 
             // panelReportPrint
             // 
+            this.panelReportPrint.Controls.Add(this.checkBoxZeroCharges);
             this.panelReportPrint.Controls.Add(this.btnStart);
             this.panelReportPrint.Controls.Add(this.groupBoxReport);
             this.panelReportPrint.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelReportPrint.Location = new System.Drawing.Point(0, 50);
             this.panelReportPrint.Margin = new System.Windows.Forms.Padding(2);
             this.panelReportPrint.Name = "panelReportPrint";
-            this.panelReportPrint.Size = new System.Drawing.Size(584, 68);
+            this.panelReportPrint.Size = new System.Drawing.Size(634, 68);
             this.panelReportPrint.TabIndex = 12;
             // 
             // groupBoxReport
@@ -205,7 +207,7 @@
             this.toolStripProgressBar});
             this.statusStrip.Location = new System.Drawing.Point(0, 489);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(584, 22);
+            this.statusStrip.Size = new System.Drawing.Size(634, 22);
             this.statusStrip.TabIndex = 13;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -225,7 +227,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(428, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(478, 17);
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -300,15 +302,25 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(584, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(634, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // checkBoxZeroCharges
+            // 
+            this.checkBoxZeroCharges.AutoSize = true;
+            this.checkBoxZeroCharges.Location = new System.Drawing.Point(394, 38);
+            this.checkBoxZeroCharges.Name = "checkBoxZeroCharges";
+            this.checkBoxZeroCharges.Size = new System.Drawing.Size(200, 17);
+            this.checkBoxZeroCharges.TabIndex = 13;
+            this.checkBoxZeroCharges.Text = "Не выводить нулевые начисления";
+            this.checkBoxZeroCharges.UseVisualStyleBackColor = true;
             // 
             // FormReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 511);
+            this.ClientSize = new System.Drawing.Size(634, 511);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.panelReportPrint);
@@ -323,6 +335,7 @@
             this.panelConnect.ResumeLayout(false);
             this.panelConnect.PerformLayout();
             this.panelReportPrint.ResumeLayout(false);
+            this.panelReportPrint.PerformLayout();
             this.groupBoxReport.ResumeLayout(false);
             this.groupBoxReport.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -361,6 +374,7 @@
         private System.Windows.Forms.ToolStripMenuItem btnMenuItemInfo;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.CheckBox checkBoxZeroCharges;
     }
 }
 
