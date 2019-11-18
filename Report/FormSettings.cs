@@ -28,6 +28,13 @@ namespace Report
                     }
                 }
 
+                cmbSourceOfFinancing.Items.AddRange(ReportSettings.readingDataBase.TypeOfCalculations.ToArray());
+
+                if (!string.IsNullOrWhiteSpace(ReportSettings.settings.sourceOfFinancing))
+                {
+                    cmbSourceOfFinancing.Text = ReportSettings.settings.sourceOfFinancing;
+                }
+
                 checkedListTypeOfCalculations.Items.AddRange(ReportSettings.readingDataBase.TypeOfCalculations.ToArray());
 
                 if (ReportSettings.settings.TypeOfCalculations != null)
@@ -69,6 +76,7 @@ namespace Report
                 ReportSettings.settings.region = txtRegion.Text;
                 ReportSettings.settings.organization = txtOrganization.Text;
                 ReportSettings.settings.inn = txtINN.Text;
+                ReportSettings.settings.sourceOfFinancing = cmbSourceOfFinancing.Text;
 
                 Serialization.Serialize(ReportSettings.settings);
 

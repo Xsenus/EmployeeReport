@@ -210,7 +210,7 @@ namespace Report
             
             var positions = (ReportSettings.settings == null || ReportSettings.settings.Positions == null || ReportSettings.settings.Positions.Count == 0) ? 
                 ReportSettings.readingDataBase?.Positions ?? null : 
-                ReportSettings.readingDataBase?.Positions?.Where(w => ReportSettings.settings.Positions.Contains(w.Memo)).ToList();
+                ReportSettings.readingDataBase?.Positions?.Where(w => ReportSettings.settings.Positions.Contains(w.Name)).ToList();
 
             if (positions != null)
             {

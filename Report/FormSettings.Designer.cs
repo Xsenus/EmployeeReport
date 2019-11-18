@@ -50,6 +50,9 @@
             this.lblTypeOfCalculations = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.checkedListTypeOfDay = new System.Windows.Forms.CheckedListBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbSourceOfFinancing = new System.Windows.Forms.ComboBox();
             this.panelTop.SuspendLayout();
             this.panelBot.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -58,6 +61,7 @@
             this.tabPage3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSave
@@ -224,6 +228,7 @@
             // 
             this.tabPage3.Controls.Add(this.checkedListTypeOfCalculations);
             this.tabPage3.Controls.Add(this.panel1);
+            this.tabPage3.Controls.Add(this.panel2);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -237,9 +242,9 @@
             this.checkedListTypeOfCalculations.CheckOnClick = true;
             this.checkedListTypeOfCalculations.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkedListTypeOfCalculations.FormattingEnabled = true;
-            this.checkedListTypeOfCalculations.Location = new System.Drawing.Point(3, 37);
+            this.checkedListTypeOfCalculations.Location = new System.Drawing.Point(3, 71);
             this.checkedListTypeOfCalculations.Name = "checkedListTypeOfCalculations";
-            this.checkedListTypeOfCalculations.Size = new System.Drawing.Size(470, 329);
+            this.checkedListTypeOfCalculations.Size = new System.Drawing.Size(470, 295);
             this.checkedListTypeOfCalculations.TabIndex = 0;
             this.checkedListTypeOfCalculations.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CheckedListTypeOfCalculations_ItemCheck);
             // 
@@ -247,7 +252,7 @@
             // 
             this.panel1.Controls.Add(this.lblTypeOfCalculations);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Location = new System.Drawing.Point(3, 37);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(470, 34);
             this.panel1.TabIndex = 1;
@@ -283,6 +288,35 @@
             this.checkedListTypeOfDay.TabIndex = 1;
             this.checkedListTypeOfDay.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListTypeOfDay_ItemCheck);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.cmbSourceOfFinancing);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(3, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(470, 34);
+            this.panel2.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(5, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(198, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Основной источник финансирования:\r\n";
+            // 
+            // cmbSourceOfFinancing
+            // 
+            this.cmbSourceOfFinancing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbSourceOfFinancing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSourceOfFinancing.Location = new System.Drawing.Point(209, 7);
+            this.cmbSourceOfFinancing.Name = "cmbSourceOfFinancing";
+            this.cmbSourceOfFinancing.Size = new System.Drawing.Size(256, 21);
+            this.cmbSourceOfFinancing.TabIndex = 2;
+            // 
             // FormSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -307,6 +341,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -334,5 +370,8 @@
         private System.Windows.Forms.Label lblTypeOfCalculations;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.CheckedListBox checkedListTypeOfDay;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ComboBox cmbSourceOfFinancing;
+        private System.Windows.Forms.Label label1;
     }
 }

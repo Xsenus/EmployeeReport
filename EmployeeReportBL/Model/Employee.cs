@@ -56,12 +56,6 @@ namespace EmployeeReportBL.Model
         public string TypePersonalAccount { get; set; }
 
         /// <summary>
-        /// Источник финансирования.
-        /// </summary>
-        [DisplayName("Источник финансирования")]
-        public string SourceOfFinancing { get; set; }
-
-        /// <summary>
         /// Норма рабочего времени.
         /// </summary>
         [DisplayName("Норма рабочего времени")]

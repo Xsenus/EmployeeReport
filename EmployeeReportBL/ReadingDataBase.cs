@@ -285,11 +285,9 @@ namespace EmployeeReportBL
                         $"JOIN Ztipdol AS Dol ON Fcac.Tipdol_rn = Dol.Tipdol_rn " +
                         $"JOIN Orgbase AS Org ON Org.Rn = Ank.Orgbase_rn " +
                         $"JOIN Person AS P ON P.Orbase_rn = Org.Rn " +
-                        $"JOIN Zfcacch AS Zfc ON Fcac.Fcac_rn = Zfc.Fcacbs_rn " +
-                        $"JOIN Zsostzat AS Sost ON Sost.Sostzat_rn = Zfc.Sostzat_rn " +
                         $"WHERE Fcac.Startdate <= DATE({dateTo.Year}, {dateTo.Month}, {dateTo.Day}) AND Fcac.Enddate >= DATE({dateSince.Year}, {dateSince.Month}, {dateSince.Day})";
 
-            var sql = $"SELECT P.Surname, P.Firstname, P.Secondname, Subdiv.Name, Ank.Pf_id, Dol.Code, Vid.Name, Sost.Name, Fcac.Fcac_rn, Fcac.Startdate, Fcac.Enddate " +
+            var sql = $"SELECT P.Surname, P.Firstname, P.Secondname, Subdiv.Nameablative, Ank.Pf_id, Dol.Code, Vid.Name, Fcac.Fcac_rn, Fcac.Startdate, Fcac.Enddate " +
                         $"FROM Zfcac AS Fcac " +
                         $"JOIN Zank AS Ank ON Fcac.Ank_rn = Ank.Ank_rn " +
                         $"JOIN Zsubdiv AS Subdiv ON Fcac.Subdiv_rn = Subdiv.Subdiv_rn " +
@@ -297,8 +295,6 @@ namespace EmployeeReportBL
                         $"JOIN Ztipdol AS Dol ON Fcac.Tipdol_rn = Dol.Tipdol_rn " +
                         $"JOIN Orgbase AS Org ON Org.Rn = Ank.Orgbase_rn " +
                         $"JOIN Person AS P ON P.Orbase_rn = Org.Rn " +
-                        $"JOIN Zfcacch AS Zfc ON Fcac.Fcac_rn = Zfc.Fcacbs_rn " +
-                        $"JOIN Zsostzat AS Sost ON Sost.Sostzat_rn = Zfc.Sostzat_rn " +
                         $"WHERE Fcac.Startdate <= DATE({dateTo.Year}, {dateTo.Month}, {dateTo.Day}) AND Fcac.Enddate >= DATE({dateSince.Year}, {dateSince.Month}, {dateSince.Day})";
 
             using (OleDbCommand cmd = new OleDbCommand() { CommandText = sqlCount, Connection = dbConnectionAsync })
@@ -314,7 +310,7 @@ namespace EmployeeReportBL
                 {
                     while (await reader.ReadAsync(token).ConfigureAwait(false))
                     {
-                        var rn = reader[8].ToString().Trim();
+                        var rn = reader[7].ToString().Trim();
 
                         if (accrual.Any(a => string.Compare(a.EmployeeId, rn, StringComparison.Ordinal) == 0))
                         {
@@ -328,7 +324,7 @@ namespace EmployeeReportBL
                             var typePersonalAccount = reader[6].ToString().Trim();
                             typePersonalAccount = $"{char.ToUpper(typePersonalAccount[0])}{typePersonalAccount.Substring(1).ToLower()}";
 
-                            var sourceOfFinancing = reader[7].ToString().Trim();
+                            //var sourceOfFinancing = reader[7].ToString().Trim();
 
                             var employee = new Employee()
                             {
@@ -340,7 +336,6 @@ namespace EmployeeReportBL
                                 Snails = snails,
                                 Position = position,
                                 TypePersonalAccount = typePersonalAccount,
-                                SourceOfFinancing = sourceOfFinancing,
                                 WorkingTime = GetWorkingTime(rn, year, month, token).Result,
                                 ActualHoursWorked = GetActualHoursWorked(rn, year, month, token).Result
                             };

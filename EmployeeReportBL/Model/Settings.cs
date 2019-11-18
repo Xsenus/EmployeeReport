@@ -31,6 +31,11 @@ namespace EmployeeReportBL.Model
         public string inn;
 
         /// <summary>
+        /// Основной источник финансирования.
+        /// </summary>
+        public string sourceOfFinancing;
+
+        /// <summary>
         /// Список выбранных должностей.
         /// </summary>
         public List<string> Positions = new List<string>();

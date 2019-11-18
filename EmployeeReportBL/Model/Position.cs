@@ -32,7 +32,7 @@ namespace EmployeeReportBL.Model
 
         public override string ToString()
         {
-            return Memo;
+            return Name;
         }
     }
 }

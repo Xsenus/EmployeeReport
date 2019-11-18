@@ -369,7 +369,7 @@ namespace EmployeeReportBL.Model
                 var paymentUnWorkedTimeAndOtherPayments = accrual?.Where(w => ReportSettings.settings.PaymentUnWorkedTimeAndOtherPayments.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
                 var name = $"{item.Name} {item.Surname} {item.Patronymic}";
 
-                var sourceOfFinancing = (typeOfCalculations == null) ? item.SourceOfFinancing : typeOfCalculations;
+                var sourceOfFinancing = (typeOfCalculations == null) ? ReportSettings.settings.sourceOfFinancing : typeOfCalculations;
 
                 if (flagZeroCharges)
                 {
@@ -418,8 +418,8 @@ namespace EmployeeReportBL.Model
                     Region = ReportSettings.settings.region,
                     Organization = ReportSettings.settings.organization,
                     Subdivision = item.Subdivision,
-                    Month = month.GetDescription(),
-                    Snails = item.Snails,
+                    Month = ((int)month).ToString().Trim(),
+                    Snails = $"54{item.Snails.Replace("-", "").Replace(" ", "").Trim()}",
                     Position = item.Position,
                     TypePersonalAccount = item.TypePersonalAccount,
                     SourceOfFinancing = sourceOfFinancing,
