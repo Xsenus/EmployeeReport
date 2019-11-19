@@ -101,7 +101,7 @@ namespace EmployeeReportBL
         private async Task<List<string>> GetTypeOfCalculationsAsync(OleDbConnection oleDbConnection, CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
-            var sql = $"SELECT Code FROM Zrvdict";
+            var sql = $"SELECT Name FROM Zrvdict";
             var result = new List<string>();
 
             using (OleDbCommand cmd = new OleDbCommand() { CommandText = "SELECT COUNT(*) FROM Zrvdict", Connection = oleDbConnection })
@@ -441,7 +441,7 @@ namespace EmployeeReportBL
 
             var result = new List<Accrual>();
 
-            var sql = $"SELECT Snu.Code, His.Sum, His.Year, His.Month, His.Storno, His.Fcac_rn, Rvdict.Code " +
+            var sql = $"SELECT Snu.Code, His.Sum, His.Year, His.Month, His.Storno, His.Fcac_rn, Rvdict.Name " +
                         $"FROM Zhis AS His " +
                         $"JOIN Zsnu AS Snu ON His.Snu_rn = Snu.Snu_rn " +
                         $"JOIN Zrvlist AS Rvlist ON His.Rvlist_rn = Rvlist.Rvlist_rn " +
