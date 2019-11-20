@@ -287,7 +287,7 @@ namespace EmployeeReportBL
                         $"JOIN Person AS P ON P.Orbase_rn = Org.Rn " +
                         $"WHERE Fcac.Startdate <= DATE({dateTo.Year}, {dateTo.Month}, {dateTo.Day}) AND Fcac.Enddate >= DATE({dateSince.Year}, {dateSince.Month}, {dateSince.Day})";
 
-            var sql = $"SELECT P.Surname, P.Firstname, P.Secondname, Subdiv.Nameablative, Ank.Pf_id, Dol.Code, Vid.Name, Fcac.Fcac_rn, Fcac.Startdate, Fcac.Enddate " +
+            var sql = $"SELECT P.Surname, P.Firstname, P.Secondname, Subdiv.Nameablative, Ank.Pf_id, Dol.Name, Vid.Name, Fcac.Fcac_rn, Fcac.Startdate, Fcac.Enddate " +
                         $"FROM Zfcac AS Fcac " +
                         $"JOIN Zank AS Ank ON Fcac.Ank_rn = Ank.Ank_rn " +
                         $"JOIN Zsubdiv AS Subdiv ON Fcac.Subdiv_rn = Subdiv.Subdiv_rn " +
