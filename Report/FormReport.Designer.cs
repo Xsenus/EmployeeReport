@@ -40,6 +40,7 @@
             this.cmbYear = new System.Windows.Forms.ComboBox();
             this.cmbMonth = new System.Windows.Forms.ComboBox();
             this.panelReportPrint = new System.Windows.Forms.Panel();
+            this.checkBoxZeroCharges = new System.Windows.Forms.CheckBox();
             this.groupBoxReport = new System.Windows.Forms.GroupBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -54,7 +55,6 @@
             this.информацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMenuItemInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.checkBoxZeroCharges = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.panelConnect.SuspendLayout();
             this.panelReportPrint.SuspendLayout();
@@ -184,6 +184,16 @@
             this.panelReportPrint.Size = new System.Drawing.Size(634, 68);
             this.panelReportPrint.TabIndex = 12;
             // 
+            // checkBoxZeroCharges
+            // 
+            this.checkBoxZeroCharges.AutoSize = true;
+            this.checkBoxZeroCharges.Location = new System.Drawing.Point(394, 38);
+            this.checkBoxZeroCharges.Name = "checkBoxZeroCharges";
+            this.checkBoxZeroCharges.Size = new System.Drawing.Size(200, 17);
+            this.checkBoxZeroCharges.TabIndex = 13;
+            this.checkBoxZeroCharges.Text = "Не выводить нулевые начисления";
+            this.checkBoxZeroCharges.UseVisualStyleBackColor = true;
+            // 
             // groupBoxReport
             // 
             this.groupBoxReport.Controls.Add(this.lblMonth);
@@ -305,16 +315,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(634, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // checkBoxZeroCharges
-            // 
-            this.checkBoxZeroCharges.AutoSize = true;
-            this.checkBoxZeroCharges.Location = new System.Drawing.Point(394, 38);
-            this.checkBoxZeroCharges.Name = "checkBoxZeroCharges";
-            this.checkBoxZeroCharges.Size = new System.Drawing.Size(200, 17);
-            this.checkBoxZeroCharges.TabIndex = 13;
-            this.checkBoxZeroCharges.Text = "Не выводить нулевые начисления";
-            this.checkBoxZeroCharges.UseVisualStyleBackColor = true;
             // 
             // FormReport
             // 

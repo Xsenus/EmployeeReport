@@ -36,16 +36,34 @@ namespace EmployeeReportBL.Model
         public string Organization { get; set; }
 
         /// <summary>
+        /// OID медицинской организации.
+        /// </summary>
+        [DisplayName("OID медицинской организации")]
+        public string OrganizationOid { get; set; }
+
+        /// <summary>
         /// Подразделение.
         /// </summary>
         [DisplayName("Подразделение")]
         public string Subdivision { get; set; }
 
         /// <summary>
+        /// OID структурного подразделения.
+        /// </summary>
+        [DisplayName("OID структурного подразделения")]
+        public string SubdivisionOid { get; set; }
+
+        /// <summary>
         /// Месяц.
         /// </summary>
         [DisplayName("Месяц")]
         public string Month { get; set; }
+
+        /// <summary>
+        /// Год.
+        /// </summary>
+        [DisplayName("Год")]
+        public string Year { get; set; }
 
         /// <summary>
         /// СНИЛС.
@@ -58,6 +76,12 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Должность")]
         public string Position { get; set; }
+
+        /// <summary>
+        /// Ставка
+        /// </summary>
+        [DisplayName("Ставка")]
+        public string Rate { get; set; }
 
         /// <summary>
         /// Тип лицевого счета.
@@ -285,7 +309,7 @@ namespace EmployeeReportBL.Model
         [DisplayName("ФИО")]
         public string Name { get; set; }
 
-        public List<PersonalAccountReport> GetPersonalAccountReport(Month month)
+        public List<PersonalAccountReport> GetPersonalAccountReport(Month month, int year)
         {
             var result = new List<PersonalAccountReport>();
 
@@ -302,23 +326,23 @@ namespace EmployeeReportBL.Model
 
             if (ReportSettings.settings.TypeOfCalculations == null || ReportSettings.settings.TypeOfCalculations.Count == 0)
             {
-                AddPersonalAccountReport(month, result, employee, flagZeroCharges);
+                AddPersonalAccountReport(month, result, employee, flagZeroCharges, year);
             }
             else
             {
                 for (int i = 0; i < ReportSettings.settings.TypeOfCalculations.Count; i++)
                 {
                     var employeeTypeOfCalculations = employee.Where(w => w.Accruals.Where(type => string.Compare(ReportSettings.settings.TypeOfCalculations[i], type.TypeOfCalculation, StringComparison.Ordinal) == 0) != null).ToList();
-                    AddPersonalAccountReport(month, result, employeeTypeOfCalculations, flagZeroCharges, ReportSettings.settings.TypeOfCalculations[i]);
+                    AddPersonalAccountReport(month, result, employeeTypeOfCalculations, flagZeroCharges, year, ReportSettings.settings.TypeOfCalculations[i]);
                 }
 
-                AddPersonalAccountReport(month, result, employee, flagZeroCharges);
+                AddPersonalAccountReport(month, result, employee, flagZeroCharges, year);
             }
 
             return result.OrderBy(u => u.Name).ToList();
         }
 
-        private static void AddPersonalAccountReport(Month month, List<PersonalAccountReport> result, List<Employee> employee, bool flagZeroCharges, string typeOfCalculations = null)
+        private static void AddPersonalAccountReport(Month month, List<PersonalAccountReport> result, List<Employee> employee, bool flagZeroCharges, int year, string typeOfCalculations = null)
         {
             foreach (var item in employee)
             {
@@ -416,11 +440,15 @@ namespace EmployeeReportBL.Model
                 result.Add(new PersonalAccountReport()
                 {
                     Region = ReportSettings.settings.region,
+                    OrganizationOid = ReportSettings.settings.organizationOid,
                     Organization = ReportSettings.settings.organization,
                     Subdivision = item.Subdivision,
-                    Month = ((int)month).ToString().Trim(),
-                    Snails = $"54{item.Snails.Replace("-", "").Replace(" ", "").Trim()}",
+                    SubdivisionOid = item.SubdivisionOid,
+                    Month = month.GetDescription().ToString().Trim(),//((int)month).ToString().Trim(),
+                    Year = year.ToString(),
+                    Snails = $"{item.Snails.Replace("-", "").Replace(" ", "").Trim()}",
                     Position = item.Position,
+                    Rate = item.Rate,
                     TypePersonalAccount = item.TypePersonalAccount,
                     SourceOfFinancing = sourceOfFinancing,
                     WorkingTime = item.WorkingTime,

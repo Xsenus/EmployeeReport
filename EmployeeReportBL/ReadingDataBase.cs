@@ -287,7 +287,7 @@ namespace EmployeeReportBL
                         $"JOIN Person AS P ON P.Orbase_rn = Org.Rn " +
                         $"WHERE Fcac.Startdate <= DATE({dateTo.Year}, {dateTo.Month}, {dateTo.Day}) AND Fcac.Enddate >= DATE({dateSince.Year}, {dateSince.Month}, {dateSince.Day})";
 
-            var sql = $"SELECT P.Surname, P.Firstname, P.Secondname, Subdiv.Nameablative, Ank.Pf_id, Dol.Name, Vid.Name, Fcac.Fcac_rn, Fcac.Startdate, Fcac.Enddate " +
+            var sql = $"SELECT P.Surname, P.Firstname, P.Secondname, Subdiv.Nameablative, Ank.Pf_id, Dol.Name, Vid.Name, Fcac.Fcac_rn, Fcac.Startdate, Fcac.Enddate, Subdiv.Note, Zf.Stqnt " +
                         $"FROM Zfcac AS Fcac " +
                         $"JOIN Zank AS Ank ON Fcac.Ank_rn = Ank.Ank_rn " +
                         $"JOIN Zsubdiv AS Subdiv ON Fcac.Subdiv_rn = Subdiv.Subdiv_rn " +
@@ -295,6 +295,7 @@ namespace EmployeeReportBL
                         $"JOIN Ztipdol AS Dol ON Fcac.Tipdol_rn = Dol.Tipdol_rn " +
                         $"JOIN Orgbase AS Org ON Org.Rn = Ank.Orgbase_rn " +
                         $"JOIN Person AS P ON P.Orbase_rn = Org.Rn " +
+                        $"LEFT JOIN Zfcacch AS Zf ON Zf.Fcacbs_rn = Fcac.Fcac_rn " +
                         $"WHERE Fcac.Startdate <= DATE({dateTo.Year}, {dateTo.Month}, {dateTo.Day}) AND Fcac.Enddate >= DATE({dateSince.Year}, {dateSince.Month}, {dateSince.Day})";
 
             using (OleDbCommand cmd = new OleDbCommand() { CommandText = sqlCount, Connection = dbConnectionAsync })
@@ -320,6 +321,8 @@ namespace EmployeeReportBL
                             var subdivision = reader[3].ToString().Trim();
                             var snails = reader[4].ToString().Trim();
                             var position = reader[5].ToString().Trim();
+                            var subdivisionOid = reader[10].ToString().Trim();
+                            var rate = reader[11].ToString().Trim();
 
                             var typePersonalAccount = reader[6].ToString().Trim();
                             typePersonalAccount = $"{char.ToUpper(typePersonalAccount[0])}{typePersonalAccount.Substring(1).ToLower()}";
@@ -336,6 +339,8 @@ namespace EmployeeReportBL
                                 Snails = snails,
                                 Position = position,
                                 TypePersonalAccount = typePersonalAccount,
+                                SubdivisionOid = subdivisionOid,
+                                Rate = rate,
                                 WorkingTime = GetWorkingTime(rn, year, month, token).Result,
                                 ActualHoursWorked = GetActualHoursWorked(rn, year, month, token).Result
                             };

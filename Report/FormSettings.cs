@@ -64,6 +64,7 @@ namespace Report
 
             txtRegion.Text = ReportSettings.settings.region;
             txtOrganization.Text = ReportSettings.settings.organization;
+            txtOrganizationOid.Text = ReportSettings.settings.organizationOid;
             txtINN.Text = ReportSettings.settings.inn;
 
             firstLoading = false;
@@ -75,6 +76,7 @@ namespace Report
             {
                 ReportSettings.settings.region = txtRegion.Text;
                 ReportSettings.settings.organization = txtOrganization.Text;
+                ReportSettings.settings.organizationOid = txtOrganizationOid.Text;
                 ReportSettings.settings.inn = txtINN.Text;
                 ReportSettings.settings.sourceOfFinancing = cmbSourceOfFinancing.Text;
 

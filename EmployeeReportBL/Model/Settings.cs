@@ -28,6 +28,11 @@ namespace EmployeeReportBL.Model
         /// <summary>
         /// Полное наименование МО (Организация).
         /// </summary>
+        public string organizationOid;
+
+        /// <summary>
+        /// Полное наименование МО (Организация).
+        /// </summary>
         public string inn;
 
         /// <summary>

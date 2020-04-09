@@ -98,7 +98,7 @@ namespace Report
             if (employees != null)
             {
                 var personalAccountReport = new PersonalAccountReport(employees, flagZeroCharges);
-                PersonalAccountReports = personalAccountReport.GetPersonalAccountReport(month);
+                PersonalAccountReports = personalAccountReport.GetPersonalAccountReport(month, year);
                 return PersonalAccountReports;
             }
 

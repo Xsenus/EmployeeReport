@@ -48,11 +48,13 @@
             this.checkedListTypeOfCalculations = new System.Windows.Forms.CheckedListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblTypeOfCalculations = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.cmbSourceOfFinancing = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.checkedListTypeOfDay = new System.Windows.Forms.CheckedListBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cmbSourceOfFinancing = new System.Windows.Forms.ComboBox();
+            this.lblOrganizationOid = new System.Windows.Forms.Label();
+            this.txtOrganizationOid = new System.Windows.Forms.TextBox();
             this.panelTop.SuspendLayout();
             this.panelBot.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -60,8 +62,8 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.tabPage4.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSave
@@ -83,12 +85,14 @@
             this.propertyGridSettings.Location = new System.Drawing.Point(3, 3);
             this.propertyGridSettings.Margin = new System.Windows.Forms.Padding(2);
             this.propertyGridSettings.Name = "propertyGridSettings";
-            this.propertyGridSettings.Size = new System.Drawing.Size(470, 363);
+            this.propertyGridSettings.Size = new System.Drawing.Size(470, 378);
             this.propertyGridSettings.TabIndex = 68;
             this.propertyGridSettings.ToolbarVisible = false;
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.lblOrganizationOid);
+            this.panelTop.Controls.Add(this.txtOrganizationOid);
             this.panelTop.Controls.Add(this.lblINN);
             this.panelTop.Controls.Add(this.txtINN);
             this.panelTop.Controls.Add(this.txtOrganization);
@@ -98,7 +102,7 @@
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(484, 121);
+            this.panelTop.Size = new System.Drawing.Size(484, 147);
             this.panelTop.TabIndex = 69;
             // 
             // lblINN
@@ -161,7 +165,7 @@
             this.panelBot.Controls.Add(this.btnCancel);
             this.panelBot.Controls.Add(this.btnSave);
             this.panelBot.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBot.Location = new System.Drawing.Point(0, 516);
+            this.panelBot.Location = new System.Drawing.Point(0, 557);
             this.panelBot.Name = "panelBot";
             this.panelBot.Size = new System.Drawing.Size(484, 45);
             this.panelBot.TabIndex = 70;
@@ -184,10 +188,10 @@
             this.tabControl.Controls.Add(this.tabPage3);
             this.tabControl.Controls.Add(this.tabPage4);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 121);
+            this.tabControl.Location = new System.Drawing.Point(0, 147);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(484, 395);
+            this.tabControl.Size = new System.Drawing.Size(484, 410);
             this.tabControl.TabIndex = 71;
             // 
             // tabPage1
@@ -196,7 +200,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(476, 369);
+            this.tabPage1.Size = new System.Drawing.Size(476, 384);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Выплаты";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -266,6 +270,35 @@
             this.lblTypeOfCalculations.TabIndex = 0;
             this.lblTypeOfCalculations.Text = "Указанные виды расчета будут установлены в отчете отдельной строкой.\r\n";
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.cmbSourceOfFinancing);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(3, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(470, 34);
+            this.panel2.TabIndex = 2;
+            // 
+            // cmbSourceOfFinancing
+            // 
+            this.cmbSourceOfFinancing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbSourceOfFinancing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSourceOfFinancing.Location = new System.Drawing.Point(209, 7);
+            this.cmbSourceOfFinancing.Name = "cmbSourceOfFinancing";
+            this.cmbSourceOfFinancing.Size = new System.Drawing.Size(256, 21);
+            this.cmbSourceOfFinancing.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(5, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(198, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Основной источник финансирования:\r\n";
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.checkedListTypeOfDay);
@@ -288,39 +321,28 @@
             this.checkedListTypeOfDay.TabIndex = 1;
             this.checkedListTypeOfDay.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListTypeOfDay_ItemCheck);
             // 
-            // panel2
+            // lblOrganizationOid
             // 
-            this.panel2.Controls.Add(this.cmbSourceOfFinancing);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(3, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(470, 34);
-            this.panel2.TabIndex = 2;
+            this.lblOrganizationOid.AutoSize = true;
+            this.lblOrganizationOid.Location = new System.Drawing.Point(8, 121);
+            this.lblOrganizationOid.Name = "lblOrganizationOid";
+            this.lblOrganizationOid.Size = new System.Drawing.Size(97, 13);
+            this.lblOrganizationOid.TabIndex = 7;
+            this.lblOrganizationOid.Text = "OID организации:";
             // 
-            // label1
+            // txtOrganizationOid
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(198, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Основной источник финансирования:\r\n";
-            // 
-            // cmbSourceOfFinancing
-            // 
-            this.cmbSourceOfFinancing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtOrganizationOid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbSourceOfFinancing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSourceOfFinancing.Location = new System.Drawing.Point(209, 7);
-            this.cmbSourceOfFinancing.Name = "cmbSourceOfFinancing";
-            this.cmbSourceOfFinancing.Size = new System.Drawing.Size(256, 21);
-            this.cmbSourceOfFinancing.TabIndex = 2;
+            this.txtOrganizationOid.Location = new System.Drawing.Point(111, 118);
+            this.txtOrganizationOid.Name = "txtOrganizationOid";
+            this.txtOrganizationOid.Size = new System.Drawing.Size(361, 20);
+            this.txtOrganizationOid.TabIndex = 6;
             // 
             // FormSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(484, 561);
+            this.ClientSize = new System.Drawing.Size(484, 602);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.panelBot);
             this.Controls.Add(this.panelTop);
@@ -340,9 +362,9 @@
             this.tabPage3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -373,5 +395,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ComboBox cmbSourceOfFinancing;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblOrganizationOid;
+        private System.Windows.Forms.TextBox txtOrganizationOid;
     }
 }

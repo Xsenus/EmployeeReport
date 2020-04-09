@@ -38,6 +38,18 @@ namespace EmployeeReportBL.Model
         public string Subdivision { get; set; }
 
         /// <summary>
+        /// OID структурного подразделения
+        /// </summary>
+        [DisplayName("OID структурного подразделения")]
+        public string SubdivisionOid{ get; set; }
+
+        /// <summary>
+        /// Ставка
+        /// </summary>
+        [DisplayName("Ставка")]
+        public string Rate { get; set; }
+
+        /// <summary>
         /// СНИЛС.
         /// </summary>
         [DisplayName("СНИЛС")]
