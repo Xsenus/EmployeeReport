@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeReportBL.Model
 {
@@ -49,11 +50,39 @@ namespace EmployeeReportBL.Model
         [DisplayName("Ставка")]
         public string Rate { get; set; }
 
+        string snails;
         /// <summary>
         /// СНИЛС.
         /// </summary>
-        [DisplayName("СНИЛС")]
-        public string Snails { get; set; }
+        [DisplayName("СНИЛС"), DataType(DataType.Text)]
+        public string Snails
+        {
+            get
+            {
+                return snails;
+            }
+            set
+            {
+                var result = value.Replace("-", "").Replace(" ", "").Trim();
+
+                if (!string.IsNullOrWhiteSpace(result))
+                {
+                    if (result.Length != 11)
+                    {
+                        while (result.Length != 11)
+                        {
+                            result = snails.Insert(0, "0");
+                        }
+                    }
+
+                    snails = result;
+                }
+                else
+                {
+                    snails = string.Empty;
+                }
+            }
+        }
 
         /// <summary>
         /// Должность.

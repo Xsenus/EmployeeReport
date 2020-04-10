@@ -73,8 +73,9 @@ namespace Report
                 SpinningCircles.Refresh();
 
                 var flagZeroCharges = checkBoxZeroCharges.Checked;
-
                 dataGridView.DataSource = await GetReportAsync(year, month, flagZeroCharges, ct);
+
+                dataGridView.Columns[nameof(PersonalAccountReport.Snails)].ValueType = typeof(String);
 
                 SpinningCircles.Dispose();
                 btnStart.Enabled = true;
@@ -181,8 +182,9 @@ namespace Report
             xlWorkBook = xlexcel.Workbooks.Open(reportDirectory);
             var xlWorkSheet1 = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
             xlWorkSheet1.Activate();
+
             Range CR = (Range)xlWorkSheet1.Cells[4, 1];
-            CR.Select();
+            CR.Select();            
             xlWorkSheet1.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
             xlWorkSheet1.UsedRange.Cells.Borders.LineStyle = XlLineStyle.xlContinuous;
 
