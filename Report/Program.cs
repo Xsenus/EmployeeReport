@@ -16,8 +16,8 @@ namespace Report
             if (!Directory.Exists($"{Application.StartupPath}\\template"))
                 Directory.CreateDirectory($"{Application.StartupPath}\\template");
 
-            if (!File.Exists($"{Application.StartupPath}\\template\\Report.xlsx"))
-                File.WriteAllBytes($"{Application.StartupPath}\\template\\Report.xlsx", Properties.Resources.Report);
+            //if (!File.Exists($"{Application.StartupPath}\\template\\Report.xlsx"))
+            //    File.WriteAllBytes($"{Application.StartupPath}\\template\\Report.xlsx", Properties.Resources.Report);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

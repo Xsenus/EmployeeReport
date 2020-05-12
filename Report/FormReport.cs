@@ -18,8 +18,11 @@ namespace Report
 {
     public partial class FormReport : Form
     {
+        /// <summary>
+        /// Региональная или федеральная форма.
+        /// </summary>
+        private static bool IsRegion { get; set; }
         private List<PersonalAccountReport> PersonalAccountReports { get; set; }
-
         private SpinningCircles SpinningCircles { get; set; }
 
         public FormReport()
@@ -77,6 +80,57 @@ namespace Report
 
                 dataGridView.Columns[nameof(PersonalAccountReport.Snails)].ValueType = typeof(String);
 
+                if (IsRegion)
+                {
+                    dataGridView.Columns[nameof(PersonalAccountReport.OrganizationOid)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.SubdivisionOid)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.ActualHoursWorkedPP415)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.ActualHoursWorkedPP484)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.Year)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.Rate)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.CoefficientWorkDesertAndWaterlessAreas415)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.AllowanceWorkExperienceNorthEquivalentAreas415)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.IncentivePayment415)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.SummaIncentivePayment415)].Visible = false; 
+                    dataGridView.Columns[nameof(PersonalAccountReport.CoefficientWorkDesertAndWaterlessAreas484)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.IncentivePayment484)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.SummaIncentivePayment484)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.OtherIncentivePayments)].Visible = false;
+
+
+                    dataGridView.Columns[nameof(PersonalAccountReport.OtherCompensatoryPaymentsSubjectRussianFederation)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.OtherCompensatoryPaymentsEntity)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.OtherIncentivePaymentsSubjectRussianFederation)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.OtherIncentivePaymentsEntity)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.OneTimeIncentivePayments)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.Covid19)].Visible = true;
+                }
+                else
+                {
+                    dataGridView.Columns[nameof(PersonalAccountReport.OtherCompensatoryPaymentsSubjectRussianFederation)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.OtherCompensatoryPaymentsEntity)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.OtherIncentivePaymentsSubjectRussianFederation)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.OtherIncentivePaymentsEntity)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.OneTimeIncentivePayments)].Visible = false;
+                    dataGridView.Columns[nameof(PersonalAccountReport.Covid19)].Visible = false;
+
+
+                    dataGridView.Columns[nameof(PersonalAccountReport.OrganizationOid)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.SubdivisionOid)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.ActualHoursWorkedPP415)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.ActualHoursWorkedPP484)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.Year)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.Rate)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.CoefficientWorkDesertAndWaterlessAreas415)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.AllowanceWorkExperienceNorthEquivalentAreas415)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.IncentivePayment415)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.SummaIncentivePayment415)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.CoefficientWorkDesertAndWaterlessAreas484)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.IncentivePayment484)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.SummaIncentivePayment484)].Visible = true;
+                    dataGridView.Columns[nameof(PersonalAccountReport.OtherIncentivePayments)].Visible = true;
+                }
+
                 SpinningCircles.Dispose();
                 btnStart.Enabled = true;
                 dataGridView.Enabled = true;
@@ -98,7 +152,7 @@ namespace Report
 
             if (employees != null)
             {
-                var personalAccountReport = new PersonalAccountReport(employees, flagZeroCharges);
+                var personalAccountReport = new PersonalAccountReport(employees, flagZeroCharges, checkIsAllEmployees.Checked, IsRegion);
                 PersonalAccountReports = personalAccountReport.GetPersonalAccountReport(month, year);
                 return PersonalAccountReports;
             }
@@ -153,7 +207,7 @@ namespace Report
                     Clipboard.SetDataObject(dataObj);
                 }
 
-                await Task.Run(() => Export(ct)).ConfigureAwait(false);
+                await Task.Run(() => Export(ct, IsRegion)).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -161,7 +215,7 @@ namespace Report
             }
         }
 
-        private void Export(CancellationToken token)
+        private void Export(CancellationToken token, bool isRegion)
         {
             token.ThrowIfCancellationRequested();
             if (dataGridView.DataSource == null)
@@ -169,7 +223,17 @@ namespace Report
                 return;
             }
 
-            var templateDirectory = $"{Environment.CurrentDirectory}\\template\\Report.xlsx";
+            var templateDirectory = default(string);
+
+            if (isRegion)
+            {
+                templateDirectory = $"{Environment.CurrentDirectory}\\template\\Regional payroll analysis.xlsx";
+            }
+            else
+            {
+                templateDirectory = $"{Environment.CurrentDirectory}\\template\\Federal payroll analysis.xlsx";
+            }
+            
             var reportDirectory = $"{Path.GetTempPath()}{Guid.NewGuid().ToString().Substring(0, 6).ToUpper()}.xlsx";
 
             File.Copy(templateDirectory, reportDirectory);
@@ -178,15 +242,14 @@ namespace Report
             Workbook xlWorkBook;
 
             xlexcel = new Excel.Application();
-            xlexcel.Visible = true;
             xlWorkBook = xlexcel.Workbooks.Open(reportDirectory);
             var xlWorkSheet1 = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
             xlWorkSheet1.Activate();
 
-            Range CR = (Range)xlWorkSheet1.Cells[4, 1];
+            Range CR = (Range)xlWorkSheet1.Cells[5, 1];
             CR.Select();            
             xlWorkSheet1.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
-            xlWorkSheet1.UsedRange.Cells.Borders.LineStyle = XlLineStyle.xlContinuous;
+            //xlWorkSheet1.UsedRange.Cells.Borders.LineStyle = XlLineStyle.xlContinuous;
 
             var xlWorkSheet2 = (Worksheet)xlWorkBook.Worksheets[2];
             xlWorkSheet2.Activate();
@@ -227,6 +290,8 @@ namespace Report
             }
 
             xlWorkSheet1.Activate();
+
+            xlexcel.Visible = true;
         }
 
         private void btnConnectParus_Click(object sender, EventArgs e)
@@ -269,6 +334,11 @@ namespace Report
         private void ReadingDataBase_ReaderEvent(object sender, int e)
         {
             this?.Invoke((System.Action)delegate {
+                if (toolStripProgressBar.Maximum < e)
+                {
+                    toolStripProgressBar.Maximum = toolStripProgressBar.Maximum = e + 1;
+                }
+
                 toolStripProgressBar.Value = e;
             });
         }
@@ -286,6 +356,23 @@ namespace Report
                 SpinningCircles.Top = dataGridView.Height / 2 - SpinningCircles.Height;
                 SpinningCircles.Left = dataGridView.Width / 2 - SpinningCircles.Width / 2;
                 SpinningCircles.Refresh();
+            }
+        }
+
+        private void checkIsRegion_CheckedChanged(object sender, EventArgs e)
+        {
+            var checkBox = sender as System.Windows.Forms.CheckBox;
+
+            if (checkBox != null)
+            {
+                if (checkBox.Checked)
+                {
+                    IsRegion = true;
+                }
+                else
+                {
+                    IsRegion = false;
+                }
             }
         }
     }

@@ -368,5 +368,133 @@ namespace EmployeeReportBL.Model
         [PropertySorter.PropertyOrder(310)]
         [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
         public PayList PaymentUnWorkedTimeAndOtherPayments { get; set; } = new PayList();
+
+        /// <summary>
+        /// Работу в пустынях и безводных местностях ПП РФ 415.
+        /// </summary>
+        [DisplayName("Работу в пустынях и безводных местностях ПП РФ 415")]
+        [Description("Размер районного коэффициента к заработной плате, коэффициент за работу в пустынных и безводных местностях, высокогорных районах, применяемые к выплатам по ПП РФ №415, ед.")]
+        [PropertySorter.PropertyOrder(320)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList CoefficientWorkDesertAndWaterlessAreas415 { get; set; } = new PayList();
+
+        /// <summary>
+        /// Работа в районах Крайнего Севера ПП РФ 415.
+        /// </summary>
+        [DisplayName("Работа в районах Крайнего Севера ПП РФ 415")]
+        [Description("Размер процентной надбавки за работу в районах Крайнего Севера, приравненных к ним местностях, в южных районах Восточной Сибири и Дальнего Востока (в соответствии с НПА СССР, РСФСР), применяемый к выплатам по ПП РФ №415, %")]
+        [PropertySorter.PropertyOrder(330)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList AllowanceWorkExperienceNorthEquivalentAreas415 { get; set; } = new PayList();
+
+        /// <summary>
+        /// Выплата стимулирующего характера ПП РФ 415.
+        /// </summary>
+        [DisplayName("Выплата стимулирующего характера ПП РФ 415")]
+        [Description("Выплата стимулирующего характера, установленная медицинскому работнику в соответствии с ПП РФ №415 за фактически отработанное время.")]
+        [PropertySorter.PropertyOrder(340)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList IncentivePayment415 { get; set; } = new PayList();
+
+        /// <summary>
+        /// Сумма страховых взносов с выплат стимулирующего характера ПП РФ 415.
+        /// </summary>
+        [DisplayName("Сумма страховых взносов с выплат стимулирующего характера ПП РФ 415")]
+        [Description("Сумма страховых взносов с выплат стимулирующего характера, начисленных по ПП РФ 415, руб.")]
+        [PropertySorter.PropertyOrder(350)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList SummaIncentivePayment415 { get; set; } = new PayList();
+
+        /// <summary>
+        /// Работу в пустынях и безводных местностях ПП РФ 484.
+        /// </summary>
+        [DisplayName("Работу в пустынях и безводных местностях ПП РФ 484")]
+        [Description("Размер районного коэффициента к заработной плате, коэффициент за работу в пустынных и безводных местностях, высокогорных районах, установленные федеральными НПА и применяемые к выплатам по ПП РФ №484, ед.")]
+        [PropertySorter.PropertyOrder(360)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList CoefficientWorkDesertAndWaterlessAreas484 { get; set; } = new PayList();
+
+        /// <summary>
+        /// Выплата стимулирующего характера ПП РФ 484.
+        /// </summary>
+        [DisplayName("Выплата стимулирующего характера ПП РФ 484")]
+        [Description("Выплата стимулирующего характера, установленная медицинскому работнику в соответствии с ПП РФ №484 за фактически отработанное время.")]
+        [PropertySorter.PropertyOrder(370)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList IncentivePayment484 { get; set; } = new PayList();
+
+        /// <summary>
+        /// Сумма страховых взносов с выплат стимулирующего характера ПП РФ 484.
+        /// </summary>
+        [DisplayName("Сумма страховых взносов с выплат стимулирующего характера ПП РФ 484")]
+        [Description("Сумма страховых взносов с выплат стимулирующего характера, начисленных по ПП РФ 484, руб.")]
+        [PropertySorter.PropertyOrder(380)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList SummaIncentivePayment484 { get; set; } = new PayList();
+
+        /// <summary>
+        /// Иные выплаты компенсационного характера, установленные субъектом Российской Федерации.
+        /// </summary>
+        [DisplayName("Компенсация установленная субъектом РФ")]
+        [Description("Иные выплаты компенсационного характера, установленные субъектом Российской Федерации.")]
+        [PropertySorter.PropertyOrder(390)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList OtherCompensatoryPaymentsSubjectRussianFederation { get; set; } = new PayList();
+
+        /// <summary>
+        /// Иные выплаты компенсационного характера, установленные учреждением.
+        /// </summary>
+        [DisplayName("Компенсация установленная учреждением")]
+        [Description("Иные выплаты компенсационного характера, установленные учреждением.")]
+        [PropertySorter.PropertyOrder(400)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList OtherCompensatoryPaymentsEntity { get; set; } = new PayList();
+
+        /// <summary>
+        /// Надбавка врачам терапевтам (педиатрам) участковым, врачам общей практики и их медсестрам.
+        /// </summary>
+        [DisplayName("Надбавки врачам")]
+        [Description("Надбавка врачам терапевтам (педиатрам) участковым, врачам общей практики и их медсестрам.")]
+        [PropertySorter.PropertyOrder(410)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList MedicalAllowance { get; set; } = new PayList();
+
+        /// <summary>
+        /// Иные выплаты стимулирующего характера, установленные субъектом Российской Федерации..
+        /// </summary>
+        [DisplayName("Стимулирующая установленная субъектом РФ")]
+        [Description("Иные выплаты стимулирующего характера, установленные субъектом Российской Федерации.")]
+        [PropertySorter.PropertyOrder(410)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList OtherIncentivePaymentsSubjectRussianFederation { get; set; } = new PayList();
+
+        /// <summary>
+        /// Иные выплаты стимулирующего характера, установленные учреждением.
+        /// </summary>
+        [DisplayName("Стимулирующая установленная учреждением")]
+        [Description("Иные выплаты стимулирующего характера, установленные учреждением.")]
+        [PropertySorter.PropertyOrder(410)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList OtherIncentivePaymentsEntity { get; set; } = new PayList();
+
+        /// <summary>
+        /// Единовременные поощрительные выплаты.
+        /// </summary>
+        [DisplayName("Единовременные поощрительные выплаты")]
+        [Description("Единовременные поощрительные выплаты.")]
+        [PropertySorter.PropertyOrder(410)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList OneTimeIncentivePayments { get; set; } = new PayList();
+
+        /// <summary>
+        /// Выплата стимулирующего характера за особые условия труда и дополнительную нагрузку медицинским работникам, оказывающим медицинскую помощь гражданам, 
+        /// у которых выявлена новая коронавирусная инфекция, и лицам из групп риска заражения новой коронавирусной инфекцией 
+        /// (в соответствии с постановлениями Правительства Российской Федерации № 415 от 2 апреля 2020 г. и № 484 от 12 апреля 2020 г.).
+        /// </summary>
+        [DisplayName("Covid19")]
+        [Description("Выплата стимулирующего характера за особые условия труда и дополнительную нагрузку медицинским работникам, оказывающим медицинскую помощь гражданам, у которых выявлена новая коронавирусная инфекция, и лицам из групп риска заражения новой коронавирусной инфекцией (в соответствии с постановлениями Правительства Российской Федерации № 415 от 2 апреля 2020 г. и № 484 от 12 апреля 2020 г.).")]
+        [PropertySorter.PropertyOrder(410)]
+        [Editor(typeof(PaysDropDownEditor), typeof(UITypeEditor))]
+        public PayList Covid19 { get; set; } = new PayList();
     }
 }

@@ -12,15 +12,19 @@ namespace EmployeeReportBL.Model
     /// </summary>
     public class PersonalAccountReport
     {
+        private bool IsAllEmployees;
+        private bool IsRegion;
         private bool flagZeroCharges;
         private List<Employee> Employees { get; set; }
 
         public PersonalAccountReport() { }
 
-        public PersonalAccountReport(List<Employee> employees, bool flagZeroCharges)
+        public PersonalAccountReport(List<Employee> employees, bool flagZeroCharges, bool isAllEmployees, bool isRegion)
         {
             Employees = employees;
             this.flagZeroCharges = flagZeroCharges;
+            IsAllEmployees = isAllEmployees;
+            IsRegion = isRegion;
         }
 
         /// <summary>
@@ -106,6 +110,18 @@ namespace EmployeeReportBL.Model
         /// </summary>
         [DisplayName("Отработанное время")]
         public decimal? ActualHoursWorked { get; set; }
+
+        /// <summary>
+        /// Фактическое количество отработанного времени  для начисления выплат по ПП РФ 415 (часы)
+        /// </summary>
+        [DisplayName("ПП РФ 415 (часы)")]
+        public decimal? ActualHoursWorkedPP415 { get; set; }
+
+        /// <summary>
+        /// Фактическое количество отработанного времени  для начисления выплат по ПП РФ 415 (часы)
+        /// </summary>
+        [DisplayName("ПП РФ 484 (часы)")]
+        public decimal? ActualHoursWorkedPP484 { get; set; }
 
         /// <summary>
         /// Должностной оклад.
@@ -204,6 +220,18 @@ namespace EmployeeReportBL.Model
         public decimal? OtherCompensatoryPayments { get; set; }
 
         /// <summary>
+        /// Иные выплаты компенсационного характера, установленные субъектом Российской Федерации.
+        /// </summary>
+        [DisplayName("Компенсация установленная субъектом РФ")]
+        public decimal? OtherCompensatoryPaymentsSubjectRussianFederation { get; set; }
+
+        /// <summary>
+        /// Иные выплаты компенсационного характера, установленные учреждением.
+        /// </summary>
+        [DisplayName("Компенсация установленная учреждением")]
+        public decimal? OtherCompensatoryPaymentsEntity { get; set; }
+
+        /// <summary>
         /// Надбавка за интенсивность труда.
         /// </summary>
         [DisplayName("Интенсивность труда")]
@@ -287,11 +315,59 @@ namespace EmployeeReportBL.Model
         [DisplayName("Сельская местность2")]
         public decimal? SurchargeWorkRuralAreas2 { get; set; }
 
+        ///// <summary>
+        ///// Надбавка за участки.
+        ///// </summary>
+        //[DisplayName("Участки")]
+        //public decimal? AllowanceForPrecinct { get; set; }
+
         /// <summary>
-        /// Надбавка за участки.
+        /// Надбавка врачам терапевтам (педиатрам) участковым, врачам общей практики и их медсестрам.
         /// </summary>
-        [DisplayName("Участки")]
-        public decimal? AllowanceForPrecinct { get; set; }
+        [DisplayName("Надбавки врачам")]
+        public decimal? MedicalAllowance { get; set; }
+
+        /// <summary>
+        /// Работу в пустынях и безводных местностях ПП РФ 415.
+        /// </summary>
+        [DisplayName("Работу в пустынях и безводных местностях ПП РФ 415")]
+        public decimal? CoefficientWorkDesertAndWaterlessAreas415 { get; set; }
+
+        /// <summary>
+        /// Работа в районах Крайнего Севера ПП РФ 415.
+        /// </summary>
+        [DisplayName("Работа в районах Крайнего Севера ПП РФ 415")]
+        public decimal? AllowanceWorkExperienceNorthEquivalentAreas415 { get; set; }
+
+        /// <summary>
+        /// Выплата стимулирующего характера ПП РФ 415.
+        /// </summary>
+        [DisplayName("Выплата стимулирующего характера ПП РФ 415")]
+        public decimal? IncentivePayment415 { get; set; }
+
+        /// <summary>
+        /// Сумма страховых взносов с выплат стимулирующего характера ПП РФ 415.
+        /// </summary>
+        [DisplayName("Сумма страховых взносов с выплат стимулирующего характера ПП РФ 415")]
+        public decimal? SummaIncentivePayment415 { get; set; }
+
+        /// <summary>
+        /// Работу в пустынях и безводных местностях ПП РФ 484.
+        /// </summary>
+        [DisplayName("Работу в пустынях и безводных местностях ПП РФ 484")]
+        public decimal? CoefficientWorkDesertAndWaterlessAreas484 { get; set; }
+
+        /// <summary>
+        /// Выплата стимулирующего характера ПП РФ 484.
+        /// </summary>
+        [DisplayName("Выплата стимулирующего характера ПП РФ 484")]
+        public decimal? IncentivePayment484 { get; set; }
+
+        /// <summary>
+        /// Сумма страховых взносов с выплат стимулирующего характера ПП РФ 484.
+        /// </summary>
+        [DisplayName("Сумма страховых взносов с выплат стимулирующего характера ПП РФ 484")]
+        public decimal? SummaIncentivePayment484 { get; set; }
 
         /// <summary>
         /// Иные выплаты стимулирующего характера.
@@ -300,11 +376,37 @@ namespace EmployeeReportBL.Model
         public decimal? OtherIncentivePayments { get; set; }
 
         /// <summary>
+        /// Иные выплаты стимулирующего характера, установленные субъектом Российской Федерации.
+        /// </summary>
+        [DisplayName("Стимулирующая установленная субъектом РФ")]
+        public decimal? OtherIncentivePaymentsSubjectRussianFederation { get; set; }
+
+        /// <summary>
+        /// Иные выплаты стимулирующего характера, установленные учреждением.
+        /// </summary>
+        [DisplayName("Стимулирующая установленная учреждением")]
+        public decimal? OtherIncentivePaymentsEntity { get; set; }
+
+        /// <summary>
         /// Оплата за не отработанное время, единовременные поощрительные и другие выплаты, оплата питания и проживания, имеющая систематический характер 
         /// в соответствии с пунктами 84.2.,84.3,84.4 приказа федеральной службы государственной статистики от 22.11.2017 №772.
         /// </summary>
         [DisplayName("Не отработанное время")]
         public decimal? PaymentUnWorkedTimeAndOtherPayments { get; set; }
+
+        /// <summary>
+        /// Единовременные поощрительные выплаты.
+        /// </summary>
+        [DisplayName("Единовременные поощрительные выплаты")]
+        public decimal? OneTimeIncentivePayments { get; set; }
+
+        /// <summary>
+        /// Выплата стимулирующего характера за особые условия труда и дополнительную нагрузку медицинским работникам, оказывающим медицинскую помощь гражданам, 
+        /// у которых выявлена новая коронавирусная инфекция, и лицам из групп риска заражения новой коронавирусной инфекцией 
+        /// (в соответствии с постановлениями Правительства Российской Федерации № 415 от 2 апреля 2020 г. и № 484 от 12 апреля 2020 г.)
+        /// </summary>
+        [DisplayName("Covid19")]
+        public decimal? Covid19 { get; set; }
 
         [DisplayName("ФИО")]
         public string Name { get; set; }
@@ -315,7 +417,7 @@ namespace EmployeeReportBL.Model
 
             var employee = new List<Employee>();
 
-            if (ReportSettings.settings.Positions == null || ReportSettings.settings.Positions.Count == 0)
+            if (IsAllEmployees || ReportSettings.settings.Positions == null || ReportSettings.settings.Positions.Count == 0)
             {
                 employee = Employees;
             }
@@ -326,23 +428,29 @@ namespace EmployeeReportBL.Model
 
             if (ReportSettings.settings.TypeOfCalculations == null || ReportSettings.settings.TypeOfCalculations.Count == 0)
             {
-                AddPersonalAccountReport(month, result, employee, flagZeroCharges, year);
+                AddPersonalAccountReport(month, result, employee, flagZeroCharges, year, IsRegion);
             }
             else
             {
                 for (int i = 0; i < ReportSettings.settings.TypeOfCalculations.Count; i++)
                 {
                     var employeeTypeOfCalculations = employee.Where(w => w.Accruals.Where(type => string.Compare(ReportSettings.settings.TypeOfCalculations[i], type.TypeOfCalculation, StringComparison.Ordinal) == 0) != null).ToList();
-                    AddPersonalAccountReport(month, result, employeeTypeOfCalculations, flagZeroCharges, year, ReportSettings.settings.TypeOfCalculations[i]);
+                    AddPersonalAccountReport(month, result, employeeTypeOfCalculations, flagZeroCharges, year, IsRegion, ReportSettings.settings.TypeOfCalculations[i]);
                 }
 
-                AddPersonalAccountReport(month, result, employee, flagZeroCharges, year);
+                AddPersonalAccountReport(month, result, employee, flagZeroCharges, year, IsRegion);
             }
 
             return result.OrderBy(u => u.Name).ToList();
         }
 
-        private static void AddPersonalAccountReport(Month month, List<PersonalAccountReport> result, List<Employee> employee, bool flagZeroCharges, int year, string typeOfCalculations = null)
+        private static void AddPersonalAccountReport(Month month, 
+            List<PersonalAccountReport> result, 
+            List<Employee> employee, 
+            bool flagZeroCharges, 
+            int year, 
+            bool isRegion,
+            string typeOfCalculations = null)
         {
             foreach (var item in employee)
             {
@@ -391,6 +499,25 @@ namespace EmployeeReportBL.Model
                 var allowanceForPrecinct = accrual?.Where(w => ReportSettings.settings.AllowanceForPrecinct.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
                 var otherIncentivePayments = accrual?.Where(w => ReportSettings.settings.OtherIncentivePayments.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
                 var paymentUnWorkedTimeAndOtherPayments = accrual?.Where(w => ReportSettings.settings.PaymentUnWorkedTimeAndOtherPayments.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+
+                var coefficientWorkDesertAndWaterlessAreas415 = accrual?.Where(w => ReportSettings.settings.CoefficientWorkDesertAndWaterlessAreas415.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                var allowanceWorkExperienceNorthEquivalentAreas415 = accrual?.Where(w => ReportSettings.settings.AllowanceWorkExperienceNorthEquivalentAreas415.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                var incentivePayment415 = accrual?.Where(w => ReportSettings.settings.IncentivePayment415.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                var summaIncentivePayment415 = accrual?.Where(w => ReportSettings.settings.SummaIncentivePayment415.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                var coefficientWorkDesertAndWaterlessAreas484 = accrual?.Where(w => ReportSettings.settings.CoefficientWorkDesertAndWaterlessAreas484.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                var incentivePayment484 = accrual?.Where(w => ReportSettings.settings.IncentivePayment484.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                var summaIncentivePayment484 = accrual?.Where(w => ReportSettings.settings.SummaIncentivePayment484.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                
+                var otherCompensatoryPaymentsSubjectRussianFederation = accrual?.Where(w => ReportSettings.settings.OtherCompensatoryPaymentsSubjectRussianFederation.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                var otherCompensatoryPaymentsEntity = accrual?.Where(w => ReportSettings.settings.OtherCompensatoryPaymentsEntity.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                
+                var medicalAllowance = accrual?.Where(w => ReportSettings.settings.MedicalAllowance.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+
+                var otherIncentivePaymentsSubjectRussianFederation = accrual?.Where(w => ReportSettings.settings.OtherIncentivePaymentsSubjectRussianFederation.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                var otherIncentivePaymentsEntity = accrual?.Where(w => ReportSettings.settings.OtherIncentivePaymentsEntity.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                var oneTimeIncentivePayments = accrual?.Where(w => ReportSettings.settings.OneTimeIncentivePayments.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+                var covid19 = accrual?.Where(w => ReportSettings.settings.Covid19.PayLists.Contains(w.Memo))?.Sum(s => s.Value);
+
                 var name = $"{item.Name} {item.Surname} {item.Patronymic}";
 
                 var sourceOfFinancing = (typeOfCalculations == null) ? ReportSettings.settings.sourceOfFinancing : typeOfCalculations;
@@ -430,11 +557,43 @@ namespace EmployeeReportBL.Model
                         (surchargeWorkRuralAreas2 == null || surchargeWorkRuralAreas2 == 0) &&
                         (allowanceForPrecinct == null || allowanceForPrecinct == 0) &&
                         (otherIncentivePayments == null || otherIncentivePayments == 0) &&
-                        (paymentUnWorkedTimeAndOtherPayments == null || paymentUnWorkedTimeAndOtherPayments == 0)
+                        (paymentUnWorkedTimeAndOtherPayments == null || paymentUnWorkedTimeAndOtherPayments == 0) &&
+
+                        (coefficientWorkDesertAndWaterlessAreas415 == null || coefficientWorkDesertAndWaterlessAreas415 == 0) &&
+                        (allowanceWorkExperienceNorthEquivalentAreas415 == null || allowanceWorkExperienceNorthEquivalentAreas415 == 0) &&
+                        (incentivePayment415 == null || incentivePayment415 == 0) &&
+                        (summaIncentivePayment415 == null || summaIncentivePayment415 == 0) &&
+                        (coefficientWorkDesertAndWaterlessAreas484 == null || coefficientWorkDesertAndWaterlessAreas484 == 0) &&
+                        (incentivePayment484 == null || incentivePayment484 == 0) &&
+                        (summaIncentivePayment484 == null || summaIncentivePayment484 == 0) &&
+
+                        (medicalAllowance == null || medicalAllowance == 0) &&
+
+                        (otherIncentivePaymentsSubjectRussianFederation == null || otherIncentivePaymentsSubjectRussianFederation == 0) &&
+                        (otherIncentivePaymentsEntity == null || otherIncentivePaymentsEntity == 0) &&
+                        (oneTimeIncentivePayments == null || oneTimeIncentivePayments == 0) &&
+                        (covid19 == null || covid19 == 0) &&
+
+                        (otherCompensatoryPaymentsSubjectRussianFederation == null || otherCompensatoryPaymentsSubjectRussianFederation == 0) &&
+                        (otherCompensatoryPaymentsEntity == null || otherCompensatoryPaymentsEntity == 0)
                         )
                     {
                         continue;
                     }
+                }
+
+                var monthString = default(string);
+                var snails = default(string);
+
+                if (isRegion)
+                {
+                    monthString = ((int)month).ToString().Trim();
+                    snails = $"54{item.Snails.Replace("-", "").Replace(" ", "").Trim()}";
+                }
+                else
+                {
+                    monthString = month.GetDescription().ToString().Trim();
+                    snails = $"{item.Snails.Replace("-", "").Replace(" ", "").Trim()}";
                 }
 
                 result.Add(new PersonalAccountReport()
@@ -444,9 +603,9 @@ namespace EmployeeReportBL.Model
                     Organization = ReportSettings.settings.organization,
                     Subdivision = item.Subdivision,
                     SubdivisionOid = item.SubdivisionOid,
-                    Month = month.GetDescription().ToString().Trim(),//((int)month).ToString().Trim(),
+                    Month = monthString,
                     Year = year.ToString(),
-                    Snails = $"{item.Snails.Replace("-", "").Replace(" ", "").Trim()}",
+                    Snails = snails,
                     Position = item.Position,
                     Rate = item.Rate,
                     TypePersonalAccount = item.TypePersonalAccount,
@@ -483,9 +642,28 @@ namespace EmployeeReportBL.Model
                     HonoraryBonus = honoraryBonus == 0 ? null : honoraryBonus,
                     GraduateBonus = graduateBonus == 0 ? null : graduateBonus,
                     SurchargeWorkRuralAreas2 = surchargeWorkRuralAreas2 == 0 ? null : surchargeWorkRuralAreas2,
-                    AllowanceForPrecinct = allowanceForPrecinct == 0 ? null : allowanceForPrecinct,
+                    //AllowanceForPrecinct = allowanceForPrecinct == 0 ? null : allowanceForPrecinct,
                     OtherIncentivePayments = otherIncentivePayments == 0 ? null : otherIncentivePayments,
                     PaymentUnWorkedTimeAndOtherPayments = paymentUnWorkedTimeAndOtherPayments == 0 ? null : paymentUnWorkedTimeAndOtherPayments,
+
+                    CoefficientWorkDesertAndWaterlessAreas415 = coefficientWorkDesertAndWaterlessAreas415 == 0 ? null : coefficientWorkDesertAndWaterlessAreas415,
+                    AllowanceWorkExperienceNorthEquivalentAreas415 = allowanceWorkExperienceNorthEquivalentAreas415 == 0 ? null : allowanceWorkExperienceNorthEquivalentAreas415,
+                    IncentivePayment415 = incentivePayment415 == 0 ? null : incentivePayment415,
+                    SummaIncentivePayment415 = summaIncentivePayment415 == 0 ? null : summaIncentivePayment415,
+                    CoefficientWorkDesertAndWaterlessAreas484 = coefficientWorkDesertAndWaterlessAreas484 == 0 ? null : coefficientWorkDesertAndWaterlessAreas484,
+                    IncentivePayment484 = incentivePayment484 == 0 ? null : incentivePayment484,
+                    SummaIncentivePayment484 = summaIncentivePayment484 == 0 ? null : summaIncentivePayment484,
+
+                    OtherCompensatoryPaymentsSubjectRussianFederation = otherCompensatoryPaymentsSubjectRussianFederation == 0 ? null : otherCompensatoryPaymentsSubjectRussianFederation,
+                    OtherCompensatoryPaymentsEntity = otherCompensatoryPaymentsEntity == 0 ? null : otherCompensatoryPaymentsEntity,
+
+                    OtherIncentivePaymentsSubjectRussianFederation = otherIncentivePaymentsSubjectRussianFederation == 0 ? null : otherIncentivePaymentsSubjectRussianFederation,
+                    OtherIncentivePaymentsEntity = otherIncentivePaymentsEntity == 0 ? null : otherIncentivePaymentsEntity,
+                    OneTimeIncentivePayments = oneTimeIncentivePayments == 0 ? null : oneTimeIncentivePayments,
+                    Covid19 = covid19 == 0 ? null : covid19,
+
+                    MedicalAllowance = medicalAllowance == 0 ? null : medicalAllowance,
+
                     Name = name
                 });
 

@@ -40,6 +40,8 @@
             this.cmbYear = new System.Windows.Forms.ComboBox();
             this.cmbMonth = new System.Windows.Forms.ComboBox();
             this.panelReportPrint = new System.Windows.Forms.Panel();
+            this.checkIsAllEmployees = new System.Windows.Forms.CheckBox();
+            this.checkIsRegion = new System.Windows.Forms.CheckBox();
             this.checkBoxZeroCharges = new System.Windows.Forms.CheckBox();
             this.groupBoxReport = new System.Windows.Forms.GroupBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -73,7 +75,7 @@
             this.dataGridView.Location = new System.Drawing.Point(0, 118);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersWidth = 51;
-            this.dataGridView.Size = new System.Drawing.Size(634, 371);
+            this.dataGridView.Size = new System.Drawing.Size(784, 371);
             this.dataGridView.TabIndex = 0;
             // 
             // panelConnect
@@ -85,13 +87,13 @@
             this.panelConnect.Location = new System.Drawing.Point(0, 24);
             this.panelConnect.Margin = new System.Windows.Forms.Padding(2);
             this.panelConnect.Name = "panelConnect";
-            this.panelConnect.Size = new System.Drawing.Size(634, 26);
+            this.panelConnect.Size = new System.Drawing.Size(784, 26);
             this.panelConnect.TabIndex = 8;
             // 
             // btnConnectParus
             // 
             this.btnConnectParus.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnConnectParus.Location = new System.Drawing.Point(541, 1);
+            this.btnConnectParus.Location = new System.Drawing.Point(691, 1);
             this.btnConnectParus.Name = "btnConnectParus";
             this.btnConnectParus.Size = new System.Drawing.Size(81, 23);
             this.btnConnectParus.TabIndex = 12;
@@ -104,7 +106,7 @@
             this.txtPathP7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPathP7.Location = new System.Drawing.Point(111, 3);
             this.txtPathP7.Name = "txtPathP7";
-            this.txtPathP7.Size = new System.Drawing.Size(424, 20);
+            this.txtPathP7.Size = new System.Drawing.Size(574, 20);
             this.txtPathP7.TabIndex = 6;
             this.txtPathP7.DoubleClick += new System.EventHandler(this.TxtPathP7_DoubleClick);
             // 
@@ -174,6 +176,8 @@
             // 
             // panelReportPrint
             // 
+            this.panelReportPrint.Controls.Add(this.checkIsAllEmployees);
+            this.panelReportPrint.Controls.Add(this.checkIsRegion);
             this.panelReportPrint.Controls.Add(this.checkBoxZeroCharges);
             this.panelReportPrint.Controls.Add(this.btnStart);
             this.panelReportPrint.Controls.Add(this.groupBoxReport);
@@ -181,8 +185,29 @@
             this.panelReportPrint.Location = new System.Drawing.Point(0, 50);
             this.panelReportPrint.Margin = new System.Windows.Forms.Padding(2);
             this.panelReportPrint.Name = "panelReportPrint";
-            this.panelReportPrint.Size = new System.Drawing.Size(634, 68);
+            this.panelReportPrint.Size = new System.Drawing.Size(784, 68);
             this.panelReportPrint.TabIndex = 12;
+            // 
+            // checkIsAllEmployees
+            // 
+            this.checkIsAllEmployees.AutoSize = true;
+            this.checkIsAllEmployees.Location = new System.Drawing.Point(637, 38);
+            this.checkIsAllEmployees.Name = "checkIsAllEmployees";
+            this.checkIsAllEmployees.Size = new System.Drawing.Size(106, 17);
+            this.checkIsAllEmployees.TabIndex = 15;
+            this.checkIsAllEmployees.Text = "Все сотрудники";
+            this.checkIsAllEmployees.UseVisualStyleBackColor = true;
+            // 
+            // checkIsRegion
+            // 
+            this.checkIsRegion.AutoSize = true;
+            this.checkIsRegion.Location = new System.Drawing.Point(394, 15);
+            this.checkIsRegion.Name = "checkIsRegion";
+            this.checkIsRegion.Size = new System.Drawing.Size(135, 17);
+            this.checkIsRegion.TabIndex = 14;
+            this.checkIsRegion.Text = "Региональная форма";
+            this.checkIsRegion.UseVisualStyleBackColor = true;
+            this.checkIsRegion.CheckedChanged += new System.EventHandler(this.checkIsRegion_CheckedChanged);
             // 
             // checkBoxZeroCharges
             // 
@@ -217,7 +242,7 @@
             this.toolStripProgressBar});
             this.statusStrip.Location = new System.Drawing.Point(0, 489);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(634, 22);
+            this.statusStrip.Size = new System.Drawing.Size(784, 22);
             this.statusStrip.TabIndex = 13;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -237,7 +262,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(478, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(628, 17);
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -312,7 +337,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(634, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(784, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -320,7 +345,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(634, 511);
+            this.ClientSize = new System.Drawing.Size(784, 511);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.panelReportPrint);
@@ -375,6 +400,8 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.CheckBox checkBoxZeroCharges;
+        private System.Windows.Forms.CheckBox checkIsRegion;
+        private System.Windows.Forms.CheckBox checkIsAllEmployees;
     }
 }
 

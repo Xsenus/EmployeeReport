@@ -69,15 +69,5 @@ namespace Report.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        internal static byte[] Report {
-            get {
-                object obj = ResourceManager.GetObject("Report", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }
